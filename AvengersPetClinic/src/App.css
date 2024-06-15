@@ -40,3 +40,27 @@
 .read-the-docs {
   color: #888;
 }
+
+.input{
+  margin-left: 5px;
+}
+.loginButton{
+  margin-top: 10px;
+  width: 200px;
+}
+
+.inputGroup{
+  display: flex;
+  justify-content: space-between;
+}
+
+.inputGroup .label{
+  flex: 1;
+}
+
+.inputGroup .input{
+  flex: 1;
+}
+
+
+
