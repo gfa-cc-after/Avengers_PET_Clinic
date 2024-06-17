@@ -1,0 +1,38 @@
+
+.register-form {
+    text-align: center;
+    background-color: rgb(163, 163, 163);
+    border: 3px solid rgb(0, 0, 0);
+    padding: 15px;
+
+}
+
+.rf-title {
+    font-size: 48px;
+    margin-top: 5px;
+    margin: 5px;
+    color: red;
+}
+
+.label { 
+    display: block; 
+    font-size: larger; 
+    color: white; 
+    padding: 5px; 
+} 
+.input { 
+    font-size: larger; 
+    padding: 5px; 
+    margin: 2px; 
+  
+}
+
+.btn { 
+    color: white; 
+    background-color: red; 
+    border-radius: 5px; 
+    font-size: larger; 
+    display: block; 
+    padding: 5px; 
+    margin: 10px auto; 
+} 
