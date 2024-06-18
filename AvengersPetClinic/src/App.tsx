@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 
-function App() {
+function LoginForm() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
 
@@ -15,7 +15,7 @@ function App() {
           console.log("Form submitted")
           console.log('username:' , username)
           console.log('password: ' , password)
-          
+          window.location.reload()
         }}>
           <div className='inputGroup'>
            <label className='label'> Username:       
@@ -47,4 +47,4 @@ function App() {
   )
 }
 
-export default App
+export default LoginForm
