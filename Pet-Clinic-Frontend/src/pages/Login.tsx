@@ -19,7 +19,7 @@ function LoginForm() {
           window.location.reload()
         }}>
           <div className='inputGroup'>
-           <label className='label'> Username:       
+           <label className='label'>Username:       
               <input className='input'
                 type='text'
                 name='username'
@@ -30,7 +30,7 @@ function LoginForm() {
             ></input></label>
           </div> 
           <div className='inputGroup'>
-            <label className='label'> Password: 
+            <label className='label'>Password: 
                 <input className='input'
                 type='password'
                 name='password' 
