@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 
+
 function LoginForm() {
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
@@ -29,7 +30,7 @@ function LoginForm() {
             ></input></label>
           </div> 
           <div className='inputGroup'>
-            <label className='label'> Passwor: 
+            <label className='label'> Password: 
                 <input className='input'
                 type='password'
                 name='password' 
