@@ -7,11 +7,12 @@ import {
 import './index.css'
 import Registration from './pages/Registration';
 import App from './App';
+import Landing from './pages/Landing';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <Landing />,
   },
   {
     path: "/registration",
