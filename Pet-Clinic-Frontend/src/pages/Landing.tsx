@@ -1,7 +1,7 @@
-import './Landing_page.css';
+import './Landing.css';
 import clinicImage from "../images/petclinic.png";
 
-function App() {
+function PageView() {
   return (
     <>
      <img src={clinicImage} alt="Clinic" className="clinic-image" /> 
@@ -12,4 +12,4 @@ function App() {
   );
 }
 
-export default App;
+export default PageView;
