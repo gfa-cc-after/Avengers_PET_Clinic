@@ -1,0 +1,37 @@
+# Set up actions to run the backend CD when PR is merged to master
+
+# name of the workflow
+name: CD_backend
+
+# when to trigger the workflow
+on:
+  push:
+    branches:
+      - main
+
+# what it should do
+jobs:
+  deploy:
+    defaults:
+      run:
+        working-directory: ./Backend-API
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout project sources
+        uses: actions/checkout@v4
+
+      - name: Use Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '22.x'
+      
+      -name: Install Railway
+        run: npm install -g @railway/cli
+
+      -name: Deploy to Railway
+      run: railway up --environment production --service Backend-API
+      env:
+        RAILWAY_TOKEN: ${{ secrets.APC_TOKEN }}       
+
+      
