@@ -9,6 +9,10 @@ jobs:
   build-gradle-project:
 
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: Backend-API
     steps:
       - name: Checkout project sources
         uses: actions/checkout@v4
@@ -23,7 +27,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v3
 
       - name: Make Gradle executable
-        run: chmod +x ./Backend-API/gradlew
+        run: chmod +x ./gradlew
 
       - name: Build with Gradle
-        run: ./Backend-API/gradlew build
+        run: ./gradlew build
