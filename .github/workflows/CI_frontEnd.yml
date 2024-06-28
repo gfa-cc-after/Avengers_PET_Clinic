@@ -20,7 +20,7 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: npm install
+        run: cd Pet-Clinic-Frontend; npm install
 
       #- name: Linting    should we implement it?
       #  run: npm run lint
