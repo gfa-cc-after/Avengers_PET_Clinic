@@ -22,5 +22,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v3
 
+      - name: Make Gradle executable
+        run: chmod +x ./Backend-API/gradlew
+
       - name: Build with Gradle
         run: ./Backend-API/gradlew build
