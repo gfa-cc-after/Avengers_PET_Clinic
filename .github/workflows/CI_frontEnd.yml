@@ -1,0 +1,32 @@
+name: Frontend CI/CD
+
+on:
+ #push:
+ #branches: [ "main" ]
+ pull_request:
+  branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set Up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x,
+
+      - name: Install Dependencies
+        run: npm install
+
+      #- name: Linting    should we implement it?
+      #  run: npm run lint
+
+      #- name: Unit Tests  not yet implemented
+      #  run: npm test
+
+      - name: Build
+        run: npm run build
