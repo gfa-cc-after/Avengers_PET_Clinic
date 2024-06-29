@@ -1,5 +1,0 @@
-[build]
-
-# specify path to dockerfule
-dockerfilePath = "multistage.Dockerfile"
-
