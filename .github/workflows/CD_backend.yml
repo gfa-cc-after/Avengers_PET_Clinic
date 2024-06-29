@@ -30,8 +30,6 @@ jobs:
         run: npm install -g @railway/cli
 
       -name: Deploy to Railway
-      run: railway up --environment production --service Backend-API
-      env:
-        RAILWAY_TOKEN: ${{ secrets.APC_TOKEN }}       
-
-      
+        run: railway up --environment production --service Frontend
+        env:
+          RAILWAY_TOKEN: ${{ secrets.APC_TOKEN }}            
