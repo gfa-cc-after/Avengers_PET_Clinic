@@ -8,23 +8,24 @@ on:
 
 jobs:
   deploy:
-  defaults:
-    run:
-      working-directory: ./Pet-Clinic-Frontend
-  runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./Pet-Clinic-Frontend
+        
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
+  
       - name: Use Node 22
         uses: actions/setup-node@v2
         with:
           node-version: 22.x
-
+  
       - name: Install Railway
         run: npm i -g @railway/cli
-
+  
       - name: Deploy
         run: railway up --environment production --service Pet-Clinic-Frontend
         env:
