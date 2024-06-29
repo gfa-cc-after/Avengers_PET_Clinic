@@ -1,9 +1,0 @@
-[build]
-# not sure what to write here
-
-#here should be builder for frontend, not sure of the name now
-builder: "DOCKERFILE"
-
-#patht to that DOCKERFILE
-
-dockerfilePath = "multistage.dockerfile"
