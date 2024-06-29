@@ -26,10 +26,10 @@ jobs:
         with:
           node-version: '22.x'
       
-      -name: Install Railway
+      - name: Install Railway
         run: npm install -g @railway/cli
 
-      -name: Deploy to Railway
-        run: railway up --environment production --service Frontend
+      - name: Deploy to Railway
+        run: railway up --environment production --service Backend
         env:
           RAILWAY_TOKEN: ${{ secrets.APC_TOKEN }}            
