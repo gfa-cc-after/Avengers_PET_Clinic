@@ -8,12 +8,12 @@ const Registration = () => {
     const [email, setEmail] = useState(""); 
     const [password, setPassword] = useState("") 
 
-    const handleEmail = (e) => { 
+    const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => { 
         setEmail(e.target.value); 
         // setSubmitted(false); 
     }
     
-    const handlePassword = (e) => { 
+    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => { 
         setPassword(e.target.value); 
         // setSubmitted(false); 
     }
