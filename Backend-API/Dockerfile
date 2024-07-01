@@ -3,7 +3,7 @@ FROM gradle:jdk21-alpine AS builder
 WORKDIR /app
 COPY . .
 # RUN apt-get update && apt-get install -y dos2unix && dos2unix gradlew && chmod +x gradlew
-RUN gradle clean build
+RUN gradle bootJar 
 
 # Debugging: List contents of the build/libs directory
 RUN ls -la /app/build/libs
