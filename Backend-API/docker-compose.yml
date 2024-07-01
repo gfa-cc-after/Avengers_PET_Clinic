@@ -1,4 +1,4 @@
-version: '3.8'
+version: '3.9'
 services:
   app:
     build:
@@ -11,7 +11,7 @@ services:
       SPRING_DATASOURCE_USERNAME: myuser
       SPRING_DATASOURCE_PASSWORD: mypassword
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
-      SPRING_JPA_SHOW_SQL: "true"
+      SPRING_JPA_SHOW_SQL: true
     depends_on:
       - db
 
@@ -23,3 +23,8 @@ services:
       POSTGRES_PASSWORD: mypassword
     ports:
       - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

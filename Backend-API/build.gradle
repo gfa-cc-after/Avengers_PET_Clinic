@@ -13,7 +13,11 @@ java {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
-
+jar {
+    archiveBaseName = 'app'
+    archiveVersion = '0.1.0'
+    destinationDirectory = file("$buildDir/libs")
+}
 repositories {
     mavenCentral()
 }
