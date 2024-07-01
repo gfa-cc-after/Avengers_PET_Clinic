@@ -6,6 +6,7 @@ plugins {
 
 group = 'com.Avangers'
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '21'
 
 java {
     toolchain {
