@@ -6,13 +6,18 @@ plugins {
 
 group = 'com.Avangers'
 version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '21'
 
 java {
     toolchain {
         languageVersion = JavaLanguageVersion.of(21)
     }
 }
-
+jar {
+    archiveBaseName = 'app'
+    archiveVersion = '0.1.0'
+    destinationDirectory = file("$buildDir/libs")
+}
 repositories {
     mavenCentral()
 }
@@ -22,6 +27,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+    implementation 'org.postgresql:postgresql:42.2.19'
 }
 
 tasks.named('test') {
