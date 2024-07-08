@@ -9,6 +9,10 @@ spring:
     show-sql: ${SPRING_JPA_SHOW_SQL}
 
   flyway:
-    schemas: public
     enabled: true
+    schemas: public
 
+logging:
+  level:
+    root: trace
+#    org.flywaydb: trace
