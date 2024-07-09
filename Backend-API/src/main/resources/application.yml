@@ -7,12 +7,3 @@ spring:
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
     show-sql: ${SPRING_JPA_SHOW_SQL}
-
-  flyway:
-    enabled: true
-    schemas: public
-
-logging:
-  level:
-    root: trace
-#    org.flywaydb: trace
