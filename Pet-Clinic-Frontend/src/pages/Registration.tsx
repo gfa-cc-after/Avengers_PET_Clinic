@@ -24,21 +24,7 @@ const Registration = () => {
             setError("Email and Password are required");
             return false;
         }
-        if (!/\S+@\S+\.\S+/.test(email)) {  //.test(email): This method tests whether the email string matches the regular expression pattern. It returns true if the string matches and false otherwise.
-            /*             / and /: These are delimiters that indicate the start and end of the regular expression.
-            
-                            \S +:
-            
-                            \S: This matches any non - whitespace character.It is equivalent to[^\s].
-                            +: This quantifier means "one or more" of the preceding token.So, \S + matches one or more non - whitespace characters.
-                            @: This matches the literal @character.
-            
-                            \S +: Same as above, matches one or more non - whitespace characters.This part is used for the domain part before the dot.
-            
-                            \.:
-            
-                            \.: This matches the literal dot.character.The backslash \ is used to escape the dot because, in regular expressions, a dot normally matches any character.
-                            \S +: Again, matches one or more non - whitespace characters.This part is used for the domain extension(e.g., com, net, etc.). */
+        if (!/\S+@\S+\.\S+/.test(email)) {  // he syntax /\S+@\S+\.\S+/ is a regular expression (regex) https://regexr.com //.test(email): This method tests whether the email string matches the regular expression pattern. 
             setError("Email address is invalid");
             return false;
         }
@@ -50,10 +36,31 @@ const Registration = () => {
     }
 
     const checkEmailExists = (email: string) => {
-        // Simulate checking the email. Replace with real API call.
+        //  API call.
         const existingEmails = ["test@example.com", "user@example.com"];
         return existingEmails.includes(email);
     }
+
+/*     const sendToBackend = async (email: string, password: string) => {
+        try {
+            const response = await fetch('https://backend-api.com/register.. must be add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            console.log('Success:', data);
+        } catch (error) {
+            console.error('Error:', error);
+            setError('Registration failed. Please try again.');
+        }
+    } */
+
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -68,8 +75,9 @@ const Registration = () => {
             return;
         }
 
-        // Simulate a successful registration
+          // If all validations pass
         setSubmitted(true);
+        //sendToBackend(email, password);
         setEmail("");
         setPassword("");
     }
@@ -80,14 +88,14 @@ const Registration = () => {
                 <h3 className='rf-title'>Registration</h3>
 
                 {error && <div className="error-message">{error}</div>}
-                {submitted && <div className="success-message">Registration successful!</div>}
+                {submitted && <div className="success-message">From validation successful!</div>}
 
                 <label className="label">Email</label>
                 <input
                     onChange={handleEmail}
                     className="input"
                     value={email}
-                    type="email"
+                    type="text"
                 />
 
                 <label className="label">Password</label>
@@ -103,7 +111,7 @@ const Registration = () => {
                 </button>
             </form>
         </div>
-    )
+    );
 }
 
 export default Registration;
