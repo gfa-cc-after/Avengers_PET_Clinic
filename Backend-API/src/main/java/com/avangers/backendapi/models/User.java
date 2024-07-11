@@ -15,7 +15,7 @@ public class User {
     private int id;
 
     @NotBlank(message = "e-mail is required")
-    @Column(name = "email")
+    @Column(name = "email", unique = true)
     private String email;
 
     @NotBlank(message = "password is required")
