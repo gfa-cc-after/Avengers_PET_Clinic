@@ -36,14 +36,13 @@ const Registration = () => {
     }
 
     const checkEmailExists = (email: string) => {
-        //  API call.
-        const existingEmails = ["test@example.com", "user@example.com"];
-        return existingEmails.includes(email);
+        //  API call. Not implemented in the backEnd yet.
+
     }
 
-/*     const sendToBackend = async (email: string, password: string) => {
+    const sendToBackend = async (email: string, password: string) => {
         try {
-            const response = await fetch('https://backend-api.com/register.. must be add', {
+            const response = await fetch('http://localhost:8080/register', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -59,7 +58,7 @@ const Registration = () => {
             console.error('Error:', error);
             setError('Registration failed. Please try again.');
         }
-    } */
+    }
 
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
@@ -70,14 +69,14 @@ const Registration = () => {
             return;
         }
 
-        if (checkEmailExists(email)) {
+/*         if (checkEmailExists(email)) {
             setError("Email already exists");
             return;
-        }
+        } not checkEmailExists implemented yet*/
 
           // If all validations pass
         setSubmitted(true);
-        //sendToBackend(email, password);
+        sendToBackend(email, password);
         setEmail("");
         setPassword("");
     }
