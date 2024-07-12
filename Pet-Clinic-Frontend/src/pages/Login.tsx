@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';  // must be install by command: 
 import './Login.css';
 
 
-const LoginForm = () => {
+const Login = () => {
   const [email, setemail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null);
@@ -94,4 +94,4 @@ const LoginForm = () => {
   );
 };
 
-export default LoginForm
+export default Login
