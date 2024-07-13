@@ -1,5 +1,6 @@
 package com.avangers.backendapi.DTOs;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
