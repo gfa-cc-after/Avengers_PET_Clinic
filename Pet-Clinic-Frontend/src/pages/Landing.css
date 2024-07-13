@@ -18,6 +18,7 @@
   margin-top: 0px;
   padding-top: 0px;
   color:rgb(224, 221, 221) ;
+  font-family: 'Helvetica', sans-serif;
 }
 
 
@@ -34,5 +35,6 @@ body {
 
 .h2 {
   color:rgb(224, 221, 221) ;
+  font-family: 'Helvetica', sans-serif;
   
 }
