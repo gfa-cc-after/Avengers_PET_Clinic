@@ -10,13 +10,13 @@ const Login = () => {
 
   const validateForm = () => {
     if (!email || !password) {
-      setError("email and Password are required");
+      setError("Email and password are required");
       return false;
     }
 
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(email)) {
-      setError("Email: must be a valid email address");
+      setError("Must be a valid email address");
       return false;
     }
     return true;

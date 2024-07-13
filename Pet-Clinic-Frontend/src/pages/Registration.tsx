@@ -21,7 +21,7 @@ const Registration = () => {
         if (!email || !password) {
             //If email is an empty string, null, or undefined, !email will be true.
             // When email is evaluated, if email is an empty string (""), null, or undefined, it is considered falsy. 
-            setError("Email and Password are required");
+            setError("Email and password are required");
             return false;
         }
         if (!/\S+@\S+\.\S+/.test(email)) {  //syntax /\S+@\S+\.\S+/ is a regular expression (regex) https://regexr.com //.test(email): This method tests whether the email string matches the regular expression pattern. 
