@@ -1,9 +1,9 @@
 package com.avangers.backendapi.services;
 
-import com.avangers.backendapi.DTOs.UserDTO;
+import com.avangers.backendapi.DTOs.RegisterUserDTO;
 import org.springframework.http.ResponseEntity;
 
 public interface UserService {
 
-    ResponseEntity<String> addUser(UserDTO userDTO);
+    ResponseEntity<String> addUser(RegisterUserDTO registerUserDTO);
 }
