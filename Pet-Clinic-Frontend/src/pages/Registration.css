@@ -1,39 +1,69 @@
-
 .register-form {
     text-align: center;
-    background-color: rgb(163, 163, 163);
-    border: 3px solid rgb(0, 0, 0);
-    padding: 15px;
-
+    background-color: rgba(255, 255, 255, 0.95); /* Slightly less transparent */
+    border: 2px solid rgba(255, 255, 255, 0.9); /* Light grey border */
+    padding: 40px; /* More padding */
+    border-radius: 20px; /* More rounded corners */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    max-width: 400px; /* Fixed width for better layout */
+    margin: auto; /* Center the form */
+    margin-top: 100px; /* Space from top */
+    backdrop-filter: blur(12px); /* Blurring background behind form */
 }
 
 .rf-title {
-    font-size: 48px;
-    margin-top: 5px;
-    margin: 5px;
-    color: red;
+    font-size: 36px; /* Slightly smaller font size */
+    margin-bottom: 25px; /* Space below title */
+    color: #222; /* Darker color for better readability */
+    font-family: 'Helvetica', sans-serif; /* Change font family */
 }
 
 .label { 
     display: block; 
-    font-size: larger; 
-    color: white; 
-    padding: 5px; 
+    font-size: 16px; /* Consistent font size */
+    color: #444; /* Dark grey color */
+    margin-bottom: 8px; /* Space below labels */
 } 
+
 .input { 
-    font-size: larger; 
-    padding: 5px; 
-    margin: 2px; 
-  
-}
+    font-size: 16px; /* Consistent font size */
+    padding: 10px; /* More padding */
+    margin-bottom: 18px; /* Space below inputs */
+    width: calc(100% - 20px); /* Full width minus padding */
+    border: 1px solid #bbb; /* Light border */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #f1f1f1; /* Light background for inputs */
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1); /* Inner shadow */
+} 
 
 .btn { 
-    color: white; 
-    background-color: red; 
-    border-radius: 5px; 
-    font-size: larger; 
-    display: block; 
-    padding: 5px; 
-    margin: 10px auto; 
+    color: #fff; 
+    background: linear-gradient(to right, #ff7e5f, #feb47b); /* Gradient color for button */
+    border: none; /* Remove border */
+    border-radius: 25px; /* More rounded corners */
+    font-size: 18px; /* Larger font size */
+    padding: 12px 30px; /* More padding */
+    cursor: pointer; /* Pointer cursor */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Smooth hover transition */
+    margin-top: 20px; /* Space above button */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Button shadow */
 } 
 
+.btn:hover { 
+    background: linear-gradient(to right, #feb47b, #ff7e5f); /* Reverse gradient on hover */
+    transform: scale(1.05); /* Slightly enlarge on hover */
+} 
+
+.error-message {
+    color: #ff4d4d; /* Slightly different red for error messages */
+    margin-bottom: 12px; /* Space below messages */
+    font-family: 'Helvetica', sans-serif; /* Change font family */
+    font-size: 14px; /* Consistent font size */
+}
+
+.success-message {
+    color: #28a745; /* Green for success messages */
+    margin-bottom: 12px; /* Space below messages */
+    font-family: 'Helvetica', sans-serif; /* Change font family */
+    font-size: 14px; /* Consistent font size */
+}
