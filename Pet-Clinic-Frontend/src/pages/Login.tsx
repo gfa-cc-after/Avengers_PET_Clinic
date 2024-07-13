@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';  // must be install by command: npm list react-router-dom
 import './Login.css';
 
-
 const Login = () => {
   const [email, setemail] = useState("")
   const [password, setPassword] = useState("")
@@ -58,40 +57,31 @@ const Login = () => {
     sendToBackend(email, password);
   };
 
-
-
   return (
-    <>
-      <h1>Pet Clinic</h1>
-      <h2>Login</h2>
-      <div className="formDiv">
-        <form className='form' onSubmit={handleSubmit}>
-          {error && <div className="error-message">{error}</div>}
-          <div className='inputGroup'>
-            <label className='label'> Email:
-              <input className='input'
-                type='text'
-                name='email'
-                value={email}
-                onChange={(event) => setemail(event.target.value)}
-              />
-            </label>
-          </div>
-          <div className='inputGroup'>
-            <label className='label'>Password:
-              <input className='input'
-                type='password'
-                name='password'
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </label>
-          </div>
-          <button className='loginButton' type="submit">Login</button>
-        </form>
-      </div>
-    </>
+    <div>
+      <form className='formDiv' onSubmit={handleSubmit}>
+        <h3 className='rf-title'>Login</h3>
+        {error && <div className="error-message">{error}</div>}
+        <label className='label'>Email:</label>
+        <input
+          className='input'
+          type='text'
+          name='email'
+          value={email}
+          onChange={(event) => setemail(event.target.value)}
+        />
+        <label className='label'>Password:</label>
+        <input
+          className='input'
+          type='password'
+          name='password'
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <button className='btn' type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 
-export default Login
+export default Login;
