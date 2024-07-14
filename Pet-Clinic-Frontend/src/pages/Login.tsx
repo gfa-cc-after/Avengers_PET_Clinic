@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';  // must be install by command: 
 import './Login.css';
 
 const Login = () => {
-  const [email, setemail] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
@@ -68,7 +68,7 @@ const Login = () => {
           type='text'
           name='email'
           value={email}
-          onChange={(event) => setemail(event.target.value)}
+          onChange={(event) => setEmail(event.target.value)}
         />
         <label className='label'>Password:</label>
         <input
