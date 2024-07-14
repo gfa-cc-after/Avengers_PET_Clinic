@@ -89,7 +89,7 @@ const Registration = () => {
                 {error && <div className="error-message">{error}</div>}
                 {submitted && <div className="success-message">From validation successful!</div>}
 
-                <label className="label">Email</label>
+                <label className="label">Email:</label>
                 <input
                     onChange={handleEmail}
                     className="input"
@@ -97,7 +97,7 @@ const Registration = () => {
                     type="text"
                 />
 
-                <label className="label">Password</label>
+                <label className="label">Password:</label>
                 <input
                     onChange={handlePassword}
                     className="input"
