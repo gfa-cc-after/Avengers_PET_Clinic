@@ -2,22 +2,21 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';  // must be install by command: npm list react-router-dom
 import './Login.css';
 
-
 const Login = () => {
-  const [email, setemail] = useState("")
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   const validateForm = () => {
     if (!email || !password) {
-      setError("email and Password are required");
+      setError("Email and password are required");
       return false;
     }
 
     const emailRegex = /\S+@\S+\.\S+/;
     if (!emailRegex.test(email)) {
-      setError("Email: must be a valid email address");
+      setError("Must be a valid email address");
       return false;
     }
     return true;
@@ -58,40 +57,31 @@ const Login = () => {
     sendToBackend(email, password);
   };
 
-
-
   return (
-    <>
-      <h1>Pet Clinic</h1>
-      <h2>Login</h2>
-      <div className="formDiv">
-        <form className='form' onSubmit={handleSubmit}>
-          {error && <div className="error-message">{error}</div>}
-          <div className='inputGroup'>
-            <label className='label'> Email:
-              <input className='input'
-                type='text'
-                name='email'
-                value={email}
-                onChange={(event) => setemail(event.target.value)}
-              />
-            </label>
-          </div>
-          <div className='inputGroup'>
-            <label className='label'>Password:
-              <input className='input'
-                type='password'
-                name='password'
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </label>
-          </div>
-          <button className='loginButton' type="submit">Login</button>
-        </form>
-      </div>
-    </>
+    <div>
+      <form className='formDiv' onSubmit={handleSubmit}>
+        <h3 className='rf-title'>Login</h3>
+        {error && <div className="error-message">{error}</div>}
+        <label className='label'>Email:</label>
+        <input
+          className='input'
+          type='text'
+          name='email'
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <label className='label'>Password:</label>
+        <input
+          className='input'
+          type='password'
+          name='password'
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <button className='btn' type="submit">Login</button>
+      </form>
+    </div>
   );
 };
 
-export default Login
+export default Login;
