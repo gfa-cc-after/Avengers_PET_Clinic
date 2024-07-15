@@ -6,6 +6,7 @@ import com.avangers.backendapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public ResponseEntity<String> addUser(RegisterUserDTO registerUserDTO) {
@@ -23,7 +25,8 @@ public class UserServiceImpl implements UserService {
 
         User newUser = new User();
         newUser.setEmail(registerUserDTO.email());
-        newUser.setPassword(registerUserDTO.password());
+
+        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
 
         userRepository.save(newUser);
 
