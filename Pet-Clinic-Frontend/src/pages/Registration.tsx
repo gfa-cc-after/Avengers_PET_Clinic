@@ -35,10 +35,10 @@ const Registration = () => {
         return true;
     }
 
-    const checkEmailExists = (email: string) => {
+    //const checkEmailExists = (email: string) => {
         //  API call. Not implemented in the backEnd yet.
 
-    }
+    //}
 
     const sendToBackend = async (email: string, password: string) => {
         try {
