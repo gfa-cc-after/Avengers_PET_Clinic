@@ -12,7 +12,7 @@ public record RegisterUserDTO(
         String email,
         @NotBlank(message = "password is required")
         @Size(min = 6, message = "password should have at least 6 characters")
-        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z]).*",
+        @Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z]).*$",
                 message = "password should contain at least one uppercase and one lowercase letter")
         String password) {
 }
