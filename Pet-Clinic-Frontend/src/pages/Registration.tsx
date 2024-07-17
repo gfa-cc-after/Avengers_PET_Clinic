@@ -12,8 +12,8 @@ const Registration = () => {
         setSubmitted(false);
     }
 
-    const handlePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
+    const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(event.target.value);
         setSubmitted(false);
     }
 
@@ -36,7 +36,7 @@ const Registration = () => {
     }
 
     //const checkEmailExists = (email: string) => {
-        //  API call. Not implemented in the backEnd yet.
+    //  API call. Not implemented in the backEnd yet.
 
     //}
 
@@ -61,20 +61,20 @@ const Registration = () => {
     }
 
 
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         setError(null);
 
         if (!validateForm()) {
             return;
         }
 
-/*         if (checkEmailExists(email)) {
-            setError("Email already exists");
-            return;
-        } not checkEmailExists implemented yet*/
+        /*         if (checkEmailExists(email)) {
+                    setError("Email already exists");
+                    return;
+                } not checkEmailExists implemented yet*/
 
-          // If all validations pass
+        // If all validations pass
         setSubmitted(true);
         sendToBackend(email, password);
         setEmail("");
