@@ -7,8 +7,8 @@ const Registration = () => {
     const [error, setError] = useState<string | null>(null); //generic type <string | null> specify that the state managed by useState can be a string or null. Initial State (null)
     const [submitted, setSubmitted] = useState(false);
 
-    const handleEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(e.target.value);
+    const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setEmail(event.target.value);
         setSubmitted(false);
     }
 
