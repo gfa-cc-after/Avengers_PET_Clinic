@@ -32,24 +32,39 @@ class UserControllerTest {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-//      objectMapper is used to convert objects to JSON
+    //      objectMapper is used to convert objects to JSON
     private ObjectMapper objectMapper;
-//      setUp method is used to create the objectMapper before each test
+
+    //      setUp method is used to create the objectMapper before each test
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
     }
 
-   @Test
-   void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
-      RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
-      given(userServiceImpl.addUser(validUser)).willReturn(ResponseEntity.ok("Registration was successful"));
+    @Test
+    void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
+        RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
+        given(userServiceImpl.addUser(validUser)).willReturn(ResponseEntity.ok("Registration was successful"));
 
-      // Perform the request and expect 200 OK
-      mockMvc.perform(post("/register")
-                      .contentType(MediaType.APPLICATION_JSON)
-                      .content(objectMapper.writeValueAsString(validUser)))
-              .andExpect(status().isOk());
-   }
+        // should return 200 OK
+        mockMvc.perform(post("/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(validUser)))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void shouldNotRegisterWithBadPassword() throws Exception {
+        RegisterUserDTO userWithBadPassword = new RegisterUserDTO("user@example.com", "badpassword");
+        given(userServiceImpl.addUser(userWithBadPassword)).willReturn(
+                ResponseEntity.badRequest().body(
+                        "Password should contain at least one uppercase and one lowercase letter"));
+
+//        should return 400 BAD REQUEST
+        mockMvc.perform(post("/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(userWithBadPassword)))
+                .andExpect(status().isBadRequest());
+    }
 }
 
