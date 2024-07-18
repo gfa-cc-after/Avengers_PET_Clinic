@@ -13,6 +13,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
@@ -42,6 +43,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
         RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
         given(userServiceImpl.addUser(validUser)).willReturn(ResponseEntity.ok("Registration was successful"));
@@ -54,6 +56,7 @@ class UserControllerTest {
     }
 
     @Test
+    @WithMockUser
     void shouldNotRegisterWithBadPassword() throws Exception {
         RegisterUserDTO userWithBadPassword = new RegisterUserDTO("user@example.com", "badpassword");
         given(userServiceImpl.addUser(userWithBadPassword)).willReturn(
