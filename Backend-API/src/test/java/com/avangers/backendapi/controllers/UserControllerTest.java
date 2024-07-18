@@ -41,7 +41,7 @@ class UserControllerTest {
     }
 
    @Test
-   void shouldRregisterUserWithCorrectNameAndPassword() throws Exception {
+   void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
       RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
       given(userServiceImpl.addUser(validUser)).willReturn(ResponseEntity.ok("Registration was successful"));
 
