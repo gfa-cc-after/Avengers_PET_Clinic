@@ -28,3 +28,16 @@ export default {
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+## How to start frontend
+
+in terminal
+```
+- cd Pet-Clinic-Frontend
+- npm install
+- npm run dev
+```
+
+## Regular expression (regex)
+
+It is use for validation strings (use for validation email adress) good example for practise (https://regexr.com)

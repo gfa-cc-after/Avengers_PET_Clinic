@@ -1,51 +1,87 @@
 import { useState } from 'react'
-import './Login.css'
+import { useNavigate } from 'react-router-dom';
+import './Login.css';
 
-
-function LoginForm() {
-  const [username, setUsername] = useState("")
+const Login = () => {
+  const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("Email and password are required");
+      return false;
+    }
+
+    const emailRegex = /\S+@\S+\.\S+/;
+    if (!emailRegex.test(email)) {
+      setError("Must be a valid email address");
+      return false;
+    }
+    return true;
+  };
+
+  const sendToBackend = async (email: string, password: string) => {
+    try {
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      if (data.success) {
+        navigate('/landing'); // Redirect to landing page on successful login
+      } else {
+        setError('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('Login failed. Please try again.');
+    }
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setError(null);
+
+    if (!validateForm()) {
+      return;
+    }
+
+    sendToBackend(email, password);
+  };
 
   return (
-    <>
-      <h1>Pet Clinic</h1>
-      <h2>Login</h2>
-     <div className = "formDiv">
-        <form className='form' onSubmit={function (event){
-          event.preventDefault()
-          console.log("Form submitted")
-          console.log('username:' , username)
-          console.log('password: ' , password)
-          window.location.reload()
-        }}>
-          <div className='inputGroup'>
-           <label className='label'>Username:       
-              <input className='input'
-                type='text'
-                name='username'
-                value={username}
-                onChange={function (event){
-                  setUsername(event.target.value)
-                }}
-            ></input></label>
-          </div> 
-          <div className='inputGroup'>
-            <label className='label'>Password: 
-                <input className='input'
-                type='password'
-                name='password' 
-                value={password}
-                onChange={function (event){
-                  setPassword(event.target.value)
-                }}
-              ></input>
-            </label>
-          </div>
-          <button className='loginButton'>Login</button>
-        </form>
-     </div>
-    </>
-  )
-}
+    <div>
+      <form className='formDiv' onSubmit={handleSubmit}>
+        <h3 className='rf-title'>Login</h3>
+        {error && <div className="error-message">{error}</div>}
+        <label className='label'>Email:</label>
+        <input
+          className='input'
+          type='text'
+          name='email'
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <label className='label'>Password:</label>
+        <input
+          className='input'
+          type='password'
+          name='password'
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+        <button className='btn' type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
 
-export default LoginForm
+export default Login;
