@@ -42,6 +42,7 @@ class UserControllerTest {
     void setUp() {
         objectMapper = new ObjectMapper();
     }
+
     @DisplayName("Should return 200 ok if request is valid")
     @Test
     void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
@@ -53,6 +54,7 @@ class UserControllerTest {
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isOk());
     }
+
     @DisplayName("Should return 400 bad request if password is not valid")
     @Test
     void shouldNotRegisterWithBadPassword() throws Exception {
