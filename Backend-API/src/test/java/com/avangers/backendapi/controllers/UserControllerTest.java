@@ -5,6 +5,7 @@ import com.avangers.backendapi.repositories.UserRepository;
 import com.avangers.backendapi.services.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -34,36 +35,32 @@ class UserControllerTest {
     private PasswordEncoder passwordEncoder;
 
     //      objectMapper is used to convert objects to JSON
+    @Autowired
     private ObjectMapper objectMapper;
 
-    //      setUp method is used to create the objectMapper before each test
     @BeforeEach
     void setUp() {
         objectMapper = new ObjectMapper();
     }
-
+    @DisplayName("Should return 200 ok if request is valid")
     @Test
-    @WithMockUser
     void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
         RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
         given(userServiceImpl.addUser(validUser)).willReturn(ResponseEntity.ok("Registration was successful"));
 
-        // should return 200 OK
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isOk());
     }
-
+    @DisplayName("Should return 400 bad request if password is not valid")
     @Test
-    @WithMockUser
     void shouldNotRegisterWithBadPassword() throws Exception {
         RegisterUserDTO userWithBadPassword = new RegisterUserDTO("user@example.com", "badpassword");
         given(userServiceImpl.addUser(userWithBadPassword)).willReturn(
                 ResponseEntity.badRequest().body(
                         "Password should contain at least one uppercase and one lowercase letter"));
 
-//        should return 400 BAD REQUEST
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userWithBadPassword)))
