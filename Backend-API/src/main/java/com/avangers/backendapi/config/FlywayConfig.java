@@ -1,4 +1,4 @@
-package com.avangers.backendapi.configuration;
+package com.avangers.backendapi.config;
 
 import org.flywaydb.core.Flyway;
 import org.springframework.beans.factory.annotation.Value;
