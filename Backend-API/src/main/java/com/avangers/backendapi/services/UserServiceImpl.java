@@ -4,8 +4,6 @@ import com.avangers.backendapi.DTOs.RegisterUserDTO;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +15,16 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public ResponseEntity<String> addUser(RegisterUserDTO registerUserDTO) {
-        if (userRepository.existsByEmail(registerUserDTO.email())) { // Correct accessor
-            return new ResponseEntity<>("The email already exists", HttpStatus.BAD_REQUEST);
+    public UserServiceResponse addUser(RegisterUserDTO registerUserDTO) {
+        if (userRepository.existsByEmail(registerUserDTO.email())) {
+            return new UserServiceResponse("The email already exists");
         }
 
         User newUser = new User();
-        newUser.setEmail(registerUserDTO.email()); // Correct accessor
-        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password())); // Correct accessor
+        newUser.setEmail(registerUserDTO.email());
+        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
         userRepository.save(newUser);
 
-        return new ResponseEntity<>("Registration was successful", HttpStatus.CREATED);
+        return new UserServiceResponse("Registration was successful");
     }
 }
