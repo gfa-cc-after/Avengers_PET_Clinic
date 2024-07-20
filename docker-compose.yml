@@ -26,5 +26,14 @@ services:
     volumes:
       - db_data:/var/lib/postgresql/data
 
+  frontend:
+    build:
+      context: Pet-Clinic-Frontend
+      dockerfile: Dockerfile
+    environment:
+      VITE_BACKEND_URL: http://localhost:8080
+    ports:
+      - "3000:80"
+
 volumes:
   db_data:
