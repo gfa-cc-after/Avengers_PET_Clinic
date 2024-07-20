@@ -11,33 +11,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl {
+public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    @Override
     public ResponseEntity<String> addUser(RegisterUserDTO registerUserDTO) {
-        if (userRepository.existsByEmail(registerUserDTO.email())) {
-            return new ResponseEntity<>("The email is already exists", HttpStatus.BAD_REQUEST);
+        if (userRepository.existsByEmail(registerUserDTO.email())) { // Correct accessor
+            return new ResponseEntity<>("The email already exists", HttpStatus.BAD_REQUEST);
         }
 
         User newUser = new User();
-        newUser.setEmail(registerUserDTO.email());
-        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
-
+        newUser.setEmail(registerUserDTO.email()); // Correct accessor
+        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password())); // Correct accessor
         userRepository.save(newUser);
 
         return new ResponseEntity<>("Registration was successful", HttpStatus.CREATED);
-    }
-
-    // Moved registerUser method from UserService <<< THIS
-    public void registerUser(String rawPassword) {
-        String encodedPassword = passwordEncoder.encode(rawPassword);
-        // Save the encoded password to the database
-    }
-
-    // Moved verifyPassword method from UserService <<< AND THIS THIS
-    public boolean verifyPassword(String rawPassword, String encodedPassword) {
-        return passwordEncoder.matches(rawPassword, encodedPassword);
     }
 }
