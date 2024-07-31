@@ -15,9 +15,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserServiceResponse addUser(RegisterUserDTO registerUserDTO) {
+    public UserRegistrationResponse addUser(RegisterUserDTO registerUserDTO) {
         if (userRepository.existsByEmail(registerUserDTO.email())) {
-            return new UserServiceResponse("The email already exists");
+            return new UserRegistrationResponse("The email already exists");
         }
 
         User newUser = new User();
@@ -25,6 +25,6 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
         userRepository.save(newUser);
 
-        return new UserServiceResponse("Registration was successful");
+        return new UserRegistrationResponse("Registration was successful");
     }
 }

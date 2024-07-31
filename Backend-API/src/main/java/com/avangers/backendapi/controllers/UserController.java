@@ -3,7 +3,7 @@ package com.avangers.backendapi.controllers;
 
 import com.avangers.backendapi.DTOs.RegisterUserDTO;
 import com.avangers.backendapi.services.UserService;
-import com.avangers.backendapi.services.UserServiceResponse;
+import com.avangers.backendapi.services.UserRegistrationResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,7 +22,7 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
-        UserServiceResponse response = userService.addUser(registerUserDTO);
+        UserRegistrationResponse response = userService.addUser(registerUserDTO);
 
         HttpStatus status = "The email already exists".equals(response.getMessage()) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
         return new ResponseEntity<>(response.getMessage(), status);

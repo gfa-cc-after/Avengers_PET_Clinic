@@ -7,6 +7,6 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserServiceResponse {
+public class UserRegistrationResponse {
     private String message;
 }
