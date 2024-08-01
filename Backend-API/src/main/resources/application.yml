@@ -7,6 +7,11 @@ spring:
     hibernate:
       ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO}
     show-sql: ${SPRING_JPA_SHOW_SQL}
-
 cors:
   urls: ${CORS_URLS:http://localhost:3000,http://localhost:5173}
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    operations-sorter: alpha
+    tags-sorter: alpha
