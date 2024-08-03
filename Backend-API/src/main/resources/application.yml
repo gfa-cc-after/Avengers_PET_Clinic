@@ -10,3 +10,10 @@ spring:
 
 cors:
   urls: ${CORS_URLS:http://localhost:3000,http://localhost:5173}
+
+security:
+  oauth2:
+    resourceserver:
+      jwt:
+        jws-algorithms: RS512
+        jwk-set-uri: https://idp.example.org/.well-known/jwks.json
