@@ -32,3 +32,11 @@ SPRING_JPA_SHOW_SQL=true
 ```
 
 after that run the configuration. :rocket:
+
+# Swagger ui
+
+If you run a project, the swagger ui is already running on:
+
+```bash
+http://localhost:8080/swagger-ui/index.html
+```

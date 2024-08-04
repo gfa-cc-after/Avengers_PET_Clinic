@@ -2,6 +2,9 @@ import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import './Login.css';
 
+const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+console.log('backendUrl:', backendUrl);
+
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -24,22 +27,19 @@ const Login = () => {
 
   const sendToBackend = async (email: string, password: string) => {
     try {
-      const response = await fetch('http://localhost:8080/login', {
+      const response = await fetch(`${backendUrl}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({ email, password }),
       });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      if (data.success) {
-        navigate('/landing'); // Redirect to landing page on successful login
-      } else {
+      if (!response.status.toString().startsWith('2')) {
         setError('Invalid email or password');
       }
+      navigate('/landing');
+      // const data = await response.text();
+
     } catch (error) {
       console.error('Error:', error);
       setError('Login failed. Please try again.');
