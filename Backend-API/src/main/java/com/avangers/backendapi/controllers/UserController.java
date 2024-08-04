@@ -5,6 +5,7 @@ import com.avangers.backendapi.DTOs.RegisterUserDTO;
 import com.avangers.backendapi.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,11 @@ public class UserController {
 
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
-        return userService.addUser(registerUserDTO);
+        String result = userService.addUser(registerUserDTO);
+        if ("Registration was successful".equals(result)) {
+            return new ResponseEntity<>(result, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
+        }
     }
 }

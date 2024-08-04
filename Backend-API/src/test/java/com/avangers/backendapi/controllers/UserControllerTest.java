@@ -47,7 +47,7 @@ class UserControllerTest {
     @Test
     void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
         RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
-        given(userServiceImpl.addUser(validUser)).willReturn(ResponseEntity.ok("Registration was successful"));
+        given(userServiceImpl.addUser(validUser)).willReturn("Registration was successful");
 
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -59,9 +59,7 @@ class UserControllerTest {
     @Test
     void shouldNotRegisterWithBadPassword() throws Exception {
         RegisterUserDTO userWithBadPassword = new RegisterUserDTO("user@example.com", "badpassword");
-        given(userServiceImpl.addUser(userWithBadPassword)).willReturn(
-                ResponseEntity.badRequest().body(
-                        "Password should contain at least one uppercase and one lowercase letter"));
+        given(userServiceImpl.addUser(userWithBadPassword)).willReturn("Password should contain at least one uppercase and one lowercase letter");
 
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)

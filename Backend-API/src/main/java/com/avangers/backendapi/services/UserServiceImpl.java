@@ -17,9 +17,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public ResponseEntity<String> addUser(RegisterUserDTO registerUserDTO) {
+    public String addUser(RegisterUserDTO registerUserDTO) {
         if (userRepository.existsByEmail(registerUserDTO.email())) { // Correct accessor
-            return new ResponseEntity<>("The email already exists", HttpStatus.BAD_REQUEST);
+            return "The email already exists";
         }
 
         User newUser = new User();
@@ -27,26 +27,26 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(passwordEncoder.encode(registerUserDTO.password())); // Correct accessor
         userRepository.save(newUser);
 
-        return new ResponseEntity<>("Registration was successful", HttpStatus.CREATED);
+        return "Registration was successful";
     }
 
     @Override
-    public ResponseEntity<String> updateUser(Long userId, RegisterUserDTO registerUserDTO) {
+    public String updateUser(Long userId, RegisterUserDTO registerUserDTO) {
         User existingUser = userRepository.findById(userId).orElse(null);
 //        check if User exists
         if (existingUser == null) {
-            return new ResponseEntity<>("User not found", HttpStatus.NOT_FOUND);
+            return "User not found";
         }
 //        check if new email is not already used by another user
         if (!existingUser.getEmail().equals(registerUserDTO.email()) && userRepository.existsByEmail(registerUserDTO.email())) {
-            return new ResponseEntity<>("The email already exist", HttpStatus.BAD_REQUEST);
+            return "The email already exist";
         }
 
         existingUser.setEmail(registerUserDTO.email());
         existingUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
         userRepository.save(existingUser);
 
-        return new ResponseEntity<>("Update was successful", HttpStatus.OK);
+        return "Update was successful";
     }
 
 
