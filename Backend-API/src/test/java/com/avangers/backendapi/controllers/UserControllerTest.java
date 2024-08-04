@@ -43,7 +43,7 @@ class UserControllerTest {
         objectMapper = new ObjectMapper();
     }
 
-    @DisplayName("Should return 200 ok if request is valid")
+    @DisplayName("Should return 201 is created if request is valid")
     @Test
     void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
         RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
@@ -52,7 +52,7 @@ class UserControllerTest {
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @DisplayName("Should return 400 bad request if password is not valid")
