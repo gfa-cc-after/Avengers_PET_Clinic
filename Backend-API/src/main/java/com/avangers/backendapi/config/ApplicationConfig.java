@@ -49,6 +49,7 @@ public class ApplicationConfig {
                     .requestMatchers("/health").permitAll()
                     .requestMatchers( "/register").permitAll()
                     .requestMatchers("/swagger-ui/**").permitAll()
+                    .requestMatchers("/api-docs/**").permitAll()
                     .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 -> oauth2
