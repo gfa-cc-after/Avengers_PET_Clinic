@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 import './Login.css';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
@@ -10,6 +11,7 @@ const Login = () => {
   const [password, setPassword] = useState("")
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const validateForm = () => {
     if (!email || !password) {
@@ -36,9 +38,10 @@ const Login = () => {
       });
       if (!response.status.toString().startsWith('2')) {
         setError('Invalid email or password');
+      } else {
+        login()
+        navigate('/landing');
       }
-      navigate('/landing');
-      // const data = await response.text();
 
     } catch (error) {
       console.error('Error:', error);
