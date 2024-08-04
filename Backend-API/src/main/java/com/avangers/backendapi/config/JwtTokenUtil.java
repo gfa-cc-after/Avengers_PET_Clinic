@@ -1,5 +1,6 @@
 package com.avangers.backendapi.config;
 
+import com.avangers.backendapi.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -47,9 +48,9 @@ public class JwtTokenUtil {
     }
 
     // Generate token for user
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(User user) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getEmail());
+        return doGenerateToken(claims, user.getEmail());
     }
 
     // While creating the token -
@@ -69,8 +70,8 @@ public class JwtTokenUtil {
     }
 
     // Validate token
-    public Boolean validateToken(String token, UserDetails userDetails) {
+    public Boolean validateToken(String token, User user) {
         final String email = getEmailFromToken(token);
-        return (email.equals(userDetails.getEmail()) && !isTokenExpired(token));
+        return (email.equals(user.getEmail()) && !isTokenExpired(token));
     }
 }
