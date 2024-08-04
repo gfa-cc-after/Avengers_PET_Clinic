@@ -9,6 +9,14 @@ spring:
     show-sql: ${SPRING_JPA_SHOW_SQL}
 cors:
   urls: ${CORS_URLS:http://localhost:3000,http://localhost:5173}
+
+security:
+  oauth2:
+    resourceserver:
+      jwt:
+        jws-algorithms: RS512
+        jwk-set-uri: https://idp.example.org/.well-known/jwks.json
+        
 springdoc:
   api-docs:
     path: /api-docs
