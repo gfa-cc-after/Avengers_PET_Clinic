@@ -19,8 +19,8 @@ public class JwtTokenUtil {
     @Value("${jwt.token.validity}")
     private long tokenValidity;
 
-    // Retrieve username from JWT token
-    public String getUsernameFromToken(String token) {
+    // Retrieve email from JWT token
+    public String getEmailFromToken(String token) {
         return getClaimFromToken(token, Claims::getSubject);
     }
 
@@ -48,7 +48,7 @@ public class JwtTokenUtil {
     // Generate token for user
     public String generateToken(UserDetails userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        return doGenerateToken(claims, userDetails.getUsername());
+        return doGenerateToken(claims, userDetails.getEmail());
     }
 
     // While creating the token -
@@ -69,7 +69,7 @@ public class JwtTokenUtil {
 
     // Validate token
     public Boolean validateToken(String token, UserDetails userDetails) {
-        final String username = getUsernameFromToken(token);
-        return (username.equals(userDetails.getUsername()) && !isTokenExpired(token));
+        final String email = getEmailFromToken(token);
+        return (email.equals(userDetails.getEmail()) && !isTokenExpired(token));
     }
 }
