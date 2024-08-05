@@ -4,13 +4,9 @@ import com.avangers.backendapi.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -40,18 +36,9 @@ public class JwtTokenUtil {
         return claimsResolver.apply(claims);
     }
 
-    private SecretKey getSignKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secret);
-        return Keys.hmacShaKeyFor(keyBytes);
-    }
-
     // For retrieving any information from token we will need the secret key
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser()
-                .verifyWith(getSignKey())
-                .build()
-                .parseSignedClaims(token)
-                .getPayload();
+        return Jwts.parser().setSigningKey(secret).parseClaimsJws(token).getBody();
     }
 
     // Check if the token has expired
