@@ -9,15 +9,16 @@ import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
-import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
 @Component
+@Service
 public class JwtTokenUtil {
 
   @Value("${jwt.secret}")
@@ -73,7 +74,6 @@ public class JwtTokenUtil {
   // 3. According to JWS Compact Serialization (https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
   //    compaction of the JWT to a URL-safe string
   private String doGenerateToken(Map<String, Object> claims, String subject) {
-
     return Jwts.builder()
             .setClaims(claims)
             .setSubject(subject)
@@ -84,8 +84,8 @@ public class JwtTokenUtil {
   }
 
   // Validate token
-  public Boolean validateToken(String token, User user) {
+  public Boolean validateToken(String token, UserDetails userDetails) {
     final String email = getEmailFromToken(token);
-    return (email.equals(user.getEmail()) && !isTokenExpired(token));
+    return (email.equals(userDetails.getUsername()) && !isTokenExpired(token));
   }
 }
