@@ -6,6 +6,8 @@ import com.avangers.backendapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +19,23 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public ResponseEntity<String> addUser(RegisterUserDTO registerUserDTO) {
-        if (userRepository.existsByEmail(registerUserDTO.email())) { // Correct accessor
-            return new ResponseEntity<>("The email already exists", HttpStatus.BAD_REQUEST);
+    public UserRegistrationResponse addUser(RegisterUserDTO registerUserDTO) {
+        if (userRepository.existsByEmail(registerUserDTO.email())) {
+            return new UserRegistrationResponse("The email already exists");
         }
 
         User newUser = new User();
-        newUser.setEmail(registerUserDTO.email()); // Correct accessor
-        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password())); // Correct accessor
+        newUser.setEmail(registerUserDTO.email());
+        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
         userRepository.save(newUser);
 
-        return new ResponseEntity<>("Registration was successful", HttpStatus.CREATED);
+        return new UserRegistrationResponse("Registration was successful");
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("Email is not in database")
+        );
     }
 }
