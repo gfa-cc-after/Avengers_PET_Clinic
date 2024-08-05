@@ -2,6 +2,7 @@ package com.avangers.backendapi.controllers;
 
 
 import com.avangers.backendapi.DTOs.RegisterUserDTO;
+import com.avangers.backendapi.DTOs.UserResponseDTO;
 import com.avangers.backendapi.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -19,8 +20,8 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
-        String result = userService.addUser(registerUserDTO);
+    public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
+        UserResponseDTO result = userService.addUser(registerUserDTO);
         if ("Registration was successful".equals(result)) {
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } else {
