@@ -1,6 +1,7 @@
 package com.avangers.backendapi.controllers;
 
 import com.avangers.backendapi.DTOs.RegisterUserDTO;
+import com.avangers.backendapi.DTOs.UserResponseDTO;
 import com.avangers.backendapi.repositories.UserRepository;
 import com.avangers.backendapi.services.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
@@ -47,24 +49,28 @@ class UserControllerTest {
     @Test
     void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
         RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
-        given(userServiceImpl.addUser(validUser)).willReturn("Registration was successful");
+        UserResponseDTO userResponseDTO = new UserResponseDTO("user@example.com", "Registration was successful");
+        given(userServiceImpl.addUser(validUser)).willReturn(userResponseDTO);
 
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(validUser)))
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").value("Registration was successful"));
     }
 
     @DisplayName("Should return 400 bad request if password is not valid")
     @Test
     void shouldNotRegisterWithBadPassword() throws Exception {
         RegisterUserDTO userWithBadPassword = new RegisterUserDTO("user@example.com", "badpassword");
-        given(userServiceImpl.addUser(userWithBadPassword)).willReturn("Password should contain at least one uppercase and one lowercase letter");
+        UserResponseDTO userResponseDTO = new UserResponseDTO("user@example.com", "Password should contain at least one uppercase and one lowercase letter");
+        given(userServiceImpl.addUser(userWithBadPassword)).willReturn(userResponseDTO);
 
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(userWithBadPassword)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Password should contain at least one uppercase and one lowercase letter"));
     }
 }
 
