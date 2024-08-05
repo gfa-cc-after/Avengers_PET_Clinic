@@ -12,6 +12,8 @@ import Landing from './pages/Landing';
 import { AuthProvider } from './pages/AuthContext';
 import Navbar from "./components/Navbar"
 import { routes } from "./routes"
+import PrivateRoute from './pages/PrivateRoute';
+import ProfileEdit from './pages/ProfileEdit';
 
 const Root = () => (
   <>
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
       {
         path: routes[2].path,
         element: <Login />,
+      },
+      {
+        path: routes[3].path,
+        element: (
+        // <PrivateRoute>
+            <ProfileEdit />
+          //</PrivateRoute>
+        ),
       },
     ],
   },

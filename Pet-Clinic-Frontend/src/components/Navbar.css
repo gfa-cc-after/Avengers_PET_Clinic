@@ -7,22 +7,29 @@
   
   nav {
 	position: fixed;
-	top: 20px;
-	right: 30px;
+	top: 0;
+	right: 0;
+	left: 0;
+	background-color: #5050502f;
 	color: white;
 	padding: 1rem;
-	z-index: 1000; /* Zajistí, že navbar bude nad ostatními prvky */
-  }
-  
-  .navigation {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	z-index: 1000;
+  }
+  
+  .nav-header {
+	order: 2;
   }
   
   .nav-header img {
 	width: 50px;
 	height: 50px;
+  }
+  
+  .nav-list {
+	order: 1;
   }
   
   .nav-list ul {
