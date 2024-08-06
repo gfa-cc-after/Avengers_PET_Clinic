@@ -1,4 +1,4 @@
-package com.avangers.backendapi.config;
+package com.avangers.backendapi.services;
 
 import com.avangers.backendapi.models.User;
 import io.jsonwebtoken.Claims;
@@ -19,7 +19,7 @@ import java.util.function.Function;
 
 @Component
 @Service
-public class JwtTokenUtil {
+public class JwtTokenServiceImpl implements JwtTokenService {
 
   @Value("${jwt.secret}")
   private String secret;
