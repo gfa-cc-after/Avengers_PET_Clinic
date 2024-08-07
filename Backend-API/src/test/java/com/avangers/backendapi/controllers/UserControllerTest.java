@@ -24,23 +24,23 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 class UserControllerTest {
 
-    @MockBean
-    private UserServiceImpl userServiceImpl;
+  @MockBean
+  private UserServiceImpl userServiceImpl;
 
-    @Autowired
-    private MockMvc mockMvc;
+  @Autowired
+  private MockMvc mockMvc;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
-    //      objectMapper is used to convert objects to JSON
-    @Autowired
-    private ObjectMapper objectMapper;
+  //      objectMapper is used to convert objects to JSON
+  @Autowired
+  private ObjectMapper objectMapper;
 
-    @BeforeEach
-    void setUp() {
-        objectMapper = new ObjectMapper();
-    }
+  @BeforeEach
+  void setUp() {
+    objectMapper = new ObjectMapper();
+  }
 
     @DisplayName("Should return 201 is created if request is valid")
     @Test
@@ -69,5 +69,6 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message").value("Password should contain at least one uppercase and one lowercase letter"));
     }
+
 }
 
