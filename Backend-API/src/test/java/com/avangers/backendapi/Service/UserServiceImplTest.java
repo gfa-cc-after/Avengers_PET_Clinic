@@ -41,7 +41,7 @@ public class UserServiceImplTest {
 
         UpdateUserResponseDTO result = userServiceImpl.updateUser(1L, new RegisterUserRequestDTO("newemail@email.com", "NewPassword123"));
 
-        assertEquals("User not found", result);
+        assertEquals("User not found", result.message());
     }
 
     @DisplayName("Should return 'Update was successful' if email is changed")
@@ -56,6 +56,6 @@ public class UserServiceImplTest {
 
         UpdateUserResponseDTO result = userServiceImpl.updateUser(1L, new RegisterUserRequestDTO("newemail@eamil.com", "NewPassword123"));
 
-        assertEquals("Update was successful", result);
+        assertEquals("Update was successful", result.message());
     }
 }
