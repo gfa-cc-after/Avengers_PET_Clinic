@@ -24,11 +24,12 @@ public class UserController {
 
     public ResponseEntity<RegisterUserResponseDTO> register(@Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         RegisterUserResponseDTO result = userService.addUser(registerUserRequestDTO);
-        if ("Registration was successful".equals(result)) {
+        if ("Registration was successful".equals(result.message())) {
             return new ResponseEntity<>(result, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
 
     }
+
 }
