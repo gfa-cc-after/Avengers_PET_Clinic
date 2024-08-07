@@ -1,6 +1,7 @@
 package com.avangers.backendapi.services;
 
-import com.avangers.backendapi.DTOs.RegisterUserDTO;
+import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
+import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,17 +18,19 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserRegistrationResponse addUser(RegisterUserDTO registerUserDTO) {
-        if (userRepository.existsByEmail(registerUserDTO.email())) {
-            return new UserRegistrationResponse("The email already exists", false);
-        }
+    public RegisterUserResponseDTO registerUser(RegisterUserRequestDTO registerUserRequestDTO) {
+        userRepository.findByEmail(registerUserRequestDTO.email()).orElseThrow(
+                () -> new UsernameNotFoundException("Email already exists")
+        );
 
         User newUser = new User();
-        newUser.setEmail(registerUserDTO.email());
-        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
+        newUser.setEmail(registerUserRequestDTO.email());
+        newUser.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
         userRepository.save(newUser);
 
-        return new UserRegistrationResponse("Registration was successful", true);
+        return RegisterUserResponseDTO.builder()
+                .response("Registration was successfully")
+                .build();
     }
 
     @Override

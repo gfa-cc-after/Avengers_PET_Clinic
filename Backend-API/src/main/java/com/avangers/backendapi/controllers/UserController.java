@@ -1,9 +1,9 @@
 package com.avangers.backendapi.controllers;
 
 
-import com.avangers.backendapi.DTOs.RegisterUserDTO;
+import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
 import com.avangers.backendapi.services.UserService;
-import com.avangers.backendapi.services.UserRegistrationResponse;
+import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,9 +21,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<UserRegistrationResponse> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
-        UserRegistrationResponse response = userService.addUser(registerUserDTO);
-        HttpStatus status = response.isSuccess() ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
-        return new ResponseEntity<>(response, status);
+    public ResponseEntity<RegisterUserResponseDTO> register(@Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
+        return new ResponseEntity<>(userService.registerUser(registerUserRequestDTO), HttpStatus.CREATED);
     }
 }
