@@ -21,10 +21,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
+    public ResponseEntity<UserRegistrationResponse> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
         UserRegistrationResponse response = userService.addUser(registerUserDTO);
-
-        HttpStatus status = "The email already exists".equals(response.getMessage()) ? HttpStatus.BAD_REQUEST : HttpStatus.CREATED;
-        return new ResponseEntity<>(response.getMessage(), status);
+        HttpStatus status = response.isSuccess() ? HttpStatus.CREATED : HttpStatus.BAD_REQUEST;
+        return new ResponseEntity<>(response, status);
     }
 }
