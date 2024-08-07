@@ -1,11 +1,10 @@
 package com.avangers.backendapi.services;
 
+import com.avangers.backendapi.DTOs.DeleteUserResponseDTO;
 import com.avangers.backendapi.DTOs.RegisterUserDTO;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +29,14 @@ public class UserServiceImpl implements UserService {
         userRepository.save(newUser);
 
         return new UserRegistrationResponse("Registration was successful");
+    }
+
+    @Override
+    public DeleteUserResponseDTO deleteUser(String email) {
+        userRepository.deleteByEmail(email);
+        return DeleteUserResponseDTO.builder()
+                .response("User was successfully deleted")
+                .build();
     }
 
     @Override

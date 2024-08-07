@@ -30,6 +30,6 @@ public class UserController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<DeleteUserResponseDTO> deleteUser(Principal principal) {
-        return new ResponseEntity<>(userService.deleteUser(principal.getName(),HttpStatus.OK));
+        return new ResponseEntity<>(userService.deleteUser(principal.getName()),HttpStatus.OK);
     }
 }
