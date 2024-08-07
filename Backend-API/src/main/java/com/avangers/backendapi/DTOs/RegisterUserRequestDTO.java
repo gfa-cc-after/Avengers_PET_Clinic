@@ -1,12 +1,11 @@
 package com.avangers.backendapi.DTOs;
 
-import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
-public record RegisterUserDTO(
+public record RegisterUserRequestDTO(
         @NotBlank(message = "e-mail is required")
         @Email(message = "not valid e-mail")
         String email,

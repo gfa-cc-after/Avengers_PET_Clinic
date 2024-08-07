@@ -1,7 +1,6 @@
 package com.avangers.backendapi.Service;
 
-import com.avangers.backendapi.DTOs.RegisterUserDTO;
-import com.avangers.backendapi.DTOs.UserResponseDTO;
+import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
 import com.avangers.backendapi.services.UserServiceImpl;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -40,7 +38,7 @@ public class UserServiceImplTest {
     void shouldReturnUserNotFound() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        UserResponseDTO result = userServiceImpl.updateUser(1L, new RegisterUserDTO("newemail@email.com", "NewPassword123"));
+        UserResponseDTO result = userServiceImpl.updateUser(1L, new RegisterUserRequestDTO("newemail@email.com", "NewPassword123"));
 
         assertEquals("User not found", result);
     }
@@ -55,7 +53,7 @@ public class UserServiceImplTest {
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(passwordEncoder.encode("NewPassword123")).thenReturn("encodedPassword");
 
-        UserResponseDTO result = userServiceImpl.updateUser(1L, new RegisterUserDTO("newemail@eamil.com", "NewPassword123"));
+        UserResponseDTO result = userServiceImpl.updateUser(1L, new RegisterUserRequestDTO("newemail@eamil.com", "NewPassword123"));
 
         assertEquals("Update was successful", result);
     }

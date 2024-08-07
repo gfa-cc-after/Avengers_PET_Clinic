@@ -1,12 +1,12 @@
 package com.avangers.backendapi.services;
 
-import com.avangers.backendapi.DTOs.RegisterUserDTO;
-import com.avangers.backendapi.DTOs.UserResponseDTO;
-import org.springframework.http.ResponseEntity;
+import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
+import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
+import com.avangers.backendapi.DTOs.UpdateUserResponseDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
-    UserResponseDTO addUser(RegisterUserDTO registerUserDTO);
-    UserResponseDTO updateUser(Long userId, RegisterUserDTO registerUserDTO);
+    RegisterUserResponseDTO addUser(RegisterUserRequestDTO registerUserRequestDTO);
+    UpdateUserResponseDTO updateUser(Long userId, RegisterUserRequestDTO registerUserRequestDTO);
 
 }
