@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserRegistrationResponse addUser(RegisterUserDTO registerUserDTO) {
         if (userRepository.existsByEmail(registerUserDTO.email())) {
-            return new UserRegistrationResponse("The email already exists");
+            return new UserRegistrationResponse("The email already exists", false);
         }
 
         User newUser = new User();
@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
         userRepository.save(newUser);
 
-        return new UserRegistrationResponse("Registration was successful");
+        return new UserRegistrationResponse("Registration was successful", true);
     }
 
     @Override

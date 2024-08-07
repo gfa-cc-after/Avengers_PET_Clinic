@@ -9,4 +9,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserRegistrationResponse {
     private String message;
+    private boolean success;
 }
