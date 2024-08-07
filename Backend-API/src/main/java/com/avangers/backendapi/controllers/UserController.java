@@ -4,7 +4,6 @@ package com.avangers.backendapi.controllers;
 import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
 import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
 import com.avangers.backendapi.services.UserService;
-import com.avangers.backendapi.services.UserRegistrationResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @CrossOrigin("http://localhost:5173/")
 @RequiredArgsConstructor
-@CrossOrigin("http://localhost:5173/")
 public class UserController {
 
     private final UserService userService;
