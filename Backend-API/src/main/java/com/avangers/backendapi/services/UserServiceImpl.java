@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
         newUser.setPassword(passwordEncoder.encode(registerUserRequestDTO.password())); // Correct accessor
         userRepository.save(newUser);
 
-        return new UserResponseDTO(registerUserRequestDTO.email(),"Registration was successful");
+        return new RegisterUserResponseDTO(registerUserRequestDTO.email(),"Registration was successful");
     }
 
     @Override

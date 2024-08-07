@@ -1,6 +1,7 @@
 package com.avangers.backendapi.controllers;
 
 import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
+import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
 import com.avangers.backendapi.services.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,7 +46,7 @@ class UserControllerTest {
     @Test
     void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
         RegisterUserRequestDTO validUser = new RegisterUserRequestDTO("user@example.com", "Abc123456");
-        UserResponseDTO userResponseDTO = new UserResponseDTO("user@example.com", "Registration was successful");
+        RegisterUserResponseDTO userResponseDTO = new RegisterUserResponseDTO("user@example.com", "Registration was successful");
         given(userServiceImpl.addUser(validUser)).willReturn(userResponseDTO);
 
         mockMvc.perform(post("/register")
@@ -59,7 +60,7 @@ class UserControllerTest {
     @Test
     void shouldNotRegisterWithBadPassword() throws Exception {
         RegisterUserRequestDTO userWithBadPassword = new RegisterUserRequestDTO("user@example.com", "badpassword");
-        UserResponseDTO userResponseDTO = new UserResponseDTO("user@example.com", "Password should contain at least one uppercase and one lowercase letter");
+        RegisterUserResponseDTO userResponseDTO = new RegisterUserResponseDTO("user@example.com", "Password should contain at least one uppercase and one lowercase letter");
         given(userServiceImpl.addUser(userWithBadPassword)).willReturn(userResponseDTO);
 
         mockMvc.perform(post("/register")
