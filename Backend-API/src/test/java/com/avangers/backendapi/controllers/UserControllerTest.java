@@ -1,8 +1,7 @@
 package com.avangers.backendapi.controllers;
 
-import com.avangers.backendapi.DTOs.RegisterUserDTO;
-import com.avangers.backendapi.repositories.UserRepository;
-import com.avangers.backendapi.services.UserRegistrationResponse;
+import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
+import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
 import com.avangers.backendapi.services.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -13,9 +12,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.mockito.BDDMockito.given;
@@ -35,7 +32,6 @@ class UserControllerTest {
   @Autowired
   private PasswordEncoder passwordEncoder;
 
-  //      objectMapper is used to convert objects to JSON
   @Autowired
   private ObjectMapper objectMapper;
 
@@ -44,13 +40,12 @@ class UserControllerTest {
     objectMapper = new ObjectMapper();
   }
 
-  @DisplayName("Should return 201 ok if request is valid")
+  @DisplayName("Should return 201 OK if request is valid")
   @Test
   void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
-    RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
-    UserRegistrationResponse mockReturn = new UserRegistrationResponse();
-    mockReturn.setMessage("Registration was successful");
-    given(userServiceImpl.addUser(validUser)).willReturn(mockReturn);
+    RegisterUserRequestDTO validUser = new RegisterUserRequestDTO("user@example.com", "Abc123456");
+
+    given(userServiceImpl.addUser(validUser)).willReturn(new RegisterUserResponseDTO());
 
     mockMvc.perform(post("/register")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -58,13 +53,12 @@ class UserControllerTest {
             .andExpect(status().isCreated());
   }
 
-  @DisplayName("Should return 400 bad request if password is not valid")
+  @DisplayName("Should return 400 BAD REQUEST if password is not valid")
   @Test
   void shouldNotRegisterWithBadPassword() throws Exception {
-    RegisterUserDTO userWithBadPassword = new RegisterUserDTO("user@example.com", "badpassword");
-    UserRegistrationResponse response = new UserRegistrationResponse();
-    response.setMessage("Password should contain at least one uppercase and one lowercase letter");
-    given(userServiceImpl.addUser(userWithBadPassword)).willReturn(response);
+    RegisterUserRequestDTO userWithBadPassword = new RegisterUserRequestDTO("user@example.com", "badpassword");
+
+    given(userServiceImpl.addUser(userWithBadPassword)).willThrow(new IllegalArgumentException("Password is not valid"));
 
     mockMvc.perform(post("/register")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -72,4 +66,3 @@ class UserControllerTest {
             .andExpect(status().isBadRequest());
   }
 }
-
