@@ -1,6 +1,7 @@
 package com.avangers.backendapi.services;
 
-import com.avangers.backendapi.DTOs.RegisterUserDTO;
+import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
+import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -13,27 +14,25 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public UserRegistrationResponse addUser(RegisterUserDTO registerUserDTO) {
-        if (userRepository.existsByEmail(registerUserDTO.email())) {
-            return new UserRegistrationResponse("The email already exists", false);
-        }
-
-        User newUser = new User();
-        newUser.setEmail(registerUserDTO.email());
-        newUser.setPassword(passwordEncoder.encode(registerUserDTO.password()));
-        userRepository.save(newUser);
-
-        return new UserRegistrationResponse("Registration was successful", true);
+  @Override
+  public RegisterUserResponseDTO addUser(RegisterUserRequestDTO registerUserRequestDTO) {
+    if (userRepository.existsByEmail(registerUserRequestDTO.email())) {
+      throw new IllegalArgumentException("Email is already in use");
     }
 
-    @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return userRepository.findByEmail(email).orElseThrow(
-                () -> new UsernameNotFoundException("Email is not in database")
-        );
-    }
+    User newUser = new User();
+    newUser.setEmail(registerUserRequestDTO.email());
+    newUser.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
+    userRepository.save(newUser);
+
+    return new RegisterUserResponseDTO();
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
+  }
 }

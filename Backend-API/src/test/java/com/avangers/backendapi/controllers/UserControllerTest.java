@@ -1,7 +1,7 @@
 package com.avangers.backendapi.controllers;
 
-import com.avangers.backendapi.DTOs.RegisterUserDTO;
-import com.avangers.backendapi.services.UserRegistrationResponse;
+import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
+import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
 import com.avangers.backendapi.services.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,10 +43,9 @@ class UserControllerTest {
   @DisplayName("Should return 201 OK if request is valid")
   @Test
   void shouldRegisterUserWithCorrectNameAndPassword() throws Exception {
-    RegisterUserDTO validUser = new RegisterUserDTO("user@example.com", "Abc123456");
-    UserRegistrationResponse mockReturn = new UserRegistrationResponse("Registration was successful", true);
+    RegisterUserRequestDTO validUser = new RegisterUserRequestDTO("user@example.com", "Abc123456");
 
-    given(userServiceImpl.addUser(validUser)).willReturn(mockReturn);
+    given(userServiceImpl.addUser(validUser)).willReturn(new RegisterUserResponseDTO());
 
     mockMvc.perform(post("/register")
                     .contentType(MediaType.APPLICATION_JSON)
@@ -57,10 +56,9 @@ class UserControllerTest {
   @DisplayName("Should return 400 BAD REQUEST if password is not valid")
   @Test
   void shouldNotRegisterWithBadPassword() throws Exception {
-    RegisterUserDTO userWithBadPassword = new RegisterUserDTO("user@example.com", "badpassword");
-    UserRegistrationResponse response = new UserRegistrationResponse("Password should contain at least one uppercase and one lowercase letter", false);
+    RegisterUserRequestDTO userWithBadPassword = new RegisterUserRequestDTO("user@example.com", "badpassword");
 
-    given(userServiceImpl.addUser(userWithBadPassword)).willReturn(response);
+    given(userServiceImpl.addUser(userWithBadPassword)).willThrow(new IllegalArgumentException("Password is not valid"));
 
     mockMvc.perform(post("/register")
                     .contentType(MediaType.APPLICATION_JSON)
