@@ -18,6 +18,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.Mockito.when;
 
 public class UserServiceImplTest {
@@ -51,7 +52,7 @@ public class UserServiceImplTest {
         User testUser = new User();
         testUser.setEmail("oldeamil@eamil.com");
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(testUser));
+        when(userRepository.findByEmail("oldeamil@eamil.com")).thenReturn(Optional.of(testUser));
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(passwordEncoder.encode("NewPassword123")).thenReturn("encodedPassword");
 
