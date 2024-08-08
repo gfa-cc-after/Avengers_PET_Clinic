@@ -23,3 +23,8 @@ springdoc:
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
+jwt:
+
+  secret: d24403c9b60c52ccbdca4cb66efc6e9898bbbd99db13caf24f5aa5bb9a06d1678ca79aa096c50de7b0ebe99ad7d1083ce0add43a9815ae7c48c73c69fd255f28
+  token:
+    validity: 3600000  # 1 hour in milliseconds
