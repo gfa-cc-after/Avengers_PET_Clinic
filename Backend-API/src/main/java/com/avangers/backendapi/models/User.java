@@ -1,7 +1,11 @@
 package com.avangers.backendapi.models;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,7 +17,6 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
 @Table(name = "users")
 public class User implements UserDetails {
 
