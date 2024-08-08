@@ -15,22 +15,10 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final PasswordEncoder passwordEncoder;
+  private final UserRepository userRepository;
+  private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public RegisterUserResponseDTO addUser(RegisterUserRequestDTO registerUserRequestDTO) {
-        if (userRepository.existsByEmail(registerUserRequestDTO.email())) { // Correct accessor
-            return new RegisterUserResponseDTO(registerUserRequestDTO.email(),"The email already exists");
-        }
-
-        User newUser = new User();
-        newUser.setEmail(registerUserRequestDTO.email()); // Correct accessor
-        newUser.setPassword(passwordEncoder.encode(registerUserRequestDTO.password())); // Correct accessor
-        userRepository.save(newUser);
-
-        return new RegisterUserResponseDTO(registerUserRequestDTO.email(),"Registration was successful");
-    }
+ 
 
     @Override
     public UpdateUserResponseDTO updateUser(Long userId, RegisterUserRequestDTO registerUserRequestDTO) {
@@ -56,4 +44,23 @@ public class UserServiceImpl implements UserService {
                 () -> new UsernameNotFoundException("Email is not in database")
         );
     }
+  @Override
+  public RegisterUserResponseDTO addUser(RegisterUserRequestDTO registerUserRequestDTO) {
+    if (userRepository.existsByEmail(registerUserRequestDTO.email())) {
+      throw new IllegalArgumentException("Email is already in use");
+    }
+
+    User newUser = new User();
+    newUser.setEmail(registerUserRequestDTO.email());
+    newUser.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
+    userRepository.save(newUser);
+
+    return new RegisterUserResponseDTO();
+  }
+
+  @Override
+  public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
+  }
+
 }
