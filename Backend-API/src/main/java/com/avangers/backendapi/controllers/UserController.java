@@ -20,6 +20,7 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class UserController {
 
+
   private final UserService userService;
 
   @PostMapping("/register")
@@ -33,4 +34,5 @@ public class UserController {
       return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
   }
+
 }
