@@ -8,10 +8,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 
@@ -27,6 +24,18 @@ public class UserController {
     try {
       RegisterUserResponseDTO response = userService.addUser(registerUserRequestDTO);
       return new ResponseEntity<>(response, HttpStatus.CREATED);
+    } catch (IllegalArgumentException e) {
+      HashMap<String, String> error = new HashMap<>();
+      error.put("error", e.getMessage());
+      return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+  }
+
+  @PutMapping("/api/users/{userId}")
+  public ResponseEntity<?> updateUser(@PathVariable Long userId, @Valid @RequestBody RegisterUserRequestDTO updateUserRequestDTO) {
+    try {
+      RegisterUserResponseDTO response = userService.updateUser(userId, updateUserRequestDTO);
+      return new ResponseEntity<>(response, HttpStatus.OK);
     } catch (IllegalArgumentException e) {
       HashMap<String, String> error = new HashMap<>();
       error.put("error", e.getMessage());

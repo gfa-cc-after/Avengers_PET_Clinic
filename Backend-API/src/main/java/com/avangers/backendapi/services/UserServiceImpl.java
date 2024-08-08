@@ -35,4 +35,22 @@ public class UserServiceImpl implements UserService {
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
   }
+
+  @Override //updating the user data
+  public RegisterUserResponseDTO updateUser(Long userId, RegisterUserRequestDTO updateUserRequestDTO) {
+    User existingUser = userRepository.findById(userId)
+            .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+    if (!existingUser.getEmail().equals(updateUserRequestDTO.email()) &&
+            userRepository.existsByEmail(updateUserRequestDTO.email())) {
+      throw new IllegalArgumentException("Email is already in use");
+    }
+
+    existingUser.setEmail(updateUserRequestDTO.email());
+    existingUser.setPassword(passwordEncoder.encode(updateUserRequestDTO.password()));
+
+    userRepository.save(existingUser);
+
+    return new RegisterUserResponseDTO();
+  }
 }
