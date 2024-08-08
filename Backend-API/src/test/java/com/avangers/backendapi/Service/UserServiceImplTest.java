@@ -1,6 +1,7 @@
 package com.avangers.backendapi.Service;
 
 import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
+import com.avangers.backendapi.DTOs.UpdateUserRequestDTO;
 import com.avangers.backendapi.DTOs.UpdateUserResponseDTO;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
@@ -39,7 +40,7 @@ public class UserServiceImplTest {
     void shouldReturnUserNotFound() {
         when(userRepository.findById(1L)).thenReturn(Optional.empty());
 
-        UpdateUserResponseDTO result = userServiceImpl.updateUser(1L, new RegisterUserRequestDTO("newemail@email.com", "NewPassword123"));
+        UpdateUserResponseDTO result = userServiceImpl.updateUser( "old@asdad.cy",new UpdateUserRequestDTO("newemail@email.com", "NewPassword123"));
 
         assertEquals("User not found", result.message());
     }
@@ -54,7 +55,7 @@ public class UserServiceImplTest {
         when(userRepository.existsByEmail(anyString())).thenReturn(false);
         when(passwordEncoder.encode("NewPassword123")).thenReturn("encodedPassword");
 
-        UpdateUserResponseDTO result = userServiceImpl.updateUser(1L, new RegisterUserRequestDTO("newemail@eamil.com", "NewPassword123"));
+        UpdateUserResponseDTO result = userServiceImpl.updateUser("oldeamil@eamil.com", new UpdateUserRequestDTO("newemail@eamil.com", "NewPassword123"));
 
         assertEquals("Update was successful", result.message());
     }

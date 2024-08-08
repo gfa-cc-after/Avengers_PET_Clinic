@@ -13,23 +13,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 @RestController
 @CrossOrigin("http://localhost:5173/")
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @PostMapping("/register")
-
-    public ResponseEntity<RegisterUserResponseDTO> register(@Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
-        RegisterUserResponseDTO result = userService.addUser(registerUserRequestDTO);
-        if ("Registration was successful".equals(result.message())) {
-            return new ResponseEntity<>(result, HttpStatus.CREATED);
-        } else {
-            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
-        }
-
+  @PostMapping("/register")
+  public ResponseEntity<?> register(@Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
+    try {
+      RegisterUserResponseDTO response = userService.addUser(registerUserRequestDTO);
+      return new ResponseEntity<>(response, HttpStatus.CREATED);
+    } catch (IllegalArgumentException e) {
+      HashMap<String, String> error = new HashMap<>();
+      error.put("error", e.getMessage());
+      return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
+  }
 }
