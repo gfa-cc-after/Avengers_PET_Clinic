@@ -33,7 +33,7 @@ public class UserController {
       error.put("error", e.getMessage());
       return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
-
+  }
   @DeleteMapping("/delete")
   public ResponseEntity<DeleteUserResponseDTO> deleteUser(Principal principal) {
       return new ResponseEntity<>(userService.deleteUser(principal.getName()),HttpStatus.OK);
