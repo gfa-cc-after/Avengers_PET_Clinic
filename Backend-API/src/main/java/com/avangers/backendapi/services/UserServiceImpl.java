@@ -1,5 +1,7 @@
 package com.avangers.backendapi.services;
 
+import com.avangers.backendapi.DTOs.LoginRequestDTO;
+import com.avangers.backendapi.DTOs.LoginResponseDTO;
 import com.avangers.backendapi.DTOs.RegisterUserDTO;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
@@ -28,5 +30,18 @@ public class UserServiceImpl implements UserService {
         userRepository.save(newUser);
 
         return new ResponseEntity<>("Registration was successful", HttpStatus.CREATED);
+    }
+
+    @Override
+    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
+        User userByEmail = userRepository.findByEmail(loginRequestDTO.getEmail());
+        if (userByEmail == null) {
+            throw new RuntimeException("User email is not valid");
+        }
+        if (passwordEncoder.matches(loginRequestDTO.getPassword(), userByEmail.getPassword())) {
+            // call the token generator inside LoginResponseDTO()
+            return new LoginResponseDTO();
+        }
+        throw new RuntimeException("Password is not valid");
     }
 }
