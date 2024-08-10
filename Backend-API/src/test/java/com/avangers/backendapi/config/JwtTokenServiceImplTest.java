@@ -1,53 +1,73 @@
 package com.avangers.backendapi.config;
 
+import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.services.JwtTokenServiceImpl;
+import com.avangers.backendapi.services.UserService;
+import com.avangers.backendapi.services.UserServiceImpl;
 import com.google.gson.JsonObject;
 import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.context.ContextConfiguration;
 
 import java.util.Base64;
+import java.util.Properties;
 
+@SpringBootTest
+@ImportAutoConfiguration
+@ComponentScan("com.avangers.backendapi")
+@ContextConfiguration(classes = {ApplicationConfig.class, UserService.class, UserServiceImpl.class})
 class JwtTokenServiceImplTest {
 
 
-    @Test
-    void getEmailFromToken(){
+  @Autowired
+  private PasswordEncoder passwordEncoder;
+
+  @Test
+  void getEmailFromToken() {
 
 
-    }
+  }
 
-    @Test
-    void getClaimFromToken() {
-    }
+  @Test
+  void getClaimFromToken() {
+  }
 
-    @Test
-    void validateToken() {
+  @Test
+  void validateToken() {
 
-    }
+  }
 
-    @Test
-    @DisplayName("Should extract payload from the token ")
-    @WithMockUser
-    void shouldReturnPayloadFromToken() {
-
-        JwtTokenServiceImpl jwtTokenServiceImpl = new JwtTokenServiceImpl();
+  @Test
+  @DisplayName("Should extract payload from the token ")
+  @WithMockUser
+  void shouldReturnPayloadFromToken() {
 
 
-        String testingToken = "eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.VFb0qJ1LRg_4ujbZoRMXnVkUgiuKq5KxWqNdbKq_G9Vvz-S1zZa9LPxtHWKa64zDl2ofkT8F6jBt_K4riU-fPg";
+    JwtConfiguration jwtConfiguration = new JwtConfiguration();
+    jwtConfiguration.setTokenValidity(400000);
+    jwtConfiguration.setSecret("asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdsadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdsadasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdsadasdasdasdasdasdasd");
+    JwtTokenServiceImpl jwtTokenServiceImpl = new JwtTokenServiceImpl(jwtConfiguration);
 
-        JsonObject claims = new JsonObject().getAsJsonObject();
-        claims.addProperty("sub","1234567890");
-        claims.addProperty("name","John Doe");
-        claims.addProperty("admin",true);
-        claims.addProperty("iat",1516239022);
+    User user = User.builder()
+            .id(1)
+            .email("john.doe@gmail.com")
+            .password(passwordEncoder.encode("password"))
+            .build();
+    String accessToken = jwtTokenServiceImpl.generateToken(user);
 
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-//
-        String[] separatedClaims = testingToken.split("\\.");
-//
-        String payload = new String(decoder.decode(separatedClaims[1]));
-
-        Assertions.assertNotNull(payload);
-        Assertions.assertEquals(jwtTokenServiceImpl., payload);
-    }
+    Assertions.assertNotNull(accessToken);
+    String[] parts = accessToken.split("\\.");
+    Assertions.assertEquals(3, parts.length);
+    String subject = jwtTokenServiceImpl.getEmailFromToken(accessToken);
+    Assertions.assertTrue(jwtTokenServiceImpl.validateToken(accessToken, user));
+    Assertions.assertEquals("john.doe@gmail.com", subject);
+  }
 }

@@ -14,16 +14,17 @@ security:
   oauth2:
     resourceserver:
       jwt:
+        secret: secretest_keysecretest_keysecretest_keysecretest_keysecretest_keysecretest_key #do I need some enviroment variables here ?
+        token:
+          validity: 3600000  # 1 hour in milliseconds
         jws-algorithms: RS512
         jwk-set-uri: https://idp.example.org/.well-known/jwks.json
-        
+
+
 springdoc:
   api-docs:
     path: /api-docs
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
-jwt:
-  secret: secretest_key #do I need some enviroment variables here ?
-  token:
-    validity: 3600000  # 1 hour in milliseconds
+

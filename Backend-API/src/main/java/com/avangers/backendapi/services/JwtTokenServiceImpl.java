@@ -1,14 +1,14 @@
 package com.avangers.backendapi.services;
 
+import com.avangers.backendapi.config.JwtConfiguration;
 import com.avangers.backendapi.models.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.beans.factory.annotation.Value;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
@@ -17,18 +17,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Component
 @Service
+@RequiredArgsConstructor
 public class JwtTokenServiceImpl implements JwtTokenService {
-
-  @Value("${jwt.secret}")
-  private String secret;
-
-  @Value("${jwt.token.validity}")
-  private long tokenValidity;
+  private final JwtConfiguration jwtConfiguration;
 
   private SecretKey getSigningKey() {
-    byte[] keyBytes = Decoders.BASE64.decode(secret);
+    byte[] keyBytes = Decoders.BASE64.decode(jwtConfiguration.getSecret());
     return Keys.hmacShaKeyFor(keyBytes);
   }
 
@@ -49,11 +44,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
 
   // For retrieving any information from token we will need the secret key
   private Claims getAllClaimsFromToken(String token) {
-    return Jwts.parser()
-            .verifyWith(getSigningKey())
-            .build()
-            .parseSignedClaims(token)
-            .getPayload();
+    return Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(token).getPayload();
   }
 
   // Check if the token has expired
@@ -74,13 +65,7 @@ public class JwtTokenServiceImpl implements JwtTokenService {
   // 3. According to JWS Compact Serialization (https://tools.ietf.org/html/draft-ietf-jose-json-web-signature-41#section-3.1)
   //    compaction of the JWT to a URL-safe string
   private String doGenerateToken(Map<String, Object> claims, String subject) {
-    return Jwts.builder()
-            .setClaims(claims)
-            .setSubject(subject)
-            .setIssuedAt(new Date(System.currentTimeMillis()))
-            .setExpiration(new Date(System.currentTimeMillis() + tokenValidity))
-            .signWith(getSigningKey(), SignatureAlgorithm.HS512)
-            .compact();
+    return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis())).setExpiration(new Date(System.currentTimeMillis() + jwtConfiguration.getTokenValidity())).signWith(getSigningKey(), SignatureAlgorithm.HS512).compact();
   }
 
   // Validate token
