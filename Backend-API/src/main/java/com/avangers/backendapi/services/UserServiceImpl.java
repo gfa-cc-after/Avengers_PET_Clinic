@@ -1,5 +1,7 @@
 package com.avangers.backendapi.services;
 
+
+import com.avangers.backendapi.DTOs.DeleteUserResponseDTO;
 import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
 import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
 import com.avangers.backendapi.models.User;
@@ -31,8 +33,18 @@ public class UserServiceImpl implements UserService {
     return new RegisterUserResponseDTO();
   }
 
-  @Override
+    @Override
+  public DeleteUserResponseDTO deleteUser(String email) {
+        userRepository.deleteByEmail(email);
+        return DeleteUserResponseDTO.builder()
+                .response("User was successfully deleted")
+                .build();
+    }
+
+    @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-    return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
-  }
+        return userRepository.findByEmail(email).orElseThrow(
+                () -> new UsernameNotFoundException("Email is not in database")
+        );
+    }
 }
