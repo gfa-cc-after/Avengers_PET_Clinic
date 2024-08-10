@@ -21,6 +21,7 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class UserController {
 
+
   private final UserService userService;
 
   @PostMapping("/register")
@@ -34,6 +35,7 @@ public class UserController {
       return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
   }
+
   @DeleteMapping("/delete")
   public ResponseEntity<DeleteUserResponseDTO> deleteUser(Principal principal) {
       return new ResponseEntity<>(userService.deleteUser(principal.getName()),HttpStatus.OK);
