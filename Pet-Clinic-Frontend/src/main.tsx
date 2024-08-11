@@ -26,30 +26,20 @@ const Root = () => (
 const router = createBrowserRouter([
   {
     element: <Root />,
-    children: [
-      {
-        path: routes[0].path,
-        element: <Landing />,
-      },
-      {
-        path: routes[1].path,
-        element: <Registration />,
-      },
-      {
-        path: routes[2].path,
-        element: <Login />,
-      },
-      {
-        path: routes[3].path,
-        element: (
-         <PrivateRoute>
-            <ProfileEdit />
+    children: routes.map(({ path, requiresAuth, component }) => ({
+      path,
+      element: requiresAuth ? (
+        <PrivateRoute>
+          {component}
         </PrivateRoute>
-        ),
-      },
-    ],
+      ) : (
+        component
+      ),
+    })),
   },
 ]);
+
+
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
