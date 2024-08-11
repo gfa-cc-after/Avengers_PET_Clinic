@@ -12,7 +12,7 @@ import Landing from './pages/Landing';
 import { AuthProvider } from './pages/AuthContext';
 import Navbar from "./components/Navbar"
 import { routes } from "./routes"
-import PrivateRoute from './pages/PrivateRoute';
+//import PrivateRoute from './pages/PrivateRoute';
 import ProfileEdit from './pages/ProfileEdit';
 
 const Root = () => (
