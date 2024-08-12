@@ -1,10 +1,11 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
-interface AuthContextType {
+type AuthContextType = {
   isLoggedIn: boolean;
   login: () => void;
   logout: () => void;
 }
+
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 

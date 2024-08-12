@@ -6,14 +6,11 @@ import {
   Outlet
 } from "react-router-dom"
 import './index.css'
-import Registration from './pages/Registration';
-import Login from './pages/Login';
-import Landing from './pages/Landing';
 import { AuthProvider } from './pages/AuthContext';
 import Navbar from "./components/Navbar"
 import { routes } from "./routes"
 import PrivateRoute from './pages/PrivateRoute';
-import ProfileEdit from './pages/ProfileEdit';
+
 
 const Root = () => (
   <>
