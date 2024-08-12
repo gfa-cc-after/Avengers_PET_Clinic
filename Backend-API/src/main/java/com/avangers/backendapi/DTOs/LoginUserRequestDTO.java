@@ -3,9 +3,9 @@ package com.avangers.backendapi.DTOs;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import lombok.Getter;
+
 @Data
-public class LoginRequestDTO {
+public class LoginUserRequestDTO {
     @Email
     private String email;
     @NotBlank

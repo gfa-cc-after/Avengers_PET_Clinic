@@ -1,6 +1,6 @@
 package com.avangers.backendapi.DTOs;
 
-public class LoginResponseDTO {
+public class LoginUserResponseDTO {
 
     String token;
 }

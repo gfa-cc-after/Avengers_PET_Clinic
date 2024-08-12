@@ -66,19 +66,13 @@ public class UserServiceImpl implements UserService {
     }
 
    @Override
-   public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
-    // Retrieve the user by email
-    User user = userRepository.findByEmail(loginRequestDTO.getEmail()).orElseThrow(
+   public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO) {
+    User user = userRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(
             () -> new UsernameNotFoundException("User not found")
     );
-    
-    // Check if the provided password matches the stored password
-    if (passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
-        // Call the token generator inside LoginResponseDTO() if needed
-        return new LoginResponseDTO();
+    if (passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
+        return new LoginUserResponseDTO();
     }
-
-    // Throw an exception if the password is invalid
     throw new RuntimeException("Password is not valid");
     }
 }

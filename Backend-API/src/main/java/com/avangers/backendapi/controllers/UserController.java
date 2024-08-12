@@ -1,11 +1,7 @@
 package com.avangers.backendapi.controllers;
 
-import com.avangers.backendapi.DTOs.DeleteUserResponseDTO;
-import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
-import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
-import com.avangers.backendapi.DTOs.LoginRequestDTO;
-import com.avangers.backendapi.DTOs.LoginResponseDTO;
-import lombok.Value;
+import com.avangers.backendapi.DTOs.*;
+import com.avangers.backendapi.DTOs.LoginUserResponseDTO;
 import com.avangers.backendapi.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +33,8 @@ public class UserController {
       }
   }
     @PostMapping("/login")
-    public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
-        return ResponseEntity.ok(userService.login(loginRequestDTO));
+    public ResponseEntity<LoginUserResponseDTO> login(@Valid @RequestBody LoginUserRequestDTO loginUserRequestDTO) {
+        return ResponseEntity.ok(userService.loginUser(loginUserRequestDTO));
     }
 
     @DeleteMapping("/delete")
