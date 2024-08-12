@@ -1,12 +1,6 @@
 package com.avangers.backendapi.services;
 
-import com.avangers.backendapi.DTOs.DeleteUserResponseDTO;
-import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
-import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
-import com.avangers.backendapi.DTOs.LoginRequestDTO;
-import com.avangers.backendapi.DTOs.LoginResponseDTO;
-import com.avangers.backendapi.DTOs.UpdateUserRequestDTO;
-import com.avangers.backendapi.DTOs.UpdateUserResponseDTO;
+import com.avangers.backendapi.DTOs.*;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -73,16 +67,13 @@ public class UserServiceImpl implements UserService {
 
    @Override
    public LoginResponseDTO login(LoginRequestDTO loginRequestDTO) {
-    // Retrieve the user by email, wrapped in an Optional
-    Optional<User> userByEmailOpt = userRepository.findByEmail(loginRequestDTO.getEmail());
-
-    // Handle the case where the user is not found
-    User userByEmail = userByEmailOpt.orElseThrow(() ->
-            new RuntimeException("User email is not valid")
+    // Retrieve the user by email
+    User user = userRepository.findByEmail(loginRequestDTO.getEmail()).orElseThrow(
+            () -> new UsernameNotFoundException("User not found")
     );
-
+    
     // Check if the provided password matches the stored password
-    if (passwordEncoder.matches(loginRequestDTO.getPassword(), userByEmail.getPassword())) {
+    if (passwordEncoder.matches(loginRequestDTO.getPassword(), user.getPassword())) {
         // Call the token generator inside LoginResponseDTO() if needed
         return new LoginResponseDTO();
     }

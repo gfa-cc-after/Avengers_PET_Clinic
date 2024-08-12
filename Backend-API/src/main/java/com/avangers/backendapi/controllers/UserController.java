@@ -27,15 +27,15 @@ public class UserController {
 
   @PostMapping("/register")
   public ResponseEntity<?> register(@Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
-    try {
-      RegisterUserResponseDTO response = userService.addUser(registerUserRequestDTO);
-      return new ResponseEntity<>(response, HttpStatus.CREATED);
-    } catch (IllegalArgumentException e) {
-      HashMap<String, String> error = new HashMap<>();
-      error.put("error", e.getMessage());
-      return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
-    }
-    
+      try {
+          RegisterUserResponseDTO response = userService.addUser(registerUserRequestDTO);
+          return new ResponseEntity<>(response, HttpStatus.CREATED);
+      } catch (IllegalArgumentException e) {
+          HashMap<String, String> error = new HashMap<>();
+          error.put("error", e.getMessage());
+          return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+      }
+  }
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDTO> login(@Valid @RequestBody LoginRequestDTO loginRequestDTO) {
         return ResponseEntity.ok(userService.login(loginRequestDTO));
