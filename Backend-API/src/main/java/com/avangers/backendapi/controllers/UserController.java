@@ -41,10 +41,8 @@ public class UserController {
         return ResponseEntity.ok(userService.login(loginRequestDTO));
     }
 
-  }
-
-  @DeleteMapping("/delete")
-  public ResponseEntity<DeleteUserResponseDTO> deleteUser(Principal principal) {
-      return new ResponseEntity<>(userService.deleteUser(principal.getName()),HttpStatus.OK);
-  }
+    @DeleteMapping("/delete")
+    public ResponseEntity<DeleteUserResponseDTO> deleteUser(Principal principal) {
+       return new ResponseEntity<>(userService.deleteUser(principal.getName()),HttpStatus.OK);
+    }
 }
