@@ -23,7 +23,7 @@ const Root = () => (
 const router = createBrowserRouter([
   {
     element: <Root />,
-    children: routes.map(({ path, requiresAuth, component }) => ({
+    children: routes.map(({ path, requiresAuth, element: component }) => ({
       path,
       element: requiresAuth ? (
         <PrivateRoute>

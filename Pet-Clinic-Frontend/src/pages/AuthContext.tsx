@@ -12,7 +12,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // must be change to false after testing of logIn with BackEnd
+  const [isLoggedIn, setIsLoggedIn] = useState(true); // must be change to false after testing of logIn with BackEnd
 
   const login = () => setIsLoggedIn(true);
   const logout = () => setIsLoggedIn(false);

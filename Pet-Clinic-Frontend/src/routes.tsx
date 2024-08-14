@@ -1,18 +1,20 @@
-/* export const routes = [
-	{ id: 1, text: 'Landing', path: '/',requiresAuth: false },
-	{ id: 2, text: 'Registration', path: '/registration',requiresAuth: false },
-	{ id: 3, text: 'Login', path: '/login',requiresAuth: false },
-	{ id: 4, text: 'Edit Profile', path: '/profile-edit',requiresAuth: true }
-  ]; */
-
 import Landing from './pages/Landing';
 import Registration from './pages/Registration';
 import Login from './pages/Login';
 import ProfileEdit from './pages/ProfileEdit';
+import { RouteObject } from 'react-router-dom'
 
-export const routes = [
-  { id: 1, text: 'Landing', path: '/', requiresAuth: false, component: <Landing /> },
-  { id: 2, text: 'Registration', path: '/registration', requiresAuth: false, component: <Registration /> },
-  { id: 3, text: 'Login', path: '/login', requiresAuth: false, component: <Login /> },
-  { id: 4, text: 'Edit Profile', path: '/profile-edit', requiresAuth: true, component: <ProfileEdit /> }
+
+type PrivateRouter = RouteObject &
+{
+  requiresAuth: boolean,
+  text: string
+  path: string
+}
+
+export const routes: PrivateRouter []= [
+  {  text: 'Landing', path: '/', requiresAuth: false, element: <Landing /> },
+  {  text: 'Registration', path: '/registration', requiresAuth: false, element: <Registration /> },
+  {  text: 'Login', path: '/login', requiresAuth: false, element: <Login /> },
+  {  text: 'Edit Profile', path: '/profile-edit', requiresAuth: true, element: <ProfileEdit /> }
 ];
