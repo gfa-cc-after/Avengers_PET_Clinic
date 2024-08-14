@@ -1,13 +1,6 @@
 package com.avangers.backendapi.services;
 
-
-import com.avangers.backendapi.DTOs.DeleteUserResponseDTO;
-import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
-import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
-
-import com.avangers.backendapi.DTOs.UpdateUserRequestDTO;
-import com.avangers.backendapi.DTOs.UpdateUserResponseDTO;
-
+import com.avangers.backendapi.DTOs.*;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -70,5 +63,16 @@ public class UserServiceImpl implements UserService {
         return DeleteUserResponseDTO.builder()
                 .response("User was successfully deleted")
                 .build();
+    }
+
+   @Override
+   public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO) {
+    User user = userRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(
+            () -> new UsernameNotFoundException("User not found")
+    );
+    if (passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
+        return new LoginUserResponseDTO();
+    }
+    throw new RuntimeException("Password is not valid");
     }
 }
