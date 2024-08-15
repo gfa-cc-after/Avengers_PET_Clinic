@@ -10,13 +10,12 @@ import com.avangers.backendapi.DTOs.UpdateUserResponseDTO;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
-  RegisterUserResponseDTO addUser(RegisterUserRequestDTO registerUserRequestDTO);
+    RegisterUserResponseDTO addUser(RegisterUserRequestDTO registerUserRequestDTO);
 
-  RegisterUserResponseDTO updateUser(Long userId, RegisterUserRequestDTO updateUserRequestDTO);
-  // Add more user-related methods here in the future if needed
+    DeleteUserResponseDTO deleteUser(String email);
 
-  DeleteUserResponseDTO deleteUser(String email);
-  UpdateUserResponseDTO updateUser(String email, UpdateUserRequestDTO updateUserRequestDTO);
-  LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO);
+    UpdateUserResponseDTO updateUser(String email, UpdateUserRequestDTO updateUserRequestDTO);
+
+    LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO);
 
 }
