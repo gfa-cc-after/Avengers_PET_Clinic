@@ -5,4 +5,5 @@ import org.springframework.http.ResponseEntity;
 
 public interface UserService {
     ResponseEntity<String> addUser(RegisterUserDTO registerUserDTO);
+    Optional<User> findByUsername(String username);
 }

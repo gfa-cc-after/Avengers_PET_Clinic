@@ -21,4 +21,5 @@ public class UserController {
     public ResponseEntity<String> register(@Valid @RequestBody RegisterUserDTO registerUserDTO) {
         return userService.addUser(registerUserDTO);
     }
+
 }

@@ -29,23 +29,6 @@ public class UserServiceImpl implements UserService {
 
         return new ResponseEntity<>("Registration was successful", HttpStatus.CREATED);
     }
-      @Override
-    public Optional<User> findByUsername(String username) {
-        return userRepository.findByUsername(username);
-    }
-
-    public ResponseEntity<String> login(String username, String password) {
-        Optional<User> user = userRepository.findByUsername(username);
-        if (!user.isPresent()) {
-            return new ResponseEntity<>("User does not exist", HttpStatus.NOT_FOUND);
-        }
-
-        boolean isPasswordMatch = passwordEncoder.matches(password, user.get().getPassword());
-        if (!isPasswordMatch) {
-            return new ResponseEntity<>("Invalid password", HttpStatus.UNAUTHORIZED);
-        }
-
-        return new ResponseEntity<>("Login successful", HttpStatus.OK);
-    }
+    
 }
 
