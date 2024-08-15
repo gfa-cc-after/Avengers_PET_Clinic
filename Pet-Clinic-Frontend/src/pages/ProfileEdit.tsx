@@ -34,6 +34,26 @@ const ProfileEdit = () => {
     }
   };
 
+  const deleteProfile = async () => {
+    try {
+      const response = await fetch(`${backendUrl}/profile-delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.status.toString().startsWith('2')) {
+        setError('Failed to delete profile. Please try again.');
+      } else {
+        setSuccess('Profile deleted successfully!');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setError('An error occurred. Please try again later.');
+    }
+  };
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -58,7 +78,7 @@ const ProfileEdit = () => {
   };
 
   const handleConfirmDeleteClick = () => {
-    console.log('Deleting profile...');
+    deleteProfile();
   };
 
   return (
