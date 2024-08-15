@@ -9,6 +9,7 @@ const ProfileEdit = () => {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
 
   const sendToBackend = async (email: string, password: string) => {
@@ -48,6 +49,18 @@ const ProfileEdit = () => {
     sendToBackend(email, password);
   };
 
+  const handleDeleteClick = () => {
+    setConfirmingDelete(true);
+  };
+
+  const handleCancelClick = () => {
+    setConfirmingDelete(false);
+  };
+
+  const handleConfirmDeleteClick = () => {
+    console.log('Deleting profile...');
+  };
+
   return (
     <div className='formDiv'>
       <h1 className='rf-title'>Edit Profile</h1>
@@ -78,11 +91,21 @@ const ProfileEdit = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
         <button className='btn' type="submit">Save Changes</button>
       </form>
+      {confirmingDelete ? (
+      <div>
+          <button className='btn cancel-btn' onClick={handleCancelClick}>Cancel</button>
+          <button className='btn confirm-delete-btn' onClick={handleConfirmDeleteClick}>Confirm Delete</button>
+        </div>
+      ) : (
+        <button className='btn delete-btn' onClick={handleDeleteClick}>Delete Profile</button>
+      )}
     </div>
+      
   );
+
+  
 };
 
 export default ProfileEdit;
