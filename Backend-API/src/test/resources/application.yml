@@ -16,7 +16,7 @@ security:
   oauth2:
     resourceserver:
       jwt:
-        secret: secretest_keysecretest_keysecretest_keysecretest_keysecretest_keysecretest_key #do I need some enviroment variables here ?
+        secret: c2VjcmV0ZXN0X2tleXNlY3JldGVzdF9rZXlzZWNyZXRlc3Rfa2V5c2VjcmV0ZXN0X2tleXNlY3JldGVzdF9rZXlzZWNyZXRlc3Rfa2V5 #do I need some enviroment variables here ?
         token:
           validity: 3600000  # 1 hour in milliseconds
         jws-algorithms: RS512

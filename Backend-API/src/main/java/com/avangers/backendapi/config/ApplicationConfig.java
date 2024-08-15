@@ -48,6 +48,7 @@ public class ApplicationConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers("/health").permitAll()
                     .requestMatchers( "/register").permitAll()
+                    .requestMatchers( "/login").permitAll()
                     .requestMatchers("/swagger-ui/**").permitAll()
                     .requestMatchers("/api-docs/**").permitAll()
                     .anyRequest().authenticated()

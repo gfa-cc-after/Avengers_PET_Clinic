@@ -38,7 +38,7 @@ const ProfileEdit = () => {
 
   const deleteProfile = async () => {
     try {
-      const response = await fetch(`${backendUrl}/profile-delete`, {
+      const response = await fetch(`${backendUrl}/delete`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',

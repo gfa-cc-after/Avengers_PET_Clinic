@@ -15,6 +15,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtTokenService jwtTokenService;
 
 
     @Override
@@ -58,21 +59,17 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-  public DeleteUserResponseDTO deleteUser(String email) {
+    public DeleteUserResponseDTO deleteUser(String email) {
         userRepository.deleteByEmail(email);
-        return DeleteUserResponseDTO.builder()
-                .response("User was successfully deleted")
-                .build();
+        return DeleteUserResponseDTO.builder().response("User was successfully deleted").build();
     }
 
-   @Override
-   public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO) {
-    User user = userRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(
-            () -> new UsernameNotFoundException("User not found")
-    );
-    if (passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
-        return new LoginUserResponseDTO();
-    }
-    throw new RuntimeException("Password is not valid");
+    @Override
+    public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO) {
+        User user = userRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (!passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Password is not valid");
+        }
+        return new LoginUserResponseDTO(jwtTokenService.generateToken(user));
     }
 }

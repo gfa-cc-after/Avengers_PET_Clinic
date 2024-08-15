@@ -11,10 +11,13 @@ import java.util.function.Function;
 @Service
 public interface JwtTokenService {
     String getEmailFromToken(String token);
-    Date getExpirationDateFromToken(String token);
-    <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver);
-    String generateToken(User user);
-    Boolean validateToken(String token, UserDetails userDetails);
 
+    Date getExpirationDateFromToken(String token);
+
+    <T> T getClaimFromToken(String token, Function<Claims, T> claimsResolver);
+
+    String generateToken(User user);
+
+    Boolean validateToken(String token, UserDetails userDetails);
 
 }
