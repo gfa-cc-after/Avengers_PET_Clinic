@@ -46,13 +46,14 @@ const ProfileEdit = () => {
       });
 
       if (!response.status.toString().startsWith('2')) {
-        setError('Failed to delete profile. Please try again.');
+        navigate('/', {state: {error: 'Failed to delete profile. Please try again.'}});
+        
       } else {
         navigate('/',{state: {success: 'Profile deleted successfully!'}});
       }
     } catch (error) {
       console.error('Error:', error);
-      navigate('/login', {state: {error: 'An error occurred. Please try again later.'}});
+      navigate('/', {state: {error: 'An error occurred. Please try again later.'}});
     }
   };
 
