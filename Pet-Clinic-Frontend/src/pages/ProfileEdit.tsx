@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import "./ProfileEdit.css";
+import { useNavigate } from 'react-router-dom';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
 
@@ -10,6 +11,7 @@ const ProfileEdit = () => {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
   const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const navigate = useNavigate();
 
 
   const sendToBackend = async (email: string, password: string) => {
@@ -46,11 +48,11 @@ const ProfileEdit = () => {
       if (!response.status.toString().startsWith('2')) {
         setError('Failed to delete profile. Please try again.');
       } else {
-        setSuccess('Profile deleted successfully!');
+        navigate('/',{state: {success: 'Profile deleted successfully!'}});
       }
     } catch (error) {
       console.error('Error:', error);
-      setError('An error occurred. Please try again later.');
+      navigate('/login', {state: {error: 'An error occurred. Please try again later.'}});
     }
   };
 
