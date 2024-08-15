@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 import "./ProfileEdit.css";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
 
 const ProfileEdit = () => {
+  const { token } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,22 +40,24 @@ const ProfileEdit = () => {
 
   const deleteProfile = async () => {
     try {
+      console.log("asdasdasdasdasdasd");
       const response = await fetch(`${backendUrl}/delete`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
       });
 
       if (!response.status.toString().startsWith('2')) {
-        navigate('/', {state: {error: 'Failed to delete profile. Please try again.'}});
-        
+        navigate('/', { state: { error: 'Failed to delete profile. Please try again.' } });
+
       } else {
-        navigate('/',{state: {success: 'Profile deleted successfully!'}});
+        navigate('/', { state: { success: 'Profile deleted successfully!' } });
       }
     } catch (error) {
       console.error('Error:', error);
-      navigate('/', {state: {error: 'An error occurred. Please try again later.'}});
+      navigate('/', { state: { error: 'An error occurred. Please try again later.' } });
     }
   };
 
@@ -68,7 +72,6 @@ const ProfileEdit = () => {
       return;
     }
 
-
     sendToBackend(email, password);
   };
 
@@ -81,6 +84,7 @@ const ProfileEdit = () => {
   };
 
   const handleConfirmDeleteClick = () => {
+    console.log("delete has been called")
     deleteProfile();
   };
 
@@ -117,7 +121,7 @@ const ProfileEdit = () => {
         <button className='btn' type="submit">Save Changes</button>
       </form>
       {confirmingDelete ? (
-      <div>
+        <div>
           <button className='btn cancel-btn' onClick={handleCancelClick}>Cancel</button>
           <button className='btn confirm-delete-btn' onClick={handleConfirmDeleteClick}>Confirm Delete</button>
         </div>
@@ -125,10 +129,10 @@ const ProfileEdit = () => {
         <button className='btn delete-btn' onClick={handleDeleteClick}>Delete Profile</button>
       )}
     </div>
-      
+
   );
 
-  
+
 };
 
 export default ProfileEdit;

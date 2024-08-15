@@ -39,8 +39,9 @@ const Login = () => {
       if (!response.status.toString().startsWith('2')) {
         setError('Invalid email or password');
       } else {
-        login()
-        navigate('/landing');
+        const asJson = await response.json();
+        login(asJson.token);
+        navigate('/');
       }
 
     } catch (error) {
