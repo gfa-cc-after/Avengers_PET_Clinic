@@ -20,13 +20,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UpdateUserResponseDTO updateUser(String email, UpdateUserRequestDTO updateUserRequestDTO) {
         User existingUser = userRepository.findByEmail(email).orElse(null);
-//        check if User exists
+        // check if User exists
         if (existingUser == null) {
-            return new UpdateUserResponseDTO(updateUserRequestDTO.email(), "User not found");
+            throw new UsernameNotFoundException("User not found");
         }
-//        check if new email is not already used by another user
+        // check if new email is not already used by another user
         if (!existingUser.getEmail().equals(updateUserRequestDTO.email()) && userRepository.existsByEmail(updateUserRequestDTO.email())) {
-            return new UpdateUserResponseDTO(updateUserRequestDTO.email(), "The email already exist");
+            throw new IllegalArgumentException("The email already exist");
         }
 
         existingUser.setEmail(updateUserRequestDTO.email());
@@ -47,7 +47,6 @@ public class UserServiceImpl implements UserService {
         newUser.setEmail(registerUserRequestDTO.email());
         newUser.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
         userRepository.save(newUser);
-
         return new RegisterUserResponseDTO();
     }
 
@@ -58,21 +57,18 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-  public DeleteUserResponseDTO deleteUser(String email) {
+    public DeleteUserResponseDTO deleteUser(String email) {
         userRepository.deleteByEmail(email);
-        return DeleteUserResponseDTO.builder()
-                .response("User was successfully deleted")
-                .build();
+        return DeleteUserResponseDTO.builder().response("User was successfully deleted").build();
     }
 
-   @Override
-   public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO) {
-    User user = userRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(
-            () -> new UsernameNotFoundException("User not found")
-    );
-    if (passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
-        return new LoginUserResponseDTO();
+    @Override
+    public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO) {
+        User user = userRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        if (passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
+            return new LoginUserResponseDTO();
+        }
+        throw new RuntimeException("Password is not valid");
     }
-    throw new RuntimeException("Password is not valid");
-    }
+
 }
