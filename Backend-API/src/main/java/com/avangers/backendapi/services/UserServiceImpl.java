@@ -3,6 +3,7 @@ package com.avangers.backendapi.services;
 import com.avangers.backendapi.DTOs.*;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,7 +16,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
+    private final JwtTokenService jwtTokenService;
 
     @Override
     public UpdateUserResponseDTO updateUser(String email, UpdateUserRequestDTO updateUserRequestDTO) {
@@ -55,7 +56,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
     }
 
-
+    // Transactional annotation is used to make sure that the method is executed within a transaction
+    // Since the user is being deleted "during" it is logged in, we need to make sure that the operation is going thought
+    // otherwise we got an error with concurrency
+    // https://stackoverflow.com/questions/32269192/spring-no-entitymanager-with-actual-transaction-available-for-current-thread
+    @Transactional
     @Override
     public DeleteUserResponseDTO deleteUser(String email) {
         userRepository.deleteByEmail(email);
@@ -65,10 +70,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO) {
         User user = userRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        if (passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
-            return new LoginUserResponseDTO();
+        if (!passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Password is not valid");
         }
-        throw new RuntimeException("Password is not valid");
+        return new LoginUserResponseDTO(jwtTokenService.generateToken(user));
     }
 
 }

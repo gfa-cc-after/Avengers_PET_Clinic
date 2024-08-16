@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import "./ProfileEdit.css";
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext';
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
 
 const ProfileEdit = () => {
+  const { token } = useAuth();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
+  const navigate = useNavigate();
 
 
   const sendToBackend = async (email: string, password: string) => {
@@ -17,6 +22,7 @@ const ProfileEdit = () => {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify({ email, password }),
       });
@@ -33,6 +39,29 @@ const ProfileEdit = () => {
     }
   };
 
+  const deleteProfile = async () => {
+    try {
+      console.log("asdasdasdasdasdasd");
+      const response = await fetch(`${backendUrl}/delete`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+      });
+
+      if (!response.status.toString().startsWith('2')) {
+        navigate('/', { state: { error: 'Failed to delete profile. Please try again.' } });
+
+      } else {
+        navigate('/', { state: { success: 'Profile deleted successfully!' } });
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      navigate('/', { state: { error: 'An error occurred. Please try again later.' } });
+    }
+  };
+
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -44,8 +73,20 @@ const ProfileEdit = () => {
       return;
     }
 
-
     sendToBackend(email, password);
+  };
+
+  const handleDeleteClick = () => {
+    setConfirmingDelete(true);
+  };
+
+  const handleCancelClick = () => {
+    setConfirmingDelete(false);
+  };
+
+  const handleConfirmDeleteClick = () => {
+    console.log("delete has been called")
+    deleteProfile();
   };
 
   return (
@@ -78,11 +119,21 @@ const ProfileEdit = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-
         <button className='btn' type="submit">Save Changes</button>
       </form>
+      {confirmingDelete ? (
+        <div>
+          <button className='btn cancel-btn' onClick={handleCancelClick}>Cancel</button>
+          <button className='btn confirm-delete-btn' onClick={handleConfirmDeleteClick}>Confirm Delete</button>
+        </div>
+      ) : (
+        <button className='btn delete-btn' onClick={handleDeleteClick}>Delete Profile</button>
+      )}
     </div>
+
   );
+
+
 };
 
 export default ProfileEdit;

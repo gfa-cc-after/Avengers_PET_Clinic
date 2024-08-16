@@ -10,16 +10,8 @@ spring:
 cors:
   urls: ${CORS_URLS:http://localhost:3000,http://localhost:5173}
 
-security:
-  oauth2:
-    resourceserver:
-      jwt:
-        secret: secretest_keysecretest_keysecretest_keysecretest_keysecretest_keysecretest_key #do I need some enviroment variables here ?
-        token:
-          validity: 3600000  # 1 hour in milliseconds
-        jws-algorithms: RS512
-        jwk-set-uri: https://idp.example.org/.well-known/jwks.json
-
+jwt:
+  validity: 3600000  # 1 hour in milliseconds
 
 springdoc:
   api-docs:
@@ -27,4 +19,3 @@ springdoc:
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
-
