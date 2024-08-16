@@ -21,13 +21,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public UpdateUserResponseDTO updateUser(String email, UpdateUserRequestDTO updateUserRequestDTO) {
         User existingUser = userRepository.findByEmail(email).orElse(null);
-//        check if User exists
+        // check if User exists
         if (existingUser == null) {
-            return new UpdateUserResponseDTO(updateUserRequestDTO.email(), "User not found");
+            throw new UsernameNotFoundException("User not found");
         }
-//        check if new email is not already used by another user
+        // check if new email is not already used by another user
         if (!existingUser.getEmail().equals(updateUserRequestDTO.email()) && userRepository.existsByEmail(updateUserRequestDTO.email())) {
-            return new UpdateUserResponseDTO(updateUserRequestDTO.email(), "The email already exist");
+            throw new IllegalArgumentException("The email already exist");
         }
 
         existingUser.setEmail(updateUserRequestDTO.email());
@@ -48,7 +48,6 @@ public class UserServiceImpl implements UserService {
         newUser.setEmail(registerUserRequestDTO.email());
         newUser.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
         userRepository.save(newUser);
-
         return new RegisterUserResponseDTO();
     }
 
@@ -71,5 +70,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Password is not valid");
         }
         return new LoginUserResponseDTO(jwtTokenService.generateToken(user));
+
     }
+
 }
