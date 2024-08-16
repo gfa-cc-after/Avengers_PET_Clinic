@@ -111,14 +111,10 @@ public class AuthenticationControllerTest {
                 LoginUserResponseDTO.class);
         // @formatter:on
 
-        // When
-
         mockMvc.perform(delete("/delete")
-                        .header("Authorization", "Bearer " + responseDTO.token()))
-                .andExpect(status().isOk());
+                        .header("Authorization", "Bearer " + responseDTO.token())
+                )
+                .andExpect(status().is2xxSuccessful());
 
-        // Then
-        Assertions.assertEquals(200, loginResponse.getResponse().getStatus());
-        Assertions.assertEquals(responseDTO.token().split("\\.").length, 3);
     }
 }

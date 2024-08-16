@@ -3,6 +3,7 @@ package com.avangers.backendapi.services;
 import com.avangers.backendapi.DTOs.*;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,15 +18,14 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenService jwtTokenService;
 
-
     @Override
     public UpdateUserResponseDTO updateUser(String email, UpdateUserRequestDTO updateUserRequestDTO) {
         User existingUser = userRepository.findByEmail(email).orElse(null);
-//        check if User exists
+        // check if User exists
         if (existingUser == null) {
             return new UpdateUserResponseDTO(updateUserRequestDTO.email(), "User not found");
         }
-//        check if new email is not already used by another user
+        // check if new email is not already used by another user
         if (!existingUser.getEmail().equals(updateUserRequestDTO.email()) && userRepository.existsByEmail(updateUserRequestDTO.email())) {
             return new UpdateUserResponseDTO(updateUserRequestDTO.email(), "The email already exist");
         }
@@ -57,7 +57,11 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
     }
 
-
+    // Transactional annotation is used to make sure that the method is executed within a transaction
+    // Since the user is being deleted "during" it is logged in, we need to make sure that the operation is going thought
+    // otherwise we got an error with concurrency
+    // https://stackoverflow.com/questions/32269192/spring-no-entitymanager-with-actual-transaction-available-for-current-thread
+    @Transactional
     @Override
     public DeleteUserResponseDTO deleteUser(String email) {
         userRepository.deleteByEmail(email);
