@@ -12,11 +12,13 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.ArgumentMatchers.endsWith;
 import static org.mockito.Mockito.when;
@@ -39,11 +41,11 @@ public class UserServiceImplTest {
     @DisplayName("Should return 'User not found' if user does not exist")
     @Test
     void shouldReturnUserNotFound() {
-        when(userRepository.findById(1L)).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
 
-        UpdateUserResponseDTO result = userServiceImpl.updateUser( "old@asdad.cy",new UpdateUserRequestDTO("newemail@email.com", "NewPassword123"));
-
-        assertEquals("User not found", result.message());
+        assertThrows(UsernameNotFoundException.class, () -> {
+            userServiceImpl.updateUser("old@asdad.cy", new UpdateUserRequestDTO("newemail@email.com", "NewPassword123"));
+        });
     }
 
     @DisplayName("Should return 'Update was successful' if email is changed")
