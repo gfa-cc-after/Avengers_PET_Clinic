@@ -1,7 +1,6 @@
 package com.avangers.backendapi.controllers;
 
 import com.avangers.backendapi.DTOs.*;
-import com.avangers.backendapi.DTOs.LoginUserResponseDTO;
 import com.avangers.backendapi.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,10 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-
 import java.security.Principal;
-
-
+import java.security.Principal;
 import java.util.HashMap;
 
 @RestController

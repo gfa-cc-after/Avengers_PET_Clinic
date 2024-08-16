@@ -4,7 +4,7 @@ package com.avangers.backendapi.controllers;
 import com.avangers.backendapi.DTOs.DeleteUserResponseDTO;
 import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
 import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
-import com.avangers.backendapi.config.ApplicationConfig;
+import com.avangers.backendapi.config.SecurityConfig;
 import com.avangers.backendapi.services.UserServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,7 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@Import(ApplicationConfig.class)
+@Import(SecurityConfig.class)
 class UserControllerTest {
 
     @MockBean
