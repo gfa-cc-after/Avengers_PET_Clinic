@@ -74,6 +74,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Password is not valid");
         }
         return new LoginUserResponseDTO(jwtTokenService.generateToken(user));
+
     }
 
 }
