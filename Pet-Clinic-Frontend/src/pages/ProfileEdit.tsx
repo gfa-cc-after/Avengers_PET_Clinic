@@ -3,7 +3,7 @@ import "./ProfileEdit.css";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './AuthContext';
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8080';
+const backendUrl = import.meta.env.VITE_BACKEND_URL;
 
 const ProfileEdit = () => {
   const { token } = useAuth();
