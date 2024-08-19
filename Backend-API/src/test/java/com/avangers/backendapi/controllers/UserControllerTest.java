@@ -73,18 +73,17 @@ class UserControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @DisplayName("Should return 200 if user was successfully deleted")
+    @Test
+    @WithMockUser
+    void shouldDeleteUserAndReturn200() throws Exception {
 
-  @DisplayName("Should return 200 if user was successfully deleted")
-  @Test
-  @WithMockUser
-  void shouldDeleteUserAndReturn200() throws Exception {
+        String username = "test@email.com";
 
-    String username = "test@email.com";
-
-    when(userServiceImpl.deleteUser("test@email.com")).thenReturn(
-            new DeleteUserResponseDTO("user@email.com")
-    );
-    mockMvc.perform(delete("/delete", username))
-            .andExpect(status().is(200));
-  }
+        when(userServiceImpl.deleteUser("test@email.com")).thenReturn(
+                new DeleteUserResponseDTO("user@email.com")
+        );
+        mockMvc.perform(delete("/delete", username))
+                .andExpect(status().is(200));
+    }
 }

@@ -130,8 +130,23 @@ public class AuthenticationControllerTest {
                 )
                 .andExpectAll(
                         status().is4xxClientError(),
-                        jsonPath("$.error", org.hamcrest.Matchers.is("password should contain at least one uppercase and one lowercase letter"))
+                        jsonPath("$.errors", org.hamcrest.Matchers.hasSize(3))
                 );
+    }
 
+    @Test
+    @DisplayName("If user want to register with an one character as  password it should return with 2 errors about short password")
+    public void shouldReturnErrorMessagesAndStatusCodeWhenRegisteredWithOneCharacterPassword() throws Exception {
+
+        RegisterUserRequestDTO registerUserRequestDTO = new RegisterUserRequestDTO("john.doe@gmail.com", "p");
+        String httpBody = objectMapper.writeValueAsString(registerUserRequestDTO);
+        mockMvc.perform(post("/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(httpBody)
+                )
+                .andExpectAll(
+                        status().is4xxClientError(),
+                        jsonPath("$.errors", org.hamcrest.Matchers.hasSize(2))
+                );
     }
 }
