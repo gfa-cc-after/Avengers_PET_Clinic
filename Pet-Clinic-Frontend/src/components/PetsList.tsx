@@ -1,7 +1,11 @@
-import Pet from "./Pet";
+type Pet = {
+  id: number;
+  name: string;
+  type: string;
+};
 
-export const Pets = () => {
-  const pets = [
+export const PetsList = () => {
+  const pets: Pet[] = [
     {
       id: 1,
       name: "eddie",
@@ -26,11 +30,17 @@ export const Pets = () => {
 
   return (
     <div>
-      <ul>
+      <hr />
+      <h2> Pets list</h2>
+      <div>
         {pets.map((pet) => (
-          <Pet key={pet.id} name={pet.name} type={pet.type} />
+          <div key={pet.id}>
+            <div>
+              {pet.name} {pet.type}
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 };

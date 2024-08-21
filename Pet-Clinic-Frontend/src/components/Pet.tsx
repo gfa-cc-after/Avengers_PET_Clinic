@@ -1,11 +1,16 @@
-function Pet({ name, type }) {
-  return (
-    <>
-      <li>
-        name: {name} type: {type}
-      </li>
-    </>
-  );
-}
+import React from "react";
 
-export default Pet;
+export const Pet = () => {
+  type Pet = {
+    id: number;
+    name: string;
+    type: string;
+  };
+  return (
+    <div key={id}>
+      <div>
+        {name} {type}
+      </div>
+    </div>
+  );
+};
