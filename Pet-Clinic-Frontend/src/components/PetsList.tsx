@@ -1,3 +1,7 @@
+import { useEffect, useState } from "react";
+
+const BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 type Pet = {
   id: number;
   name: string;
@@ -5,42 +9,31 @@ type Pet = {
 };
 
 export const PetsList = () => {
-  const pets: Pet[] = [
-    {
-      id: 1,
-      name: "eddie",
-      type: "dog",
-    },
-    {
-      id: 2,
-      name: "brownie",
-      type: "cat",
-    },
-    {
-      id: 3,
-      name: "chark",
-      type: "parrot",
-    },
-    {
-      id: 4,
-      name: "colly",
-      type: "shark",
-    },
-  ];
+  const [pets, setPets] = useState<Pet[]>([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const response = await fetch(`${BASE_URL}/pets`);
+      const pets = (await response.json()) as Pet[];
+      setPets(pets);
+    };
+
+    fetchPosts();
+  });
 
   return (
-    <div>
+    <>
       <hr />
       <h2> Pets list</h2>
-      <div>
-        {pets.map((pet) => (
-          <div key={pet.id}>
-            <div>
+      <ul>
+        {pets.map((pet) => {
+          return (
+            <li key={pet.id}>
               {pet.name} {pet.type}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+            </li>
+          );
+        })}
+      </ul>
+    </>
   );
 };
