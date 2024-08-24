@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 
 public class FindUserResponseDTO {
-    private Long id;
+    private Integer id;
     private String email;
 }
