@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.security.Principal;
 import java.security.Principal;
 import java.util.HashMap;
 
@@ -29,7 +31,6 @@ public class UserController {
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @PutMapping("/api/users")
     public ResponseEntity<?> updateUser(Principal principal, @Valid @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
