@@ -22,6 +22,10 @@ export const PetsList = () => {
     fetchPosts();
   });
 
+  const handleClick = () => {
+    console.log("this is:", this);
+  };
+
   return (
     <>
       <ul>
@@ -29,6 +33,9 @@ export const PetsList = () => {
           return <Pet {...pet} />;
         })}
       </ul>
+      <button className="btn" onClick={handleClick}>
+        Add new pet
+      </button>
     </>
   );
 };

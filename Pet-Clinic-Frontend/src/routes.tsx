@@ -26,5 +26,10 @@ export const routes: PrivateRouter[] = [
     requiresAuth: true,
     element: <ProfileEdit />,
   },
-  { text: "Pets", path: "/pets", requiresAuth: true, element: <PetsList /> },
+  {
+    text: "Pets",
+    path: "/pets",
+    requiresAuth: true,
+    element: <PetsList />,
+  },
 ];
