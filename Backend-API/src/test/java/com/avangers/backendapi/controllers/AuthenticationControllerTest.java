@@ -3,6 +3,7 @@ package com.avangers.backendapi.controllers;
 
 import com.avangers.backendapi.DTOs.LoginUserRequestDTO;
 import com.avangers.backendapi.DTOs.LoginUserResponseDTO;
+import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -22,12 +23,11 @@ import org.springframework.test.web.servlet.MvcResult;
 
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -115,6 +115,23 @@ public class AuthenticationControllerTest {
                         .header("Authorization", "Bearer " + responseDTO.token())
                 )
                 .andExpect(status().is2xxSuccessful());
+
+    }
+
+    @Test
+    @DisplayName("If user want to register with an empty password it should return with an error about short password")
+    public void shouldReturnErrorMessageAndStatusCodeWhenRegisteredWithEmptyPassword() throws Exception {
+
+        RegisterUserRequestDTO registerUserRequestDTO = new RegisterUserRequestDTO("john.doe@gmail.com", "");
+        String httpBody = objectMapper.writeValueAsString(registerUserRequestDTO);
+        mockMvc.perform(post("/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(httpBody)
+                )
+                .andExpectAll(
+                        status().is4xxClientError(),
+                        jsonPath("$.error", org.hamcrest.Matchers.is("password should contain at least one uppercase and one lowercase letter"))
+                );
 
     }
 }

@@ -17,7 +17,6 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 public class UserController {
 
-
     private final UserService userService;
 
     @PostMapping("/register")
