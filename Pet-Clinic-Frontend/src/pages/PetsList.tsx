@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Pet } from "../components/Pet";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -13,7 +14,7 @@ export const PetsList = () => {
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch(`${BASE_URL}/pets`);
+      const response = await fetch(`${BASE_URL}/api/pets/my-pets`);
       const pets = (await response.json()) as Pet[];
       setPets(pets);
     };
@@ -23,15 +24,9 @@ export const PetsList = () => {
 
   return (
     <>
-      <hr />
-      <h2> Pets list</h2>
       <ul>
         {pets.map((pet) => {
-          return (
-            <li key={pet.id}>
-              {pet.name} {pet.type}
-            </li>
-          );
+          return <Pet {...pet} />;
         })}
       </ul>
     </>
