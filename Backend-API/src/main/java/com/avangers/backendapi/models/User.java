@@ -6,6 +6,7 @@ import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -28,6 +29,21 @@ public class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    // orphanRemoval removes Pet from DB also once it is removed from List
+    private List<Pet> pets = new ArrayList<>();
+
+    //Adds Pet to User
+    public void addPet(Pet pet) {
+        pets.add(pet);
+        pet.setOwner(this);
+    }
+
+    // Remove Pet from User
+    public void removePet(Pet pet) {
+        pets.remove(pet);
+        pet.setOwner(null);
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
