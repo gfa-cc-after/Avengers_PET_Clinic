@@ -3,7 +3,7 @@ import Registration from "./pages/Registration";
 import Login from "./pages/Login";
 import ProfileEdit from "./pages/ProfileEdit";
 import { RouteObject } from "react-router-dom";
-import { PetsList } from "./pages/PetsList";
+import { Pets } from "./pages/Pets";
 
 type PrivateRouter = RouteObject & {
   requiresAuth: boolean;
@@ -30,6 +30,6 @@ export const routes: PrivateRouter[] = [
     text: "Pets",
     path: "/pets",
     requiresAuth: true,
-    element: <PetsList />,
+    element: <Pets />,
   },
 ];

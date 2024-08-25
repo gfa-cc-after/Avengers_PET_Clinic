@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Pet } from "../components/Pet";
+import { Pet } from "./Pet";
 
 const BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -22,10 +22,6 @@ export const PetsList = () => {
     fetchPosts();
   });
 
-  const handleClick = () => {
-    console.log("this is:", this);
-  };
-
   return (
     <>
       <ul>
@@ -33,9 +29,6 @@ export const PetsList = () => {
           return <Pet {...pet} />;
         })}
       </ul>
-      <button className="btn" onClick={handleClick}>
-        Add new pet
-      </button>
     </>
   );
 };
