@@ -1,12 +1,6 @@
 package com.avangers.backendapi.services;
 
-import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
-import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
-import com.avangers.backendapi.DTOs.LoginUserRequestDTO;
-import com.avangers.backendapi.DTOs.LoginUserResponseDTO;
-import com.avangers.backendapi.DTOs.DeleteUserResponseDTO;
-import com.avangers.backendapi.DTOs.UpdateUserRequestDTO;
-import com.avangers.backendapi.DTOs.UpdateUserResponseDTO;
+import com.avangers.backendapi.DTOs.*;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
@@ -18,4 +12,5 @@ public interface UserService extends UserDetailsService {
 
     LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO);
 
+    FindUserResponseDTO findUserByEmail(String email);
 }
