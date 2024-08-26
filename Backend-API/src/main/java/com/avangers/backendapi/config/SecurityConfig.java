@@ -35,6 +35,7 @@ public class SecurityConfig {
     private final JwtConfiguration jwtConfiguration;
     private final CorsConfiguration corsConfiguration;
 
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         // @formatter:off

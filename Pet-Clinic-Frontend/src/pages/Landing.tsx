@@ -1,11 +1,10 @@
-import './Landing.css';
+import "./Landing.css";
 import clinicImage from "../images/petclinic.png";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const Landing = () => {
   const location = useLocation();
   const error = location.state?.error;
-  
 
   return (
     <>
