@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { register, RegisterRequest } from '../httpClient';
 import './Registration.css';
 
 const Registration = () => {
@@ -40,12 +41,8 @@ const Registration = () => {
         return emailPattern.test(email);
     };
 
-    //const checkEmailExists = (email: string) => {
-    //  API call. Not implemented in the backEnd yet.
 
-    //}
-
-    const sendToBackend = async (email: string, password: string) => {
+/*     const sendToBackend = async (email: string, password: string) => {
         try {
             const response = await fetch('http://localhost:8080/register', {
                 method: 'POST',
@@ -63,10 +60,10 @@ const Registration = () => {
             setSubmitted(false);
             setError('Registration failed. Please try again.');
         }
-    }
+    } */
 
 
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError(null);
 
@@ -74,16 +71,20 @@ const Registration = () => {
             return;
         }
 
-        /*         if (checkEmailExists(email)) {
-                    setError("Email already exists");
-                    return;
-                } not checkEmailExists implemented yet*/
+        try {
+     
+            const registerData: RegisterRequest = { email, password };
+            
+            const response = await register(registerData);
 
-        // If all validations pass
-        // setSubmitted(true);
-        sendToBackend(email, password);
-        setEmail("");
-        setPassword("");
+            console.log("User registered with ID:", response.id);
+            setSubmitted(true);
+            setEmail("");
+            setPassword("");
+        } catch (error) {
+            setSubmitted(false);
+            setError("Registration failed. Please try again.");
+        }
     }
 
     return (
