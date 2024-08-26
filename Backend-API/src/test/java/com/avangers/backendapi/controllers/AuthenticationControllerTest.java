@@ -20,9 +20,12 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.Optional;
+import java.util.regex.Matcher;
 
+import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -130,8 +133,10 @@ public class AuthenticationControllerTest {
                 )
                 .andExpectAll(
                         status().is4xxClientError(),
-                        jsonPath("$.error", org.hamcrest.Matchers.is("password should contain at least one uppercase and one lowercase letter"))
+                        jsonPath("$.errors").value(containsInAnyOrder(
+                        "password should have at least 6 characters",
+                                "password is required",
+                                "password should contain at least one uppercase and one lowercase letter"))
                 );
-
     }
 }
