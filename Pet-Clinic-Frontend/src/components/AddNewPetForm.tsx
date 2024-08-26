@@ -1,6 +1,10 @@
 import { useState } from "react";
 
-export const AddNewPetForm = ({ setShowForm }) => {
+type Props = {
+  setShowForm: (value: boolean) => void;
+};
+
+export const AddNewPetForm = ({ setShowForm }: Props) => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
 
