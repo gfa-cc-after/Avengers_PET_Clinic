@@ -19,3 +19,4 @@ springdoc:
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
+  enable-spring-security: true
