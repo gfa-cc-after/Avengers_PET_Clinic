@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-@Entity
+@MappedSuperclass
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-@Builder
-@Table(name = "users")
+//@Builder
+//@Table(name = "users")
 public class User implements UserDetails {
 
     @Id
