@@ -2,22 +2,29 @@ package com.avangers.backendapi.EmailService;
 
 import jakarta.mail.*;
 import jakarta.mail.internet.*;
-
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import java.util.Properties;
 
 public class EmailService {
 
-    private final String username = "your-email@gmail.com";  // to be replaced with environment variable or config
-    private final String password = "your-email-password";   // to be replaced with environment variable or config
+    private final String username = "your-email@gmail.com"; // should be replaced with environment variable or config
+    private final String password = "your-email-password"; // should be replaced with environment variable or config
 
-    private Session createSession() {
+    private Session createSession(boolean useSSL) {
         Properties props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
 
-        // Authenticator import
+        if (useSSL) {
+            props.put("mail.smtp.port", "465");
+            props.put("mail.smtp.socketFactory.port", "465");
+            props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        } else {
+            props.put("mail.smtp.port", "587");
+        }
+
         return Session.getInstance(props, new jakarta.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
@@ -26,13 +33,21 @@ public class EmailService {
         });
     }
 
-    public void sendEmail(String to, String subject, String body) {
+    public void sendPlainTextEmail(String to, String subject, String body) {
+        sendEmail(to, subject, body, "text/plain", false);
+    }
+
+    public void sendHtmlEmail(String to, String subject, String htmlContent) {
+        sendEmail(to, subject, htmlContent, "text/html", false);
+    }
+
+    private void sendEmail(String to, String subject, String content, String contentType, boolean useSSL) {
         try {
-            Message message = new MimeMessage(createSession());
+            Message message = new MimeMessage(createSession(useSSL));
             message.setFrom(new InternetAddress(username));
             message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(to));
             message.setSubject(subject);
-            message.setText(body);
+            message.setContent(content, contentType);
 
             Transport.send(message);
             System.out.println("Email sent successfully!");
