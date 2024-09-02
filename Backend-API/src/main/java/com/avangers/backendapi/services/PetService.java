@@ -11,6 +11,6 @@ import java.util.Optional;
 public interface PetService {
     List<Pet> getPetsByOwnerId(Long ownerId);
 
-    AddPetResponseDTO addPet(AddPetRequestDTO addPetRequestDTO, Principal principal);
+    AddPetResponseDTO addPet(AddPetRequestDTO addPetRequestDTO, String email);
 
 }

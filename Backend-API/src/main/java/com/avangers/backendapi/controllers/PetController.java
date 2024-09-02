@@ -4,7 +4,6 @@ import com.avangers.backendapi.DTOs.AddPetRequestDTO;
 import com.avangers.backendapi.DTOs.AddPetResponseDTO;
 import com.avangers.backendapi.DTOs.FindUserResponseDTO;
 import com.avangers.backendapi.models.Pet;
-import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.services.PetService;
 import com.avangers.backendapi.services.UserService;
 import jakarta.validation.Valid;
@@ -16,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
 import java.util.List;
 
 @RestController
@@ -35,8 +35,15 @@ public class PetController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<AddPetResponseDTO> addPet(@Valid @RequestBody AddPetRequestDTO addPetRequestDTO, Principal principal) {
- return new ResponseEntity<>(petService.addPet(addPetRequestDTO, principal ), HttpStatus.OK);
+    public ResponseEntity<?> addPet(Principal principal, @Valid @RequestBody AddPetRequestDTO addPetRequestDTO) {
+        try {
+            AddPetResponseDTO responseAddPet = petService.addPet(addPetRequestDTO, principal.getName());
+            return new ResponseEntity<>(responseAddPet, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            HashMap<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        }
     }
 
 }

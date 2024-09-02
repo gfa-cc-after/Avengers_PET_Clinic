@@ -10,9 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,10 +25,10 @@ public class PetServiceImpl implements PetService {
     }
 
     @Override
-    public AddPetResponseDTO addPet(AddPetRequestDTO addPetRequestDTO, Principal principal) {
+    public AddPetResponseDTO addPet(AddPetRequestDTO addPetRequestDTO, String email) {
 
         //check if the user exists
-        User petOwner = userRepository.findByEmail(principal.getName()).orElseThrow(
+        User petOwner = userRepository.findByEmail(email).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
         );
 
@@ -41,8 +39,9 @@ public class PetServiceImpl implements PetService {
         Pet newPet = new Pet();
         newPet.setName(addPetRequestDTO.name());
         newPet.setType(addPetRequestDTO.type());
+        newPet.setOwner(petOwner);
 
-        petOwner.addPet(newPet);
+        petRepository.save(newPet);
 
         return new AddPetResponseDTO();
     }
