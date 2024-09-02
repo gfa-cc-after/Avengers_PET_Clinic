@@ -26,6 +26,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
     "jsdom": "^25.0.0",
+    "msw": "^2.4.1",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }
