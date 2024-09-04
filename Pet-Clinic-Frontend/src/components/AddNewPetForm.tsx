@@ -13,7 +13,7 @@ export const AddNewPetForm = ({ setShowForm }: Props) => {
   const [type, setType] = useState("");
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
-  const { login } = useAuth();
+  const { token } = useAuth();
 
   const validateForm = () => {
     if (!name || !type) {
@@ -28,14 +28,13 @@ export const AddNewPetForm = ({ setShowForm }: Props) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ name, type }),
       });
       if (!response.status.toString().startsWith("2")) {
         setError("Invalid name or type");
       } else {
-        const asJson = await response.json();
-        login(asJson.token);
         navigate("/pets");
       }
     } catch (error) {
