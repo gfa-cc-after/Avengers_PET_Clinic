@@ -26,7 +26,7 @@ export const PetsList = () => {
     };
 
     fetchPosts();
-  });
+  }, [token, setPets, pets]);
 
   return (
     <>
