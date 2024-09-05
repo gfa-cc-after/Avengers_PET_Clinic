@@ -13,13 +13,15 @@ export const Pets = () => {
     <div>
       {renderForm ? (
         <div>
-          <PetsList />
           <AddNewPetForm setShowForm={setShowForm} />
         </div>
       ) : (
-        <button className="btn" onClick={showForm}>
-          Add new pet
-        </button>
+        <div>
+          <PetsList />
+          <button className="btn" onClick={showForm}>
+            Add new pet
+          </button>
+        </div>
       )}
     </div>
   );
