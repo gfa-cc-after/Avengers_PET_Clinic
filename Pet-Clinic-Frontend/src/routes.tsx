@@ -1,15 +1,15 @@
-import Landing from "./pages/Landing";
-import Registration from "./pages/Registration";
-import Login from "./pages/Login";
-import ProfileEdit from "./pages/ProfileEdit";
-import { RouteObject } from "react-router-dom";
-import { Pets } from "./pages/Pets";
+import type { RouteObject } from "react-router-dom"
+import Landing from "./pages/Landing"
+import Login from "./pages/Login"
+import { Pets } from "./pages/Pets"
+import ProfileEdit from "./pages/ProfileEdit"
+import Registration from "./pages/Registration"
 
 type PrivateRouter = RouteObject & {
-  requiresAuth: boolean;
-  text: string;
-  path: string;
-};
+  requiresAuth: boolean
+  text: string
+  path: string
+}
 
 export const routes: PrivateRouter[] = [
   { text: "Landing", path: "/", requiresAuth: false, element: <Landing /> },
@@ -32,4 +32,4 @@ export const routes: PrivateRouter[] = [
     requiresAuth: true,
     element: <Pets />,
   },
-];
+]

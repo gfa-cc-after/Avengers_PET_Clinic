@@ -1,18 +1,18 @@
-import { useState } from "react";
+import { useState } from "react"
 
 type Props = {
-  setShowForm: (value: boolean) => void;
-};
+  setShowForm: (value: boolean) => void
+}
 
 export const AddNewPetForm = ({ setShowForm }: Props) => {
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
+  const [name, setName] = useState("")
+  const [type, setType] = useState("")
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("send to backend");
-    setShowForm(false);
-  };
+    event.preventDefault()
+    console.log("send to backend")
+    setShowForm(false)
+  }
 
   return (
     <>
@@ -39,5 +39,5 @@ export const AddNewPetForm = ({ setShowForm }: Props) => {
         </button>
       </form>
     </>
-  );
-};
+  )
+}
