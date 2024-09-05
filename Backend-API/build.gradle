@@ -47,6 +47,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'com.sun.mail:javax.mail:1.6.2'
     implementation 'jakarta.mail:jakarta.mail-api:2.0.1'
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 tasks.named('test') {
