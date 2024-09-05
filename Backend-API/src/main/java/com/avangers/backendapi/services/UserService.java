@@ -1,6 +1,7 @@
 package com.avangers.backendapi.services;
 
 import com.avangers.backendapi.DTOs.*;
+import com.avangers.backendapi.models.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface UserService extends UserDetailsService {
@@ -13,4 +14,8 @@ public interface UserService extends UserDetailsService {
     LoginUserResponseDTO loginUser(LoginUserRequestDTO loginUserRequestDTO);
 
     FindUserResponseDTO findUserByEmail(String email);
+
+    User findById(Long id); // To find a full User entity by its ID
+
+    void saveUser(User user); // To save or update the User entity
 }
