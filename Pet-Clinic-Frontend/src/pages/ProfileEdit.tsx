@@ -131,10 +131,15 @@ const ProfileEdit = () => {
       </form>
       {confirmingDelete ? (
         <div>
-          <button className="btn cancel-btn" onClick={handleCancelClick}>
+          <button
+            type="button"
+            className="btn cancel-btn"
+            onClick={handleCancelClick}
+          >
             Cancel
           </button>
           <button
+            type="button"
             className="btn confirm-delete-btn"
             onClick={handleConfirmDeleteClick}
           >
@@ -142,7 +147,11 @@ const ProfileEdit = () => {
           </button>
         </div>
       ) : (
-        <button className="btn delete-btn" onClick={handleDeleteClick}>
+        <button
+          type="button"
+          className="btn delete-btn"
+          onClick={handleDeleteClick}
+        >
           Delete Profile
         </button>
       )}

@@ -17,7 +17,7 @@ export const Pets = () => {
           <AddNewPetForm setShowForm={setShowForm} />
         </div>
       ) : (
-        <button className="btn" onClick={showForm}>
+        <button type="button" className="btn" onClick={showForm}>
           Add new pet
         </button>
       )}

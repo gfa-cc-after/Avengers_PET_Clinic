@@ -28,6 +28,7 @@ const router = createBrowserRouter([
   },
 ])
 
+// biome-ignore lint: entry point of the application
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
