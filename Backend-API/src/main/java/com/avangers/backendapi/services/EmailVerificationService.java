@@ -1,8 +1,11 @@
 package com.avangers.backendapi.services;
 
 import com.avangers.backendapi.models.EmailVerification;
+import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.EmailVerificationRepository;
+import com.avangers.backendapi.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -11,10 +14,12 @@ import java.util.Optional;
 public class EmailVerificationService {
 
     private final EmailVerificationRepository emailVerificationRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public EmailVerificationService(EmailVerificationRepository emailVerificationRepository) {
+    public EmailVerificationService(EmailVerificationRepository emailVerificationRepository, UserRepository userRepository) {
         this.emailVerificationRepository = emailVerificationRepository;
+        this.userRepository = userRepository;
     }
 
     //Generates a verification ID for an email
@@ -44,5 +49,13 @@ public class EmailVerificationService {
             return emailVerification.get().getEmail();
         }
         return null;
+    }
+    // Verifies the user by their email
+    public void verifyUserByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        user.setVerified(true);
+        userRepository.save(user); // Save the updated user entity
     }
 }

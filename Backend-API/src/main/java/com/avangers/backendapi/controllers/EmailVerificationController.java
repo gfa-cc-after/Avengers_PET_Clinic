@@ -1,7 +1,6 @@
 package com.avangers.backendapi.controllers;
 
 import com.avangers.backendapi.DTOs.FindUserResponseDTO;
-import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.services.EmailVerificationService;
 import com.avangers.backendapi.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,29 +24,28 @@ public class EmailVerificationController {
     @GetMapping("/verify/email")
     public ResponseEntity<String> verifyEmail(@RequestParam String id) {
         try {
+            // Decode the verification ID
+            String decodedId = new String(Base64.getDecoder().decode(id.getBytes()));
+            String email = emailVerificationService.getEmailForVerificationId(decodedId);
 
-
-            byte[] actualId = Base64.getDecoder().decode(id.getBytes());
-            String email = emailVerificationService.getEmailForVerificationId(new String(actualId));
-
-            if (email != null) {
-                FindUserResponseDTO findUserResponseDTO = userService.findUserByEmail(email);
-                if (findUserResponseDTO != null) {
-                    User user = userService.findById(findUserResponseDTO.getId());
-                    if (user != null) {
-                        user.setVerified(true);
-                        userService.saveUser(user);
-                        return ResponseEntity.status(HttpStatus.OK).body("Email verification successful. Please log in.");
-                }
+            if (email == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification ID.");
             }
-        }
-    } catch (IllegalArgumentException e) {
+
+            // Find the user by email and get the user DTO
+            FindUserResponseDTO userDto = userService.findUserByEmail(email);
+            if (userDto == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("User not found.");
+            }
+
+            // Verify the user by email
+            emailVerificationService.verifyUserByEmail(userDto.getEmail());
+
+            return ResponseEntity.status(HttpStatus.OK).body("Email verification successful. Please log in.");
+        } catch (IllegalArgumentException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid ID format.");
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during verification.");
         }
-
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email verification failed. Invalid ID.");
     }
 }
-
