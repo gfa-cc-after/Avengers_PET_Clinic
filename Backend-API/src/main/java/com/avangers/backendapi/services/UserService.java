@@ -15,5 +15,5 @@ public interface UserService extends UserDetailsService {
 
     FindUserResponseDTO findUserByEmail(String email);
 
-    User findById(Long id); // To find a full User entity by its ID
+    FindUserResponseDTO findUserById(Long id);
 }

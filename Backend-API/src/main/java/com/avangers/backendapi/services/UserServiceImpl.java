@@ -84,8 +84,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findById(Long id) {
-        return userRepository.findById(id)
+    public FindUserResponseDTO findUserById(Long id) {
+        User user = userRepository.findById(id)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found with ID: " + id));
+        return new FindUserResponseDTO(user.getId(), user.getEmail());
     }
 }
