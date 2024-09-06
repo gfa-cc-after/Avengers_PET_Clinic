@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @CrossOrigin("http://localhost:5173/")
@@ -26,16 +27,30 @@ public class UserController {
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         try {
+            // Register the new user using the service
             RegisterUserResponseDTO response = userService.addUser(registerUserRequestDTO);
-            User newUser = (User) userService.loadUserByUsername(registerUserRequestDTO.email());
+
+            // Fetch the newly created user using a method that directly returns a User or User DTO
+            FindUserResponseDTO newUserDto = userService.findUserByEmail(registerUserRequestDTO.email());
+
+            // Publish the user registration event
+            User newUser = new User();
+            newUser.setId(newUserDto.getId());
+            newUser.setEmail(newUserDto.getEmail());
             eventPublisher.publishEvent(new UserRegistrationEvent(newUser));
+
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            HashMap<String, String> error = new HashMap<>();
+            // Handle validation errors
+            Map<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            // Handle unexpected errors
+            return new ResponseEntity<>("An unexpected error occurred. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
 
     @PutMapping("/api/users")
     public ResponseEntity<?> updateUser(Principal principal, @Valid @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
