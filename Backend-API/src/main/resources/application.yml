@@ -2,7 +2,7 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: avengers.petclinic@gmail.com
+    username: petclinic.avengers@gmail.com
     password:
     properties:
       mail:
