@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class EmailVerificationService {
@@ -27,7 +28,7 @@ public class EmailVerificationService {
         if (!emailVerificationRepository.existsByEmail(email)) {
             EmailVerification emailVerification = new EmailVerification();
             emailVerification = emailVerificationRepository.save(emailVerification);
-            return emailVerification.getVerificationId();
+            return emailVerification.getVerificationId().toString();
         }
         return getVerificationIdByEmail(email);
     }
@@ -36,7 +37,7 @@ public class EmailVerificationService {
     public String getVerificationIdByEmail(String email) {
         EmailVerification emailVerification = emailVerificationRepository.findByEmail(email);
         if (emailVerification != null) {
-            return emailVerification.getVerificationId();
+            return emailVerification.getVerificationId().toString();
         }
         return null;
     }

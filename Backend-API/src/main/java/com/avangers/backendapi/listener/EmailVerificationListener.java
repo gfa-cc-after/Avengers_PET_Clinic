@@ -40,7 +40,7 @@ public class EmailVerificationListener implements ApplicationListener<UserRegist
         buffer.append("Dear ").append(user.getEmail()).append(" ").append(",").append(System.lineSeparator()).append(System.lineSeparator());
         buffer.append("Your account has been successfully created in the Avengers Pet Clinic application. ");
 
-        buffer.append("Activate your account by clicking the following link: http://localhost:8080/verify/email?id=").append(encodedVerificationId);
+        buffer.append("Activate your account by clicking the following link: http://app:8080/verify/email?id=").append(encodedVerificationId);
         buffer.append(System.lineSeparator()).append(System.lineSeparator());
         buffer.append("Regards,").append(System.lineSeparator()).append("Avengers Pet Clinic Team");
         return buffer.toString();

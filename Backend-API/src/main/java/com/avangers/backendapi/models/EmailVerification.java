@@ -7,6 +7,9 @@ import jakarta.persistence.Table;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+
+import java.util.UUID;
+
 @Data
 @Entity
 @Table(name = "email_verifications")
@@ -16,6 +19,6 @@ public class EmailVerification {
     @Id
     @GeneratedValue(generator = "UUID_GENERATOR")
     @GenericGenerator(name = "UUID_GENERATOR", strategy = "org.hibernate.id.UUIDGenerator")
-    private String verificationId;
+    private UUID verificationId;
     private String email;
 }
