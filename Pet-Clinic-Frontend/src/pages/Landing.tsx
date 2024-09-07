@@ -1,10 +1,10 @@
-import "./Landing.css";
-import clinicImage from "../images/petclinic.png";
-import { useLocation } from "react-router-dom";
+import "./Landing.css"
+import { useLocation } from "react-router-dom"
+import clinicImage from "../images/petclinic.png"
 
 const Landing = () => {
-  const location = useLocation();
-  const error = location.state?.error;
+  const location = useLocation()
+  const error = location.state?.error
 
   return (
     <>
@@ -13,7 +13,7 @@ const Landing = () => {
       <h1 className="h1">Pet Clinic</h1>
       <h2 className="h2">Welcome to our fabulous clinic</h2>
     </>
-  );
-};
+  )
+}
 
-export default Landing;
+export default Landing

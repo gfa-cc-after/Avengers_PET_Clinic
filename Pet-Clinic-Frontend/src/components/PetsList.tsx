@@ -1,34 +1,29 @@
-import { useEffect, useState } from "react";
-import { Pet } from "./Pet";
+import { useEffect, useState } from "react"
+import { Pet } from "./Pet"
+import type { PetProperties } from "./Pet"
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
-type Pet = {
-  id: number;
-  name: string;
-  type: string;
-};
+const BASE_URL = import.meta.env.VITE_BACKEND_URL
 
 export const PetsList = () => {
-  const [pets, setPets] = useState<Pet[]>([]);
+  const [pets, setPets] = useState<PetProperties[]>([])
 
   useEffect(() => {
     const fetchPosts = async () => {
-      const response = await fetch(`${BASE_URL}/api/pets/my-pets`);
-      const pets = (await response.json()) as Pet[];
-      setPets(pets);
-    };
+      const response = await fetch(`${BASE_URL}/api/pets/my-pets`)
+      const pets = (await response.json()) as PetProperties[]
+      setPets(pets)
+    }
 
-    fetchPosts();
-  });
+    fetchPosts()
+  })
 
   return (
     <>
       <ul>
         {pets.map((pet) => {
-          return <Pet {...pet} />;
+          return <Pet key={`pet-id-${pet.id}`} {...pet} />
         })}
       </ul>
     </>
-  );
-};
+  )
+}
