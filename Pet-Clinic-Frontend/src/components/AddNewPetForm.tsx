@@ -7,7 +7,7 @@ const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080"
 type Props = {
   setRenderForm: (value: boolean) => void
   setParentError: Dispatch<SetStateAction<string | null>>
-};
+}
 
 export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
   const [name, setName] = useState("")
@@ -21,7 +21,7 @@ export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
       return false
     }
     return true
-  };
+  }
   const sendToBackend = async (name: string, type: string) => {
     try {
       const response = await fetch(`${backendUrl}/api/pets/add`, {
