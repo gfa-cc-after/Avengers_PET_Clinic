@@ -1,7 +1,9 @@
 package com.avangers.backendapi.services;
 
+
 import com.avangers.backendapi.DTOs.AddPetRequestDTO;
 import com.avangers.backendapi.DTOs.AddPetResponseDTO;
+import com.avangers.backendapi.DTOs.PetDTO;
 import com.avangers.backendapi.models.Pet;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.PetRepository;
@@ -11,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -20,8 +23,11 @@ public class PetServiceImpl implements PetService {
     private final UserRepository userRepository;
 
     @Override
-    public List<Pet> getPetsByOwnerId(Long ownerId) {
-        return petRepository.findByOwnerId(ownerId);
+    public List<PetDTO> getPetsByOwnerId(Long ownerId) {
+        List<Pet> pets = petRepository.findByOwnerId(ownerId);
+        return pets.stream()
+                .map(pet -> new PetDTO(pet.getId(), pet.getName(), pet.getType()))
+                .collect(Collectors.toList());
     }
 
     @Override
