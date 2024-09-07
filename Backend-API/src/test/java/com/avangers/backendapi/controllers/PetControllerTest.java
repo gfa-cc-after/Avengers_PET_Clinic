@@ -3,11 +3,14 @@ package com.avangers.backendapi.controllers;
 import com.avangers.backendapi.DTOs.AddPetRequestDTO;
 import com.avangers.backendapi.DTOs.AddPetResponseDTO;
 import com.avangers.backendapi.DTOs.FindUserResponseDTO;
-import com.avangers.backendapi.models.Pet;
+import com.avangers.backendapi.DTOs.PetDTO;
 import com.avangers.backendapi.services.PetService;
 import com.avangers.backendapi.services.UserService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -42,17 +45,25 @@ public class PetControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
+    @DisplayName("Should return list of pets owned by the user")
     @Test
     public void testGetMyPets() throws Exception {
-        // Mocking data
+        // Mocking data using DTO
         FindUserResponseDTO userDTO = new FindUserResponseDTO(1, "user@example.com");
         when(userService.findUserByEmail(anyString())).thenReturn(userDTO);
 
-        Pet mockPet = new Pet();
-        mockPet.setName("hauko");
-        mockPet.setType("hauky");
-        List<Pet> pets = Collections.singletonList(mockPet);
-        when(petService.getPetsByOwnerId(1L)).thenReturn(pets);
+        // Using PetDTO for mock return value
+        PetDTO mockPetDTO = new PetDTO();
+        mockPetDTO.setName("hauko");
+        mockPetDTO.setType("hauky");
+
+        List<PetDTO> petsDTOs = Collections.singletonList(mockPetDTO);
+        when(petService.getPetsByOwnerId(1L)).thenReturn(petsDTOs);
 
         // Performing the test
         mockMvc.perform(get("/api/pets/my-pets"))
