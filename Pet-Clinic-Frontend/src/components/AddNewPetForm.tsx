@@ -13,12 +13,11 @@ export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const navigate = useNavigate();
-  const [error, setError] = useState<string | null>(null);
   const { token } = useAuth();
 
   const validateForm = () => {
     if (!name || !type) {
-      setError("Name and type are required");
+      setParentError("Name and type are required");
       return false;
     }
     return true;
@@ -53,7 +52,6 @@ export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
 
   return (
     <>
-      {error && <div className="error-message">{error}</div>}
       <form className="formDiv" onSubmit={handleSubmit}>
         <h3 className="rf-title">Add new pet:</h3>
         <label className="label">Name:</label>
