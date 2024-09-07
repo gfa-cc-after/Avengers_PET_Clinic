@@ -1,7 +1,6 @@
-import { useState } from 'react';
-import { register, RegisterRequest } from '../httpClient';
-import './Registration.css';
-
+import { useState } from "react"
+import { type RegisterRequest, register } from "../httpClient"
+import "./Registration.css"
 
 const Registration = () => {
   const [email, setEmail] = useState("")
@@ -17,57 +16,54 @@ const Registration = () => {
     // setSubmitted(false);
   }
 
-    const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-        // setSubmitted(false);
+  const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value)
+    // setSubmitted(false);
+  }
+
+  const validateForm = () => {
+    if (!email || !password) {
+      setError("Email and password are required")
+      return false
+    }
+    if (!isValidEmail(email)) {
+      setError("Email address is invalid")
+      return false
+    }
+    if (password.length < 6) {
+      setError("Password must be at least 6 characters")
+      return false
+    }
+    return true
+  }
+
+  const isValidEmail = (email: string) => {
+    const emailPattern = /\S+@\S+\.\S+/
+    return emailPattern.test(email)
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setError(null)
+
+    if (!validateForm()) {
+      return
     }
 
-    const validateForm = () => {
-        if (!email || !password) {
-            setError("Email and password are required");
-            return false;
-        }
-        if (!isValidEmail(email)) {
-            setError("Email address is invalid");
-            return false;
-        }
-        if (password.length < 6) {
-            setError("Password must be at least 6 characters");
-            return false;
-        }
-        return true;
+    try {
+      const registerData: RegisterRequest = { email, password }
+
+      const response = await register(registerData)
+
+      console.log("User registered with ID:", response.id)
+      setSubmitted(true)
+      setEmail("")
+      setPassword("")
+    } catch (error) {
+      setSubmitted(false)
+      setError("Registration failed. Please try again.")
     }
-
-    const isValidEmail = (email: string) => {
-        const emailPattern = /\S+@\S+\.\S+/;
-        return emailPattern.test(email);
-    };
-
-
-    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setError(null);
-
-        if (!validateForm()) {
-            return;
-        }
-
-        try {
-     
-            const registerData: RegisterRequest = { email, password };
-            
-            const response = await register(registerData);
-
-            console.log("User registered with ID:", response.id);
-            setSubmitted(true);
-            setEmail("");
-            setPassword("");
-        } catch (error) {
-            setSubmitted(false);
-            setError("Registration failed. Please try again.");
-        }
-    }
-
+  }
 
   return (
     <div>
