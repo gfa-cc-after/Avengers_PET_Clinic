@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { AddNewPetForm } from "../components/AddNewPetForm";
-import { PetsList } from "../components/PetsList";
+import { useState } from "react"
+import { AddNewPetForm } from "../components/AddNewPetForm"
+import { PetsList } from "../components/PetsList"
 
 export const Pets = () => {
-  const [renderForm, setRenderForm] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [renderForm, setRenderForm] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const showForm = () => {
-    setRenderForm(!renderForm);
-  };
+    setRenderForm(!renderForm)
+  }
 
   return (
     <div>
@@ -29,5 +29,5 @@ export const Pets = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
