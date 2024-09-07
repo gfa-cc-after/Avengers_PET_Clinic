@@ -75,5 +75,5 @@ export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
         </button>
       </form>
     </>
-  );
-};
+  )
+}
