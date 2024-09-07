@@ -32,10 +32,6 @@ public class PetServiceImpl implements PetService {
                 () -> new UsernameNotFoundException("User not found")
         );
 
-        if(petOwner.getPets().contains(addPetRequestDTO)) {
-            new RuntimeException("Pet with " + addPetRequestDTO.name() + " already exists");
-        }
-
         Pet newPet = new Pet();
         newPet.setName(addPetRequestDTO.name());
         newPet.setType(addPetRequestDTO.type());

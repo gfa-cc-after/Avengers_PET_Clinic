@@ -3,21 +3,26 @@ import { PetsList } from "../components/PetsList";
 import { useState } from "react";
 
 export const Pets = () => {
-  const [renderForm, setShowForm] = useState(false);
+  const [renderForm, setRenderForm] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const showForm = () => {
-    setShowForm(!renderForm);
+    setRenderForm(!renderForm);
   };
 
   return (
     <div>
       {renderForm ? (
         <div>
-          <AddNewPetForm setShowForm={setShowForm} />
+          <AddNewPetForm
+            setRenderForm={setRenderForm}
+            setParentError={setError}
+          />
         </div>
       ) : (
         <div>
           <PetsList />
+          {error && <div className="error-message">{error}</div>}
           <button className="btn" onClick={showForm}>
             Add new pet
           </button>

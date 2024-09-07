@@ -10,8 +10,6 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -27,9 +25,9 @@ public class PetController {
     private final UserService userService;
 
     @GetMapping("/my-pets")
-    public List<Pet> getMyPets(@AuthenticationPrincipal UserDetails userDetails) {
+    public List<Pet> getMyPets(Principal principal) {
         // gets UserDTO using the username (email)
-        FindUserResponseDTO user = userService.findUserByEmail(userDetails.getUsername());
+        FindUserResponseDTO user = userService.findUserByEmail(principal.getName());
         // Now use the users ID to get the pets
         return petService.getPetsByOwnerId(Long.valueOf(user.getId()));
     }
