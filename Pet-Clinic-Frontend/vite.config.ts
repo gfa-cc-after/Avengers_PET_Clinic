@@ -1,7 +1,9 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import react from "@vitejs/plugin-react-swc";
+import { defineConfig } from "vite";
 
-// https://vitejs.dev/config/
+const threshold: number = 70 as const;
+
+
 export default defineConfig({
   plugins: [react()],
-})
+});
