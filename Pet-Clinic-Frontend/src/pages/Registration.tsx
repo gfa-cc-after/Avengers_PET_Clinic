@@ -2,18 +2,20 @@ import { useState } from 'react';
 import { register, RegisterRequest } from '../httpClient';
 import './Registration.css';
 
+
 const Registration = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState<string | null>(null); //generic type <string | null> specify that the state managed by useState can be a string or null. Initial State (null)
-    const [submitted, setSubmitted] = useState(false);
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
+  const [error, setError] = useState<string | null>(null) //generic type <string | null> specify that the state managed by useState can be a string or null. Initial State (null)
+  const [submitted, setSubmitted] = useState(false)
 
-    const successResponseMessage = "🎉 Thank you for your registration!🎉" as const;
+  const successResponseMessage =
+    "🎉 Thank you for your registration!🎉" as const
 
-    const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setEmail(event.target.value);
-        // setSubmitted(false);
-    }
+  const handleEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value)
+    // setSubmitted(false);
+  }
 
     const handlePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(event.target.value);
@@ -42,27 +44,6 @@ const Registration = () => {
     };
 
 
-/*     const sendToBackend = async (email: string, password: string) => {
-        try {
-            const response = await fetch('http://localhost:8080/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ email, password }),
-            });
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            // const _successText = await response.text();
-            setSubmitted(true);
-        } catch (error) {
-            setSubmitted(false);
-            setError('Registration failed. Please try again.');
-        }
-    } */
-
-
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setError(null);
@@ -87,36 +68,39 @@ const Registration = () => {
         }
     }
 
-    return (
-        <div>
-            <form className='register-form' onSubmit={handleSubmit}>
-                <h3 className='rf-title'>Registration</h3>
 
-                {error && <div className="error-message">{error}</div>}
-                {submitted && <div className="success-message">{successResponseMessage}</div>}
+  return (
+    <div>
+      <form className="register-form" onSubmit={handleSubmit}>
+        <h3 className="rf-title">Registration</h3>
 
-                <label className="label">Email:</label>
-                <input
-                    onChange={handleEmail}
-                    className="input"
-                    value={email}
-                    type="text"
-                />
+        {error && <div className="error-message">{error}</div>}
+        {submitted && (
+          <div className="success-message">{successResponseMessage}</div>
+        )}
 
-                <label className="label">Password:</label>
-                <input
-                    onChange={handlePassword}
-                    className="input"
-                    value={password}
-                    type="password"
-                />
+        <label className="label">Email:</label>
+        <input
+          onChange={handleEmail}
+          className="input"
+          value={email}
+          type="text"
+        />
 
-                <button className="btn" type="submit">
-                    Register
-                </button>
-            </form>
-        </div>
-    );
+        <label className="label">Password:</label>
+        <input
+          onChange={handlePassword}
+          className="input"
+          value={password}
+          type="password"
+        />
+
+        <button className="btn" type="submit">
+          Register
+        </button>
+      </form>
+    </div>
+  )
 }
 
-export default Registration;
+export default Registration

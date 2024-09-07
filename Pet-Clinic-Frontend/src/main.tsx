@@ -1,24 +1,18 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import {
-  createBrowserRouter,
-  RouterProvider,
-  Outlet
-} from "react-router-dom"
-import './index.css'
-import { AuthProvider } from './pages/AuthContext';
+import React from "react"
+import ReactDOM from "react-dom/client"
+import { Outlet, RouterProvider, createBrowserRouter } from "react-router-dom"
+import "./index.css"
 import Navbar from "./components/Navbar"
+import { AuthProvider } from "./pages/AuthContext"
+import PrivateRoute from "./pages/PrivateRoute"
 import { routes } from "./routes"
-import PrivateRoute from './pages/PrivateRoute';
-
 
 const Root = () => (
   <>
     <Navbar />
     <Outlet />
   </>
-);
-
+)
 
 const router = createBrowserRouter([
   {
@@ -26,19 +20,16 @@ const router = createBrowserRouter([
     children: routes.map(({ path, requiresAuth, element: component }) => ({
       path,
       element: requiresAuth ? (
-        <PrivateRoute>
-          {component}
-        </PrivateRoute>
+        <PrivateRoute>{component}</PrivateRoute>
       ) : (
         component
       ),
     })),
   },
-]);
+])
 
-
-
-ReactDOM.createRoot(document.getElementById('root')!).render(
+// biome-ignore lint: entry point of the application
+ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <AuthProvider>
       <RouterProvider router={router} />
