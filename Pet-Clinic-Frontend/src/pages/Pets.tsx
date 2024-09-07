@@ -23,7 +23,7 @@ export const Pets = () => {
         <div>
           <PetsList />
           {error && <div className="error-message">{error}</div>}
-          <button className="btn" onClick={showForm}>
+          <button type="button" className="btn" onClick={showForm}>
             Add new pet
           </button>
         </div>

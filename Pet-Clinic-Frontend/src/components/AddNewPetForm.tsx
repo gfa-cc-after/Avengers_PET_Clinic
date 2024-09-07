@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../pages/AuthContext";
 
