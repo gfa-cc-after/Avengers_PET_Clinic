@@ -31,7 +31,7 @@ export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ name, type }),
-      });
+      })
       if (!response.status.toString().startsWith("2")) {
         setParentError("Invalid name or type")
       } else {
@@ -48,7 +48,7 @@ export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
     validateForm()
     sendToBackend(name, type)
     setRenderForm(false)
-  };
+  }
 
   return (
     <>
