@@ -15,13 +15,6 @@ export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
   const navigate = useNavigate()
   const { token } = useAuth()
 
-  const validateForm = () => {
-    if (!name || !type) {
-      setParentError("Name and type are required")
-      return false
-    }
-    return true
-  }
   const sendToBackend = async (name: string, type: string) => {
     try {
       const response = await fetch(`${backendUrl}/api/pets/add`, {
@@ -45,7 +38,6 @@ export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    validateForm()
     sendToBackend(name, type)
     setRenderForm(false)
   }
