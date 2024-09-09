@@ -25,12 +25,16 @@ public class PetController {
     private final UserService userService;
 
     @GetMapping("/my-pets")
-
-    public List<PetDTO> getMyPets(Principal principal) {
-        // gets UserDTO using the username (email)
-        FindUserResponseDTO user = userService.findUserByEmail(principal.getName());
-        // Now use the user's ID to get the pets
-        return petService.getPetsByOwnerId(Long.valueOf(user.getId()));
+    public ResponseEntity<?> getMyPets(Principal principal) {
+        try {
+            FindUserResponseDTO user = userService.findUserByEmail(principal.getName());
+            List<PetDTO> pets = petService.getPetsByOwnerId(Long.valueOf(user.getId()));
+            return new ResponseEntity<>(pets, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
+            HashMap<String, String> error = new HashMap<>();
+            error.put("error", e.getMessage());
+            return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PostMapping("/add")
