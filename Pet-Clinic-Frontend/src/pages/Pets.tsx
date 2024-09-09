@@ -7,7 +7,7 @@ export const Pets = () => {
   const [error, setError] = useState<string | null>(null)
 
   const showForm = () => {
-    setRenderForm(currentState => !currentState)
+    setRenderForm((currentState) => !currentState)
   }
 
   return (
