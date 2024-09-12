@@ -1,4 +1,4 @@
-import "vitest-dom/extend-expect";
+import '@testing-library/jest-dom';
 
 import { afterAll, afterEach, beforeAll } from "vitest";
 import { server } from "./src/mocks/server";
