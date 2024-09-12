@@ -2,6 +2,6 @@ package com.avangers.backendapi.DTOs;
 
 
 
-public record RegisterUserResponseDTO() {
+public record RegisterUserResponseDTO(Long id, String email) {
 
 }

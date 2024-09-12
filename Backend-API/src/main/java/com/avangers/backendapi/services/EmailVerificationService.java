@@ -27,6 +27,7 @@ public class EmailVerificationService {
     public String generateVerification(String email) {
         if (!emailVerificationRepository.existsByEmail(email)) {
             EmailVerification emailVerification = new EmailVerification();
+            emailVerification.setEmail(email);
             emailVerification = emailVerificationRepository.save(emailVerification);
             return emailVerification.getVerificationId().toString();
         }

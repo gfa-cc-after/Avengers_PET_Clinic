@@ -6,6 +6,8 @@ import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,14 +31,15 @@ public class UserController {
         try {
             // Register the new user using the service
             RegisterUserResponseDTO response = userService.addUser(registerUserRequestDTO);
-
             // Fetch the newly created user using a method that directly returns a User or User DTO
             FindUserResponseDTO newUserDto = userService.findUserByEmail(registerUserRequestDTO.email());
-
+            // Default verification status to false for new users
+            boolean isVerified = false;
             // Publish the user registration event
             User newUser = new User();
             newUser.setId(newUserDto.getId());
             newUser.setEmail(newUserDto.getEmail());
+            newUser.setVerified(isVerified);
             eventPublisher.publishEvent(new UserRegistrationEvent(newUser));
 
             return new ResponseEntity<>(response, HttpStatus.CREATED);
@@ -50,7 +53,6 @@ public class UserController {
             return new ResponseEntity<>("An unexpected error occurred. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
     @PutMapping("/api/users")
     public ResponseEntity<?> updateUser(Principal principal, @Valid @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
