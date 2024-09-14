@@ -14,6 +14,6 @@ public class Pet {
   private String type;
 
   @ManyToOne // many pets refer to one User {owner}
-  @JoinColumn(name = "user_id")
+  @JoinColumn(name = "customer_id")
   private Customer owner;
 }
