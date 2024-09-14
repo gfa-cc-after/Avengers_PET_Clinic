@@ -3,9 +3,9 @@ package com.avangers.backendapi.controllers;
 import com.avangers.backendapi.DTOs.AddPetRequestDTO;
 import com.avangers.backendapi.DTOs.AddPetResponseDTO;
 import com.avangers.backendapi.DTOs.FindUserResponseDTO;
-import com.avangers.backendapi.DTOs.PetDTO;
+import com.avangers.backendapi.services.CustomerService;
 import com.avangers.backendapi.services.PetService;
-import com.avangers.backendapi.services.UserService;
+import com.avangers.backendapi.DTOs.PetDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -40,7 +40,7 @@ public class PetControllerTest {
     private PetService petService;
 
     @MockBean
-    private UserService userService;
+    private CustomerService customerService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -55,7 +55,7 @@ public class PetControllerTest {
     public void testGetMyPets() throws Exception {
         // Mocking data using DTO
         FindUserResponseDTO userDTO = new FindUserResponseDTO(1, "user@example.com");
-        when(userService.findUserByEmail(anyString())).thenReturn(userDTO);
+        when(customerService.findCustomerByEmail(anyString())).thenReturn(userDTO);
 
         // Using PetDTO for mock return value
         PetDTO mockPetDTO = new PetDTO();
