@@ -21,7 +21,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return adminRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
+        return adminRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
     }
 
     @Override
@@ -30,15 +31,18 @@ public class AdminServiceImpl implements AdminService {
             throw new IllegalArgumentException("Email is already in use");
         }
 
-        Admin newAdmin = new Admin();
-        newAdmin.setEmail(registerUserRequestDTO.email());
-        newAdmin.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
+        Admin newAdmin = Admin.builder()
+                .email(registerUserRequestDTO.email())
+                .password(passwordEncoder.encode(registerUserRequestDTO.password()))
+                .build();
         adminRepository.save(newAdmin);
         return new RegisterUserResponseDTO();
     }
 
-    // Transactional annotation is used to make sure that the method is executed within a transaction
-    // Since the user is being deleted "during" it is logged in, we need to make sure that the operation is going thought
+    // Transactional annotation is used to make sure that the method is executed
+    // within a transaction
+    // Since the user is being deleted "during" it is logged in, we need to make
+    // sure that the operation is going thought
     // otherwise we got an error with concurrency
     @Transactional
     @Override
@@ -55,7 +59,8 @@ public class AdminServiceImpl implements AdminService {
             throw new UsernameNotFoundException("User not found");
         }
         // check if new email is not already used by another user
-        if (!existingAdmin.getEmail().equals(updateUserRequestDTO.email()) && adminRepository.existsByEmail(updateUserRequestDTO.email())) {
+        if (!existingAdmin.getEmail().equals(updateUserRequestDTO.email())
+                && adminRepository.existsByEmail(updateUserRequestDTO.email())) {
             throw new IllegalArgumentException("The email already exist");
         }
 
@@ -68,7 +73,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public LoginUserResponseDTO loginAdmin(LoginUserRequestDTO loginUserRequestDTO) {
-        Admin admin = adminRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Admin admin = adminRepository.findByEmail(loginUserRequestDTO.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         if (!passwordEncoder.matches(loginUserRequestDTO.getPassword(), admin.getPassword())) {
             throw new RuntimeException("Password is not valid");
         }
@@ -77,7 +83,8 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public FindUserResponseDTO findAdminByEmail(String email) {
-        Admin admin = adminRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Admin admin = adminRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return new FindUserResponseDTO(admin.getId(), admin.getEmail());
     }
 }

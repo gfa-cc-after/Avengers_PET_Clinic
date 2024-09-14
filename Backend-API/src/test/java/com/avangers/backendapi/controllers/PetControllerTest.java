@@ -2,8 +2,8 @@ package com.avangers.backendapi.controllers;
 
 import com.avangers.backendapi.DTOs.FindUserResponseDTO;
 import com.avangers.backendapi.models.Pet;
+import com.avangers.backendapi.services.CustomerService;
 import com.avangers.backendapi.services.PetService;
-import com.avangers.backendapi.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,13 +33,13 @@ public class PetControllerTest {
     private PetService petService;
 
     @MockBean
-    private UserService userService;
+    private CustomerService customerService;
 
     @Test
     public void testGetMyPets() throws Exception {
         // Mocking data
         FindUserResponseDTO userDTO = new FindUserResponseDTO(1, "user@example.com");
-        when(userService.findUserByEmail(anyString())).thenReturn(userDTO);
+        when(customerService.findCustomerByEmail(anyString())).thenReturn(userDTO);
 
         Pet mockPet = new Pet();
         mockPet.setName("hauko");

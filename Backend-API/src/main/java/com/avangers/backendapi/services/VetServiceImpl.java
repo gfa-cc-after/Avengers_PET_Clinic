@@ -20,7 +20,8 @@ public class VetServiceImpl implements VetService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return vetRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
+        return vetRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
 
     }
 
@@ -30,9 +31,10 @@ public class VetServiceImpl implements VetService {
             throw new IllegalArgumentException("Email is already in use");
         }
 
-        Vet newVet = new Vet();
-        newVet.setEmail(registerUserRequestDTO.email());
-        newVet.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
+        Vet newVet = Vet.builder()
+                .email(registerUserRequestDTO.email())
+                .password(passwordEncoder.encode(registerUserRequestDTO.password()))
+                .build();
         vetRepository.save(newVet);
         return new RegisterUserResponseDTO();
     }
@@ -51,7 +53,8 @@ public class VetServiceImpl implements VetService {
             throw new UsernameNotFoundException("User not found");
         }
         // check if new email is not already used by another user
-        if (!existingVet.getEmail().equals(updateUserRequestDTO.email()) && vetRepository.existsByEmail(updateUserRequestDTO.email())) {
+        if (!existingVet.getEmail().equals(updateUserRequestDTO.email())
+                && vetRepository.existsByEmail(updateUserRequestDTO.email())) {
             throw new IllegalArgumentException("The email already exist");
         }
 
@@ -64,7 +67,8 @@ public class VetServiceImpl implements VetService {
 
     @Override
     public LoginUserResponseDTO loginVet(LoginUserRequestDTO loginUserRequestDTO) {
-        Vet vet = vetRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Vet vet = vetRepository.findByEmail(loginUserRequestDTO.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         if (!passwordEncoder.matches(loginUserRequestDTO.getPassword(), vet.getPassword())) {
             throw new RuntimeException("Password is not valid");
         }

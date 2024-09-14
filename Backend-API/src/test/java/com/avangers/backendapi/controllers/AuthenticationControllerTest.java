@@ -4,14 +4,13 @@ package com.avangers.backendapi.controllers;
 import com.avangers.backendapi.DTOs.LoginUserRequestDTO;
 import com.avangers.backendapi.DTOs.LoginUserResponseDTO;
 import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
+import com.avangers.backendapi.models.Customer;
 import com.avangers.backendapi.models.User;
-import com.avangers.backendapi.repositories.UserRepository;
+import com.avangers.backendapi.repositories.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,10 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.Optional;
-import java.util.regex.Matcher;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.mockito.ArgumentMatchers.*;
@@ -41,7 +38,7 @@ public class AuthenticationControllerTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @MockBean
-    private UserRepository userRepository;
+    private CustomerRepository customerRepository;
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -54,10 +51,10 @@ public class AuthenticationControllerTest {
         String email = "john.doe@gmail.com";
         String password = "Abc123456";
 
-        User foundUser = new User();
+        Customer foundUser = new Customer();
         foundUser.setEmail(email);
         foundUser.setPassword(passwordEncoder.encode(password));
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(foundUser));
+        when(customerRepository.findByEmail(anyString())).thenReturn(Optional.of(foundUser));
 
 
         LoginUserRequestDTO loginUserRequestDTO = new LoginUserRequestDTO();
@@ -92,10 +89,10 @@ public class AuthenticationControllerTest {
         String email = "john.doe@gmail.com";
         String password = "Abc123456";
 
-        User foundUser = new User();
+        Customer foundUser = new Customer();
         foundUser.setEmail(email);
         foundUser.setPassword(passwordEncoder.encode(password));
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(foundUser));
+        when(customerRepository.findByEmail(anyString())).thenReturn(Optional.of(foundUser));
 
 
         LoginUserRequestDTO loginUserRequestDTO = new LoginUserRequestDTO();

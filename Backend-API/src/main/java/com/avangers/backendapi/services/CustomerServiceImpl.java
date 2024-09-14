@@ -20,7 +20,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        return customerRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
+        return customerRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("Email is not in database"));
     }
 
     @Override
@@ -29,9 +30,10 @@ public class CustomerServiceImpl implements CustomerService {
             throw new IllegalArgumentException("Email is already in use");
         }
 
-        Customer newCustomer = new Customer();
-        newCustomer.setEmail(registerUserRequestDTO.email());
-        newCustomer.setPassword(passwordEncoder.encode(registerUserRequestDTO.password()));
+        Customer newCustomer = Customer.builder()
+                .email(registerUserRequestDTO.email())
+                .password(passwordEncoder.encode(registerUserRequestDTO.password()))
+                .build();
         customerRepository.save(newCustomer);
         return new RegisterUserResponseDTO();
     }
@@ -50,7 +52,8 @@ public class CustomerServiceImpl implements CustomerService {
             throw new UsernameNotFoundException("User not found");
         }
         // check if new email is not already used by another user
-        if (!existingCustomer.getEmail().equals(updateUserRequestDTO.email()) && customerRepository.existsByEmail(updateUserRequestDTO.email())) {
+        if (!existingCustomer.getEmail().equals(updateUserRequestDTO.email())
+                && customerRepository.existsByEmail(updateUserRequestDTO.email())) {
             throw new IllegalArgumentException("The email already exist");
         }
 
@@ -63,7 +66,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public LoginUserResponseDTO loginCustomer(LoginUserRequestDTO loginUserRequestDTO) {
-        User user = customerRepository.findByEmail(loginUserRequestDTO.getEmail()).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        User user = customerRepository.findByEmail(loginUserRequestDTO.getEmail())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         if (!passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
             throw new RuntimeException("Password is not valid");
         }
@@ -72,7 +76,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public FindUserResponseDTO findCustomerByEmail(String email) {
-        Customer customer = customerRepository.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Customer customer = customerRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
         return new FindUserResponseDTO(customer.getId(), customer.getEmail());
     }
 }
