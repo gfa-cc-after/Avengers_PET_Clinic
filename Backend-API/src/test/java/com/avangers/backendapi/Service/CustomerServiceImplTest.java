@@ -3,7 +3,6 @@ package com.avangers.backendapi.Service;
 import com.avangers.backendapi.DTOs.UpdateUserRequestDTO;
 import com.avangers.backendapi.DTOs.UpdateUserResponseDTO;
 import com.avangers.backendapi.models.Customer;
-import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.CustomerRepository;
 import com.avangers.backendapi.services.CustomerServiceImpl;
 import org.junit.jupiter.api.BeforeEach;

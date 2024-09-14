@@ -1,7 +1,6 @@
 package com.avangers.backendapi.services;
 
 import com.avangers.backendapi.DTOs.*;
-import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.models.Vet;
 import com.avangers.backendapi.repositories.VetRepository;
 import lombok.RequiredArgsConstructor;

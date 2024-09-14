@@ -4,9 +4,7 @@ import com.avangers.backendapi.DTOs.AddPetRequestDTO;
 import com.avangers.backendapi.DTOs.AddPetResponseDTO;
 import com.avangers.backendapi.DTOs.PetDTO;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Optional;
 
 public interface PetService {
 

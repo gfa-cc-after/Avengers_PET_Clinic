@@ -5,7 +5,6 @@ import com.avangers.backendapi.DTOs.LoginUserRequestDTO;
 import com.avangers.backendapi.DTOs.LoginUserResponseDTO;
 import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
 import com.avangers.backendapi.models.Customer;
-import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.CustomerRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;

@@ -1,6 +1,5 @@
 package com.avangers.backendapi.repositories;
 
-import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.models.Vet;
 import org.springframework.data.jpa.repository.JpaRepository;
 

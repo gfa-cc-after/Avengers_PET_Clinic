@@ -2,7 +2,6 @@ package com.avangers.backendapi.services;
 
 import com.avangers.backendapi.DTOs.*;
 import com.avangers.backendapi.models.Admin;
-import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.AdminRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
