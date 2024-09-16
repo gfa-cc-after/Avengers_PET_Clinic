@@ -30,6 +30,7 @@ public class EmailVerificationListener implements ApplicationListener<UserRegist
         SimpleMailMessage message = new SimpleMailMessage();
         message.setSubject("Avengers Pet Clinic Account Verification");
         message.setText(getText(user, verificationId));
+        message.setFrom("petclinic.avengers@gmail.com");
         message.setTo(email);
         mailSender.send(message);
     }
