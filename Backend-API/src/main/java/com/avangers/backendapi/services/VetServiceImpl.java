@@ -150,16 +150,16 @@ public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicReque
         List<Clinic> clinics = clinicRepository.findAllByVet(vet);
 
         return clinics.stream()
-                .map(clinic -> ClinicResponseDTO.builder()
-                        .id(clinic.getId())
-                        .name(clinic.getName())
-                        .street(clinic.getStreet())
-                        .city(clinic.getCity())
-                        .zipcode(clinic.getZipcode())
-                        .longitude(clinic.getLongitude())
-                        .latitude(clinic.getLatitude())
-                        .description(clinic.getDescription())
-                        .build())
+                .map(clinic -> new ClinicResponseDTO(
+                        clinic.getId(),
+                        clinic.getName(),
+                        clinic.getStreet(),
+                        clinic.getCity(),
+                        clinic.getZipcode(),
+                        clinic.getLongitude(),
+                        clinic.getLatitude(),
+                        clinic.getDescription()
+                        ))
                 .collect(Collectors.toList());
     }
 
@@ -168,17 +168,16 @@ public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicReque
         Clinic clinic = clinicRepository.findById(clinicId)
                 .orElseThrow(() -> new RuntimeException("Clinic not found"));
 
-        return ClinicResponseDTO.builder()
-                .id(clinic.getId())
-                .name(clinic.getName())
-                .street(clinic.getStreet())
-                .city(clinic.getCity())
-                .zipcode(clinic.getZipcode())
-                .longitude(clinic.getLongitude())
-                .latitude(clinic.getLatitude())
-                .description(clinic.getDescription())
-                .build();
+        return new ClinicResponseDTO(
+                clinic.getId(),
+                clinic.getName(),
+                clinic.getStreet(),
+                clinic.getCity(),
+                clinic.getZipcode(),
+                clinic.getLongitude(),
+                clinic.getLatitude(),
+                clinic.getDescription()
+                );
     }
-
 
 }
