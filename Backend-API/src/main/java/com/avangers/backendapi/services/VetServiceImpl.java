@@ -179,5 +179,4 @@ public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicReque
                 clinic.getDescription()
                 );
     }
-
 }
