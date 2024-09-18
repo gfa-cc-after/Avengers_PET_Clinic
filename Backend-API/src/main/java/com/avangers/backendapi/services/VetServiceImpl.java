@@ -137,9 +137,7 @@ public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicReque
 
         clinicRepository.delete(clinic);
 
-        return DeleteClinicResponseDTO.builder()
-                .response("Clinic was successfully deleted.")
-                .build();
+        return new DeleteClinicResponseDTO("Clinic was successfully deleted.");
     }
 
     @Override
