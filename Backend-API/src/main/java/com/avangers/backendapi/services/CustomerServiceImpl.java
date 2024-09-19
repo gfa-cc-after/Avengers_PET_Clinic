@@ -41,7 +41,7 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public DeleteUserResponseDTO deleteCustomer(String email) {
         customerRepository.deleteByEmail(email);
-        return DeleteUserResponseDTO.builder().response("User was successfully deleted").build();
+        return new DeleteUserResponseDTO("User was successfully deleted");
     }
 
     @Override
@@ -66,9 +66,9 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public LoginUserResponseDTO loginCustomer(LoginUserRequestDTO loginUserRequestDTO) {
-        User user = customerRepository.findByEmail(loginUserRequestDTO.getEmail())
+        User user = customerRepository.findByEmail(loginUserRequestDTO.email())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        if (!passwordEncoder.matches(loginUserRequestDTO.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(loginUserRequestDTO.password(), user.getPassword())) {
             throw new RuntimeException("Password is not valid");
         }
         return new LoginUserResponseDTO(jwtTokenService.generateToken(user));

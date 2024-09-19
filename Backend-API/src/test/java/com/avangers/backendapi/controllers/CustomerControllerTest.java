@@ -1,6 +1,5 @@
 package com.avangers.backendapi.controllers;
 
-
 import com.avangers.backendapi.DTOs.DeleteUserResponseDTO;
 import com.avangers.backendapi.DTOs.RegisterUserRequestDTO;
 import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
@@ -52,8 +51,8 @@ class CustomerControllerTest {
         given(customerService.addCustomer(validUser)).willReturn(new RegisterUserResponseDTO());
 
         mockMvc.perform(post("/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(validUser)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(validUser)))
                 .andExpect(status().isCreated());
     }
 
@@ -61,26 +60,25 @@ class CustomerControllerTest {
     @Test
     void shouldNotRegisterWithBadPassword() throws Exception {
         RegisterUserRequestDTO userWithBadPassword = new RegisterUserRequestDTO("user@example.com", "badpassword");
-        given(customerService.addCustomer(userWithBadPassword)).willThrow(new IllegalArgumentException("Password is not valid"));
+        given(customerService.addCustomer(userWithBadPassword))
+                .willThrow(new IllegalArgumentException("Password is not valid"));
 
         mockMvc.perform(post("/register")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(userWithBadPassword)))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(userWithBadPassword)))
                 .andExpect(status().isBadRequest());
     }
 
+    @DisplayName("Should return 200 if user was successfully deleted")
+    @Test
+    @WithMockUser
+    void shouldDeleteUserAndReturn200() throws Exception {
 
-  @DisplayName("Should return 200 if user was successfully deleted")
-  @Test
-  @WithMockUser
-  void shouldDeleteUserAndReturn200() throws Exception {
+        String username = "test@email.com";
 
-    String username = "test@email.com";
-
-    when(customerService.deleteCustomer("test@email.com")).thenReturn(
-            new DeleteUserResponseDTO("user@email.com")
-    );
-    mockMvc.perform(delete("/delete", username))
-            .andExpect(status().is(200));
-  }
+        when(customerService.deleteCustomer("test@email.com")).thenReturn(
+                new DeleteUserResponseDTO("user@email.com"));
+        mockMvc.perform(delete("/delete", username))
+                .andExpect(status().is(200));
+    }
 }
