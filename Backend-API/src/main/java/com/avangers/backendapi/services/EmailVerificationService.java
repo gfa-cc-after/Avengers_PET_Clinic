@@ -5,10 +5,13 @@ import com.avangers.backendapi.models.EmailVerification;
 import com.avangers.backendapi.repositories.CustomerRepository;
 import com.avangers.backendapi.repositories.EmailVerificationRepository;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +41,7 @@ public class EmailVerificationService {
     }
 
     // Provides the email for a verification ID
-    public String getEmailForVerificationId(String verificationId) {
+    public String getEmailForVerificationId(UUID verificationId) {
         Optional<EmailVerification> emailVerification = emailVerificationRepository.findById(verificationId);
         return emailVerification.map(EmailVerification::getEmail).orElse(null);
     }

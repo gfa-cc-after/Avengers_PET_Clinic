@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Base64;
+import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -17,13 +18,11 @@ public class EmailVerificationController {
     private final EmailVerificationService emailVerificationService;
 
     @GetMapping("/verify/email")
-    public ResponseEntity<String> verifyEmail(@RequestParam String id) {
+    public ResponseEntity<String> verifyEmail(@RequestParam UUID id) {
         try {
-            // Decode the Base64-encoded verification ID
-            String decodedId = new String(Base64.getDecoder().decode(id.getBytes()));
 
             // Retrieve the email associated with the verification ID
-            String email = emailVerificationService.getEmailForVerificationId(decodedId);
+            String email = emailVerificationService.getEmailForVerificationId(id);
 
             if (email == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid verification ID.");
