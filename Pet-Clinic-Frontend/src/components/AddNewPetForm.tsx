@@ -1,18 +1,46 @@
-import { useState } from "react";
+import { type Dispatch, type SetStateAction, useState } from "react"
+import { useNavigate } from "react-router-dom"
+import { useAuth } from "../pages/AuthContext"
+
+const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080"
 
 type Props = {
-  setShowForm: (value: boolean) => void;
-};
+  setRenderForm: (value: boolean) => void
+  setParentError: Dispatch<SetStateAction<string | null>>
+}
 
-export const AddNewPetForm = ({ setShowForm }: Props) => {
-  const [name, setName] = useState("");
-  const [type, setType] = useState("");
+export const AddNewPetForm = ({ setRenderForm, setParentError }: Props) => {
+  const [name, setName] = useState("")
+  const [type, setType] = useState("")
+  const navigate = useNavigate()
+  const { token } = useAuth()
+
+  const sendToBackend = async (name: string, type: string) => {
+    try {
+      const response = await fetch(`${backendUrl}/api/pets/add`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ name, type }),
+      })
+      if (!response.status.toString().startsWith("2")) {
+        setParentError("Invalid name or type")
+      } else {
+        navigate("/pets")
+      }
+    } catch (error) {
+      console.error("Error:", error)
+      setParentError("Something is wrong. Please try it again.")
+    }
+  }
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("send to backend");
-    setShowForm(false);
-  };
+    event.preventDefault()
+    sendToBackend(name, type)
+    setRenderForm(false)
+  }
 
   return (
     <>
@@ -39,5 +67,5 @@ export const AddNewPetForm = ({ setShowForm }: Props) => {
         </button>
       </form>
     </>
-  );
-};
+  )
+}

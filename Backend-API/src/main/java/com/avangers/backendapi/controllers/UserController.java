@@ -2,18 +2,15 @@ package com.avangers.backendapi.controllers;
 
 import com.avangers.backendapi.DTOs.*;
 import com.avangers.backendapi.event.UserRegistrationEvent;
-import com.avangers.backendapi.models.User;
-import com.avangers.backendapi.services.UserService;
+import com.avangers.backendapi.services.CustomerService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,33 +20,23 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class UserController {
 
-    private final UserService userService;
     private final ApplicationEventPublisher eventPublisher;
+    private final CustomerService customerService;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@Valid @RequestBody RegisterUserRequestDTO registerUserRequestDTO) {
         try {
-            // Register the new user using the service
-            RegisterUserResponseDTO response = userService.addUser(registerUserRequestDTO);
-            // Fetch the newly created user using a method that directly returns a User or User DTO
-            FindUserResponseDTO newUserDto = userService.findUserByEmail(registerUserRequestDTO.email());
-            // Default verification status to false for new users
-            boolean isVerified = false;
-            // Publish the user registration event
-            User newUser = new User();
-            newUser.setId(newUserDto.getId());
-            newUser.setEmail(newUserDto.getEmail());
-            newUser.setVerified(isVerified);
-            eventPublisher.publishEvent(new UserRegistrationEvent(newUser));
-
+            // Call the customer service to add the customer
+            RegisterUserResponseDTO response = customerService.addCustomer(registerUserRequestDTO);
+            // Publish the user registration event with RegisterUserResponseDTO
+            eventPublisher.publishEvent(new UserRegistrationEvent(response));
+            // Return the response DTO
             return new ResponseEntity<>(response, HttpStatus.CREATED);
         } catch (IllegalArgumentException e) {
-            // Handle validation errors
             Map<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            // Handle unexpected errors
             return new ResponseEntity<>("An unexpected error occurred. Please try again.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,7 +44,7 @@ public class UserController {
     @PutMapping("/api/users")
     public ResponseEntity<?> updateUser(Principal principal, @Valid @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
         try {
-            UpdateUserResponseDTO response = userService.updateUser(principal.getName(), updateUserRequestDTO);
+            UpdateUserResponseDTO response = customerService.updateCustomer(principal.getName(), updateUserRequestDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
         } catch (IllegalArgumentException e) {
             HashMap<String, String> error = new HashMap<>();
@@ -70,7 +57,7 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserRequestDTO loginUserRequestDTO) {
         try {
-            return ResponseEntity.ok(userService.loginUser(loginUserRequestDTO));
+            return ResponseEntity.ok(customerService.loginCustomer(loginUserRequestDTO));
         } catch (IllegalArgumentException e) {
             HashMap<String, String> error = new HashMap<>();
             error.put("error", e.getMessage());
@@ -80,7 +67,7 @@ public class UserController {
 
     @DeleteMapping("/delete")
     public ResponseEntity<DeleteUserResponseDTO> deleteUser(Principal principal) {
-        return new ResponseEntity<>(userService.deleteUser(principal.getName()), HttpStatus.OK);
+        return new ResponseEntity<>(customerService.deleteCustomer(principal.getName()), HttpStatus.OK);
     }
 }
 

@@ -1,22 +1,17 @@
 package com.avangers.backendapi.event;
 
-import com.avangers.backendapi.models.User;
-import lombok.Data;
+import com.avangers.backendapi.DTOs.RegisterUserResponseDTO;
+import lombok.Getter;
 import org.springframework.context.ApplicationEvent;
-
 import java.io.Serial;
-
+@Getter
 public class UserRegistrationEvent extends ApplicationEvent {
     @Serial
     private static final long serialVersionUID = -2685172945219633123L;
-    private final User user;
+    private final RegisterUserResponseDTO userResponseDTO;
 
-    public UserRegistrationEvent(User user) {
-        super(user);
-        this.user = user;
-    }
-
-    public User getUser() {
-        return user;
+    public UserRegistrationEvent(RegisterUserResponseDTO userResponseDTO) {
+        super(userResponseDTO);
+        this.userResponseDTO = userResponseDTO;
     }
 }
