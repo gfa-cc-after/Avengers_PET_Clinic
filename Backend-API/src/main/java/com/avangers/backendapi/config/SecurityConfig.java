@@ -35,7 +35,6 @@ public class SecurityConfig {
     private final JwtConfiguration jwtConfiguration;
     private final CorsConfiguration corsConfiguration;
 
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         // @formatter:off
@@ -67,8 +66,7 @@ public class SecurityConfig {
 
     @Bean
     JwtEncoder jwtEncoder() {
-        JWK jwk = new RSAKey
-                .Builder(jwtConfiguration.getPublicKey())
+        JWK jwk = new RSAKey.Builder(jwtConfiguration.getPublicKey())
                 .privateKey(jwtConfiguration.getPrivateKey())
                 .build();
         JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));

@@ -48,7 +48,7 @@ public class VetServiceImpl implements VetService {
     @Override
     public DeleteUserResponseDTO deleteVet(String email) {
         vetRepository.deleteByEmail(email);
-        return DeleteUserResponseDTO.builder().response("User was successfully deleted").build();
+        return new DeleteUserResponseDTO("User was successfully deleted");
     }
 
     @Override
@@ -73,9 +73,9 @@ public class VetServiceImpl implements VetService {
 
     @Override
     public LoginUserResponseDTO loginVet(LoginUserRequestDTO loginUserRequestDTO) {
-        Vet vet = vetRepository.findByEmail(loginUserRequestDTO.getEmail())
+        Vet vet = vetRepository.findByEmail(loginUserRequestDTO.email())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        if (!passwordEncoder.matches(loginUserRequestDTO.getPassword(), vet.getPassword())) {
+        if (!passwordEncoder.matches(loginUserRequestDTO.password(), vet.getPassword())) {
             throw new RuntimeException("Password is not valid");
         }
         return new LoginUserResponseDTO(jwtTokenService.generateToken(vet));
@@ -87,29 +87,30 @@ public class VetServiceImpl implements VetService {
         return new FindUserResponseDTO(vet.getId(), vet.getEmail());
     }
 
-//
+    //
 
-@Override
-@Transactional
-public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicRequestDTO) {
-    Vet vet = vetRepository.findByEmail(vetEmail)
-            .orElseThrow(() -> new UsernameNotFoundException("Vet not found"));
+    @Override
+    @Transactional
+    public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicRequestDTO) {
+        Vet vet = vetRepository.findByEmail(vetEmail)
+                .orElseThrow(() -> new UsernameNotFoundException("Vet not found"));
 
-    Clinic clinic = Clinic.builder()
-            .name(clinicRequestDTO.name())
-            .street(clinicRequestDTO.street())
-            .city(clinicRequestDTO.city())
-            .zipcode(clinicRequestDTO.zipcode())
-            .longitude(clinicRequestDTO.longitude())
-            .latitude(clinicRequestDTO.latitude())
-            .description(clinicRequestDTO.description())
-            .vet(vet)
-            .build();
+        Clinic clinic = Clinic.builder()
+                .name(clinicRequestDTO.name())
+                .street(clinicRequestDTO.street())
+                .city(clinicRequestDTO.city())
+                .zipcode(clinicRequestDTO.zipcode())
+                .longitude(clinicRequestDTO.longitude())
+                .latitude(clinicRequestDTO.latitude())
+                .description(clinicRequestDTO.description())
+                .vet(vet)
+                .build();
 
-    clinicRepository.save(clinic);
-    return new ClinicResponseDTO(clinic.getId(), clinic.getName(), clinic.getStreet(), clinic.getCity(), clinic.getZipcode(),
-            clinic.getLongitude(), clinic.getLatitude(), clinic.getDescription());
-}
+        clinicRepository.save(clinic);
+        return new ClinicResponseDTO(clinic.getId(), clinic.getName(), clinic.getStreet(), clinic.getCity(),
+                clinic.getZipcode(),
+                clinic.getLongitude(), clinic.getLatitude(), clinic.getDescription());
+    }
 
     @Override
     @Transactional
@@ -126,7 +127,8 @@ public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicReque
         clinic.setDescription(clinicRequestDTO.description());
         clinicRepository.save(clinic);
 
-        return new ClinicResponseDTO(clinic.getId(), clinic.getName(), clinic.getStreet(), clinic.getCity(), clinic.getZipcode(),
+        return new ClinicResponseDTO(clinic.getId(), clinic.getName(), clinic.getStreet(), clinic.getCity(),
+                clinic.getZipcode(),
                 clinic.getLongitude(), clinic.getLatitude(), clinic.getDescription());
     }
 
@@ -156,8 +158,7 @@ public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicReque
                         clinic.getZipcode(),
                         clinic.getLongitude(),
                         clinic.getLatitude(),
-                        clinic.getDescription()
-                        ))
+                        clinic.getDescription()))
                 .collect(Collectors.toList());
     }
 
@@ -174,7 +175,6 @@ public ClinicResponseDTO addClinic(String vetEmail, ClinicRequestDTO clinicReque
                 clinic.getZipcode(),
                 clinic.getLongitude(),
                 clinic.getLatitude(),
-                clinic.getDescription()
-                );
+                clinic.getDescription());
     }
 }

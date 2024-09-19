@@ -9,4 +9,4 @@ CREATE TABLE IF NOT EXISTS clinics (
     description TEXT,
     vet_id BIGINT NOT NULL,
     CONSTRAINT fk_vet FOREIGN KEY (vet_id) REFERENCES vets(id) ON DELETE CASCADE
-    );
+);

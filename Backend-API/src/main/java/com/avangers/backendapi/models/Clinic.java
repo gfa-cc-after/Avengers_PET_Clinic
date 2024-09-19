@@ -19,7 +19,7 @@ public class Clinic {
     private String name;
 
     @Column(nullable = false)
-    private  String street;
+    private String street;
 
     @Column(nullable = false)
     private String city;

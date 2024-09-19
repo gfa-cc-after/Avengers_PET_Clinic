@@ -17,20 +17,20 @@ import java.util.List;
 @NoArgsConstructor
 public class Customer extends User {
 
-  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-  @Builder.Default
-  // orphanRemoval removes Pet from DB also once it is removed from List
-  private List<Pet> pets = new ArrayList<>();
+    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    // orphanRemoval removes Pet from DB also once it is removed from List
+    private List<Pet> pets = new ArrayList<>();
 
-  //Adds Pet to Customer
-  public void addPet(Pet pet) {
-    pets.add(pet);
-    pet.setOwner(this);
-  }
+    // Adds Pet to Customer
+    public void addPet(Pet pet) {
+        pets.add(pet);
+        pet.setOwner(this);
+    }
 
-  // Remove Pet from Customer
-  public void removePet(Pet pet) {
-    pets.remove(pet);
-    pet.setOwner(null);
-  }
+    // Remove Pet from Customer
+    public void removePet(Pet pet) {
+        pets.remove(pet);
+        pet.setOwner(null);
+    }
 }
