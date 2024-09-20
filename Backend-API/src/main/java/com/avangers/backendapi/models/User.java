@@ -29,20 +29,9 @@ public abstract class User implements UserDetails {
     @Column(name = "password")
     private String password;
 
-    @Column(name = "verified")
-    private int verified;
-
     public boolean isVerified() {
-        return verified == 1;
+        return true;
     }
-
-    public void setVerified(boolean verified) {
-        this.verified = verified ? 1 : 0;
-    }
-
-    @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
-    // orphanRemoval removes Pet from DB also once it is removed from List
-    private List<Pet> pets = new ArrayList<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

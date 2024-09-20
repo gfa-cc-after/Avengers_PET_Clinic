@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS email_verifications
 (
-    verification_id VARCHAR (50),
-    email VARCHAR (255),
-    PRIMARY KEY (verification_id)
+    id SERIAL PRIMARY KEY,
+    /* UUID is 36 long */
+    verification_id VARCHAR (36),
+    email VARCHAR (255)
 );

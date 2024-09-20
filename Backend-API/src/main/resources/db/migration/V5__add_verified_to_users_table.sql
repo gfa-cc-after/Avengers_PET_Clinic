@@ -1,2 +1,2 @@
-ALTER TABLE users
+ALTER TABLE customers
     ADD COLUMN verified SMALLINT;

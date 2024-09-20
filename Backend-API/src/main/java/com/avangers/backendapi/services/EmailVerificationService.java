@@ -4,11 +4,15 @@ import com.avangers.backendapi.models.Customer;
 import com.avangers.backendapi.models.EmailVerification;
 import com.avangers.backendapi.repositories.CustomerRepository;
 import com.avangers.backendapi.repositories.EmailVerificationRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+
+
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -17,38 +21,25 @@ public class EmailVerificationService {
     private final EmailVerificationRepository emailVerificationRepository;
     private final CustomerRepository customerRepository;
 
-    // Generates a verification ID for an email
-    public String generateVerification(String email) {
-        if (!emailVerificationRepository.existsByEmail(email)) {
-            EmailVerification emailVerification = new EmailVerification();
-            emailVerification.setEmail(email);
-            emailVerification = emailVerificationRepository.save(emailVerification);
-            return emailVerification.getVerificationId().toString();
-        }
-        return getVerificationIdByEmail(email);
-    }
-
-    // Provides the verification ID for an email
-    public String getVerificationIdByEmail(String email) {
-        EmailVerification emailVerification = emailVerificationRepository.findByEmail(email);
-        if (emailVerification != null) {
-            return emailVerification.getVerificationId().toString();
-        }
-        return null;
-    }
-
-    // Provides the email for a verification ID
-    public String getEmailForVerificationId(String verificationId) {
-        Optional<EmailVerification> emailVerification = emailVerificationRepository.findById(verificationId);
-        return emailVerification.map(EmailVerification::getEmail).orElse(null);
-    }
-
+    @Transactional
     // Verifies the customer by email
-    public void verifyCustomerByEmail(String email) {
-        Customer customer = customerRepository.findByEmail(email)
+    public void verifyCustomerByUUID(String id) throws UsernameNotFoundException {
+        String emailOfVerifiablePerson = emailVerificationRepository.findByVerificationId(id)
+                .orElseThrow(() -> new UsernameNotFoundException("Email verification not found"))
+                .getEmail();
+        Customer customer = customerRepository.findByEmail(emailOfVerifiablePerson)
                 .orElseThrow(() -> new UsernameNotFoundException("Customer not found"));
 
         customer.setVerified(true);  // Mark the customer as verified
         customerRepository.save(customer);  // Save the updated customer
+        emailVerificationRepository.deleteEmailVerificationByVerificationId(id);  // Delete the email verification
+    }
+
+    public String generateVerification(String email) {
+        EmailVerification emailVerification = new EmailVerification();
+        emailVerification.setEmail(email);
+        emailVerification.setVerificationId(UUID.randomUUID().toString());
+        emailVerificationRepository.save(emailVerification);
+        return emailVerification.getVerificationId();
     }
 }
