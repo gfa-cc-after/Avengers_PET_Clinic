@@ -1,12 +1,10 @@
 package com.avangers.backendapi.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.GenericGenerator;
+
 
 import java.util.UUID;
 
@@ -16,9 +14,11 @@ import java.util.UUID;
 
 @NoArgsConstructor
 public class EmailVerification {
-    @Id
-    @GeneratedValue(generator = "UUID_GENERATOR")
-    @GenericGenerator(name = "UUID_GENERATOR", strategy = "org.hibernate.id.UUIDGenerator")
-    private UUID verificationId;
-    private String email;
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  private String verificationId;
+  private String email;
 }
