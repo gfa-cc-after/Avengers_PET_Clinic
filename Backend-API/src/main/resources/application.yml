@@ -33,3 +33,6 @@ springdoc:
   swagger-ui:
     operations-sorter: alpha
     tags-sorter: alpha
+
+deployment:
+  url: ${DEPLOYMENT_URL:http://localhost:8080}
