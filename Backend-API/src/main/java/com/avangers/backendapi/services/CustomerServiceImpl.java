@@ -1,6 +1,7 @@
 package com.avangers.backendapi.services;
 
 import com.avangers.backendapi.DTOs.*;
+import com.avangers.backendapi.models.Admin;
 import com.avangers.backendapi.models.Customer;
 import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.CustomerRepository;
@@ -35,7 +36,7 @@ public class CustomerServiceImpl implements CustomerService {
                 .password(passwordEncoder.encode(registerUserRequestDTO.password()))
                 .build();
         customerRepository.save(newCustomer);
-        return new RegisterUserResponseDTO();
+        return new RegisterUserResponseDTO(newCustomer.getId(), newCustomer.getEmail(), false);
     }
 
     @Override
