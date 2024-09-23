@@ -1,9 +1,6 @@
 package com.avangers.backendapi.models;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
@@ -22,11 +19,23 @@ public class Customer extends User {
     // orphanRemoval removes Pet from DB also once it is removed from List
     private List<Pet> pets = new ArrayList<>();
 
-    // Adds Pet to Customer
-    public void addPet(Pet pet) {
-        pets.add(pet);
-        pet.setOwner(this);
-    }
+  @Column(name = "verified")
+  private int verified;
+
+  @Override
+  public boolean isVerified() {
+    return verified == 1;
+  }
+
+  public void setVerified(boolean verified) {
+    this.verified = verified ? 1 : 0;
+  }
+
+  //Adds Pet to Customer
+  public void addPet(Pet pet) {
+    pets.add(pet);
+    pet.setOwner(this);
+  }
 
     // Remove Pet from Customer
     public void removePet(Pet pet) {

@@ -42,7 +42,7 @@ public class VetServiceImpl implements VetService {
                 .password(passwordEncoder.encode(registerUserRequestDTO.password()))
                 .build();
         vetRepository.save(newVet);
-        return new RegisterUserResponseDTO();
+        return new RegisterUserResponseDTO(newVet.getId(), newVet.getEmail(), false);
     }
 
     @Override

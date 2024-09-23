@@ -54,7 +54,7 @@ public class PetControllerTest {
     @Test
     public void testGetMyPets() throws Exception {
         // Mocking data using DTO
-        FindUserResponseDTO userDTO = new FindUserResponseDTO(1, "user@example.com");
+        FindUserResponseDTO userDTO = new FindUserResponseDTO(1L, "user@example.com");
         when(customerService.findCustomerByEmail(anyString())).thenReturn(userDTO);
 
         // Using PetDTO for mock return value

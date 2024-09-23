@@ -2,6 +2,7 @@ package com.avangers.backendapi.services;
 
 import com.avangers.backendapi.DTOs.*;
 import com.avangers.backendapi.models.Admin;
+import com.avangers.backendapi.models.User;
 import com.avangers.backendapi.repositories.AdminRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -35,7 +36,7 @@ public class AdminServiceImpl implements AdminService {
                 .password(passwordEncoder.encode(registerUserRequestDTO.password()))
                 .build();
         adminRepository.save(newAdmin);
-        return new RegisterUserResponseDTO();
+        return new RegisterUserResponseDTO(newAdmin.getId(), newAdmin.getEmail(), false);
     }
 
     // Transactional annotation is used to make sure that the method is executed
