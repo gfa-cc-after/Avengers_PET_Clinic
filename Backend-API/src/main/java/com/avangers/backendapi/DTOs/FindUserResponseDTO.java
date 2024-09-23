@@ -1,7 +1,7 @@
 package com.avangers.backendapi.DTOs;
 
 public record FindUserResponseDTO(
-        Integer id,
+        Long id,
         String email) {
 
 }
