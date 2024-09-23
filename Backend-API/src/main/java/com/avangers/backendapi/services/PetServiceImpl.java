@@ -43,8 +43,8 @@ public class PetServiceImpl implements PetService {
         newPet.setType(addPetRequestDTO.type());
         newPet.setOwner(petOwner);
 
-        petRepository.save(newPet);
+        Long id = petRepository.save(newPet).getId();
 
-        return new AddPetResponseDTO();
+        return new AddPetResponseDTO(id);
     }
 }
