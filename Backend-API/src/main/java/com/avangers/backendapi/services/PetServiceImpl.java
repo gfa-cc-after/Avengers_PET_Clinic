@@ -1,6 +1,5 @@
 package com.avangers.backendapi.services;
 
-
 import com.avangers.backendapi.DTOs.AddPetRequestDTO;
 import com.avangers.backendapi.DTOs.AddPetResponseDTO;
 import com.avangers.backendapi.DTOs.PetDTO;
@@ -33,10 +32,9 @@ public class PetServiceImpl implements PetService {
     @Override
     public AddPetResponseDTO addPet(AddPetRequestDTO addPetRequestDTO, String email) {
 
-        //check if the user exists
+        // check if the user exists
         Customer petOwner = customerRepository.findByEmail(email).orElseThrow(
-                () -> new UsernameNotFoundException("User not found")
-        );
+                () -> new UsernameNotFoundException("User not found"));
 
         Pet newPet = new Pet();
         newPet.setName(addPetRequestDTO.name());

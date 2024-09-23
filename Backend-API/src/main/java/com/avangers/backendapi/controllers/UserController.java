@@ -42,7 +42,8 @@ public class UserController {
     }
 
     @PutMapping("/api/users")
-    public ResponseEntity<?> updateUser(Principal principal, @Valid @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
+    public ResponseEntity<?> updateUser(Principal principal,
+            @Valid @RequestBody UpdateUserRequestDTO updateUserRequestDTO) {
         try {
             UpdateUserResponseDTO response = customerService.updateCustomer(principal.getName(), updateUserRequestDTO);
             return new ResponseEntity<>(response, HttpStatus.OK);
@@ -52,7 +53,6 @@ public class UserController {
             return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
         }
     }
-
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginUserRequestDTO loginUserRequestDTO) {
@@ -70,4 +70,3 @@ public class UserController {
         return new ResponseEntity<>(customerService.deleteCustomer(principal.getName()), HttpStatus.OK);
     }
 }
-

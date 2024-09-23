@@ -48,7 +48,7 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public DeleteUserResponseDTO deleteAdmin(String email) {
         adminRepository.deleteByEmail(email);
-        return DeleteUserResponseDTO.builder().response("User was successfully deleted").build();
+        return new DeleteUserResponseDTO("User was successfully deleted");
     }
 
     @Override
@@ -73,9 +73,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public LoginUserResponseDTO loginAdmin(LoginUserRequestDTO loginUserRequestDTO) {
-        Admin admin = adminRepository.findByEmail(loginUserRequestDTO.getEmail())
+        Admin admin = adminRepository.findByEmail(loginUserRequestDTO.email())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
-        if (!passwordEncoder.matches(loginUserRequestDTO.getPassword(), admin.getPassword())) {
+        if (!passwordEncoder.matches(loginUserRequestDTO.password(), admin.getPassword())) {
             throw new RuntimeException("Password is not valid");
         }
         return new LoginUserResponseDTO(jwtTokenService.generateToken(admin));

@@ -32,7 +32,7 @@ public abstract class User implements UserDetails {
     public boolean isVerified() {
         return true;
     }
-
+  
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of();
