@@ -77,7 +77,7 @@ public class PetControllerTest {
     void testAddPetSuccessfully() throws Exception {
         String email = "user@example.com";
         AddPetRequestDTO requestDTO = new AddPetRequestDTO("Lucky", "Dog");
-        AddPetResponseDTO responseDTO = new AddPetResponseDTO();
+        AddPetResponseDTO responseDTO = new AddPetResponseDTO(1L);
 
         when(petService.addPet(any(AddPetRequestDTO.class), eq(email))).thenReturn(responseDTO);
 
