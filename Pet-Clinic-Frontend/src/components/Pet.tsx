@@ -1,10 +1,10 @@
-import { Fragment } from "react/jsx-runtime";
+import { Fragment } from "react/jsx-runtime"
 
 export type PetProperties = {
-  id: number;
-  name: string;
-  type: string;
-};
+  id: number
+  name: string
+  type: string
+}
 
 const Pet = ({ id, name, type }: PetProperties) => {
   return (
@@ -13,7 +13,7 @@ const Pet = ({ id, name, type }: PetProperties) => {
         {name} {type}
       </ul>
     </Fragment>
-  );
-};
+  )
+}
 
-export { Pet };
+export { Pet }

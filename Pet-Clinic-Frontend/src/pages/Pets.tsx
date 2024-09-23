@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
-import { AddNewPetForm } from "../components/AddNewPetForm";
-import { PetProperties, PetsList } from "../components/PetsList";
-import { useAuth } from "./AuthContext";
+import { useEffect, useState } from "react"
+import { AddNewPetForm } from "../components/AddNewPetForm"
+import { PetProperties, PetsList } from "../components/PetsList"
+import { useAuth } from "./AuthContext"
 
-const backendUrl = import.meta.env.VITE_BACKEND_URL;
+const backendUrl = import.meta.env.VITE_BACKEND_URL
 
 export const Pets = () => {
-  const [renderForm, setRenderForm] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [renderForm, setRenderForm] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const showForm = () => {
-    setRenderForm((currentState) => !currentState);
-  };
+    setRenderForm((currentState) => !currentState)
+  }
 
-  const [pets, setPets] = useState<PetProperties[]>([]);
-  const { token } = useAuth();
+  const [pets, setPets] = useState<PetProperties[]>([])
+  const { token } = useAuth()
 
   useEffect(() => {
     fetch(`${backendUrl}/api/pets/my-pets`, {
@@ -25,12 +25,12 @@ export const Pets = () => {
       },
     })
       .then((res) => {
-        return res.json();
+        return res.json()
       })
       .then((data) => {
-        setPets(data);
-      });
-  }, []);
+        setPets(data)
+      })
+  }, [])
 
   return (
     <div>
@@ -52,5 +52,5 @@ export const Pets = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
