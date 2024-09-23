@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { AddNewPetForm } from "../components/AddNewPetForm"
-import { PetProperties, PetsList } from "../components/PetsList"
+import { type PetProperties, PetsList } from "../components/PetsList"
 import { useAuth } from "./AuthContext"
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL
@@ -30,7 +30,7 @@ export const Pets = () => {
       .then((data) => {
         setPets(data)
       })
-  }, [])
+  }, [token])
 
   return (
     <div>

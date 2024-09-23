@@ -1,7 +1,7 @@
 import { type Dispatch, type SetStateAction, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useAuth } from "../pages/AuthContext"
-import { PetProperties } from "./PetsList"
+import type { PetProperties } from "./PetsList"
 
 const backendUrl = import.meta.env.VITE_BACKEND_URL || "http://localhost:8080"
 
